@@ -1,6 +1,7 @@
 # SDMS
 - django==2.0.5
 - all db model in AS
+- user: admin pwd: ggininder30cm
 
 ## git management
 - use your own branch
