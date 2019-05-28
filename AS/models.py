@@ -148,11 +148,3 @@ class PackageAdmin(admin.ModelAdmin):
         return str(self.pk)
 
 admin.site.register(Package,PackageAdmin)
-# Create your models here.
-
-
-    def __str__(self):
-        return str(self.pk)
-
-admin.site.register(Package,PackageAdmin)
-# Create your models here.
