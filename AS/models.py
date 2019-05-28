@@ -136,7 +136,7 @@ class Package(models.Model):
 
     date = models.DateField()
     category = models.CharField(max_length=2, choices=CATEGORIES)
-    reciever = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
+    receiver = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
     sender = models.CharField(max_length=32)
 
 
