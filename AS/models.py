@@ -144,6 +144,11 @@ class PackageAdmin(admin.ModelAdmin):
     list_display = ['category','sender','receiver','date']
     search_fields = ['category', 'sender', 'receiver', 'date']
     ordering = ['date']
+    def __str__(self):
+        return str(self.pk)
+
+admin.site.register(Package,PackageAdmin)
+# Create your models here.
 
     def __str__(self):
         return str(self.pk)
