@@ -1,12 +1,18 @@
+<<<<<<< HEAD
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+=======
+from django.shortcuts import render
+from django.http import HttpResponse
+>>>>>>> 4ef92db0eef10847a2a5ca012e551d1494c2a5c3
 import datetime
 
 # Create your views here.
 def current_datetime(request):
+<<<<<<< HEAD
 	now = datetime.datetime.now()
 	html = "<html><body>It is now %s.</body></html>" % now
 	return HttpResponse(html)
@@ -33,3 +39,8 @@ def login(request):
 		else:
 			message = 'Login failed!'
 	return render(request, "AS/login.html", locals())
+=======
+    now = datetime.datetime.now()
+    html = "<html><body>It is now %s.</body></html>" % now
+    return HttpResponse(html)
+>>>>>>> 4ef92db0eef10847a2a5ca012e551d1494c2a5c3
