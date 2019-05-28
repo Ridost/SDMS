@@ -2,6 +2,7 @@
 - django==2.0.5
 - all db model in AS
 - user: admin pwd: ggininder30cm
+- [宿舍管理系統需求分析規格書](https://docs.google.com/document/d/1e4HUTmRYDU0zfzpa5FRnCo6pT7ENsX0ncKWby8rSg88/edit)
 
 ## git management
 - use your own branch
