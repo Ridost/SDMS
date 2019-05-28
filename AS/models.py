@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Account(models.Model):
     PERMISSIONS = (
@@ -9,8 +9,7 @@ class Account(models.Model):
         (3, '學生')
     )
 
-    account = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
-    password = models.CharField(max_length=32, default='0000')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     Permission = models.IntegerField(choices=PERMISSIONS)
 
 
@@ -78,11 +77,7 @@ class StudentInfo(models.Model):
         ('4', '四年級')
     )
 
-<<<<<<< HEAD
-    studentID = models.CharField(max_length=8, primary_key=True)
-=======
-    account = models.CharField(max_length=8, primary_key=True)
->>>>>>> AS
+    studentID = models.ForeignKey('Account', on_delete=models.CASCADE)
     name = models.CharField(max_length=32)
     gender = models.CharField(max_length=1, choices=GENDERS)
     department = models.CharField(max_length=16)
