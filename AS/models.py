@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib import admin
 
 class Account(models.Model):
     PERMISSIONS = (
@@ -139,4 +140,13 @@ class Package(models.Model):
     receiver = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
     sender = models.CharField(max_length=32)
 
+class PackageAdmin(admin.ModelAdmin):
+    list_display = ['category','sender','receiver','date']
+    search_fields = ['category', 'sender', 'receiver', 'date']
+    ordering = ['date']
 
+    def __str__(self):
+        return str(self.pk)
+
+admin.site.register(Package,PackageAdmin)
+# Create your models here.
