@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 
 class Account(models.Model):
+    
     PERMISSIONS = (
         (0, '系統管理員'),
         (1, '宿舍管理員'),
@@ -11,7 +12,7 @@ class Account(models.Model):
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    Permission = models.IntegerField(choices=PERMISSIONS)
+    permission = models.IntegerField(choices=PERMISSIONS)
 
 
 class Billboard(models.Model):
