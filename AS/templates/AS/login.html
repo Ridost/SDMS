@@ -1,0 +1,14 @@
+{% block content %}
+<html>
+<form action='.' method='POST' name='form1'>
+    {% csrf_token %}
+    <div>帳號：<input type='text' name='username' id='username'/></div>
+    <div>密碼：<input type='password' name='password' id='password'/></div>
+    <div>
+    <input type='submit' name='login' id='login' value='login' />
+	<input type='button' value='sign' onclick="location='/AS/sign/'">
+    </div> 
+    <span style='color:blue'>{{message}}</span>
+</form>
+</html>
+{% endblock %}

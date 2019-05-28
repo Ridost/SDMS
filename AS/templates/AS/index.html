@@ -1,0 +1,14 @@
+{% block content %}
+<html>
+{{message}}
+<p>User ID: {{stuID}}</p>
+<p>User name: {{name}}</p>
+<p>User permission: {{permission}}</p>
+<input type="button" value="登出" onclick="location='/AS/logout/'">
+<!--
+<input type="button" value="修改資料" onclick="location='/account/modify/'">
+<input type="button" value="返回主頁" onclick="location='/shoppingCart/index/'">
+<input type="button" value="訂單查詢 " onclick="location='/account/list_order'">
+-->
+</html>
+{% endblock %}
