@@ -1,0 +1,37 @@
+{% extends 'DMS/base.html'%}
+
+{% block title %}
+    宿舍管理系統
+{% endblock %}
+
+{%block user%}
+        {{name}}
+        <input type="button" value="修改資料" onclick="location='/DMS/modify/'">
+        <input type="button" value="登出" onclick="location='/DMS/logout/'">
+<script type="text/Javascript">
+     function admin(){
+            //document.write("Hello World!");
+            token = document.getElementById('PermissionToken');
+            //document.write(token.value);
+        if (token.value=="False"){
+            var Btn = document.getElementById("btn");
+            Btn.style.display = "none";
+        }
+        else{
+            window.location.href = "/DMS/Administrator/";
+        }
+     }
+</script>
+{%endblock%}
+
+{% block content %}
+    <input type="button" value = "申請宿舍" onclick = "location.href='DormitoryApply'">
+{% endblock %}
+
+{% block right %}
+
+{% endblock %}
+
+{% block bottom %}
+
+{% endblock %}
