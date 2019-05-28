@@ -6,6 +6,7 @@
 ## git management
 - use your own branch
 - use rebase to merge and test, before push to master branch
+- [Git official book](https://git-scm.com/book/zh-tw/v2)
 - [Git-Tutorials GIT基本使用教學](https://github.com/twtrubiks/Git-Tutorials)
 - [Resources to learn Git](https://try.github.io/)
 
