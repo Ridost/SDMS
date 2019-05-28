@@ -78,7 +78,11 @@ class StudentInfo(models.Model):
         ('4', '四年級')
     )
 
+<<<<<<< HEAD
     studentID = models.CharField(max_length=8, primary_key=True)
+=======
+    account = models.CharField(max_length=8, primary_key=True)
+>>>>>>> AS
     name = models.CharField(max_length=32)
     gender = models.CharField(max_length=1, choices=GENDERS)
     department = models.CharField(max_length=16)
