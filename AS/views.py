@@ -27,10 +27,13 @@ def convert_permission(perID):
 
 @login_required(login_url='/AS/login/')
 def index(request):
-	stuID = request.user.username
-	name = request.user.first_name
-	user = Account.objects.get(user=request.user)
-	permission = convert_permission(user.permission)
+	user = request.user
+	stu_id = user.username
+	name = user.first_name
+	account = Account.objects.get(user=user)
+	permission = convert_permission(account.permission)
+	phone = account.phone
+	mail = user.email
 	message='Login successed!'
 	return render(request, 'AS/index.html', locals())
 
@@ -58,27 +61,33 @@ def logout(request):
 	auth.logout(request)
 	return redirect('/AS/login/')
 	message = 'Logout successed!'
-'''
+
 @login_required(login_url='/AS/login/')
-def sign(request):
+def modify(request):
+	user = request.user
+	account = Account.objects.get(user=user)
+	stu_id = user.username
+	fname = user.first_name
+	lname = user.last_name
+	phone = account.phone
+	mail = user.email
 	if request.method == 'POST':
-		name=request.POST['username']
-		firstname = request.POST['firstname']
-		password = request.POST['password']
-		password2 = request.POST['password2']
-		if password!=password2:
-			message='Please input same password!'
-			return render(request,"AS/sign.html",locals())
-		try:
-			User.objects.get(username=name)
-			message="帳號已有人使用"
-			return render(request, "AS/sign.html", locals())			
-		except:
-			pass
-		user=User.objects.create_user(name, mail, password,first_name=firstname)
-		user.is_active=True		#信箱認證會用到 還沒做
-		user.save()
-		detail=user_detail.objects.create(user=user,phone=user_phone)
-		return redirect('/account/login/')
-	return render(request, "account/sign.html", locals())
-'''
+		new_fname = request.POST['firstname']
+		new_lname = request.POST['lastname']
+		new_phone = request.POST['phone']
+		new_mail = request.POST['email']
+		if fname != new_fname and new_fname != '':
+			user.first_name = fname
+			user.save()
+		if lname != new_lname and new_lname != '':
+			user.last_name = lname
+			user.save()
+		if phone != new_phone and new_phone != '':		
+			account.phone = new_phone
+			account.save()
+		if mail != new_mail and new_mail != '':
+			user.email = new_mail
+			user.save()
+		return redirect("/AS/index/")
+	else:		
+		return render(request,"AS/modify.html",locals())

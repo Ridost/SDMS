@@ -12,7 +12,8 @@ class Account(models.Model):
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    permission = models.IntegerField(choices=PERMISSIONS)
+    permission = models.IntegerField(choices=PERMISSIONS, default=3)
+    phone = models.CharField(max_length=10, default='')
 
 
 class Billboard(models.Model):
