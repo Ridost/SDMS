@@ -3,8 +3,10 @@
 <html>
 <form action='.' method='POST' name='form1'>
     {% csrf_token %}
-	<p>User Id:{{stu_id}}</p>
-	<p><a href='/AS/modify_password/'>Modify Password</a></p>
+    <p>User Id:{{stu_id}}</p>
+    <!--
+    <p><a href='/AS/modify_password/'>Modify Password</a></p>
+    -->
 	<p>Firstname:
 	<input type='text' value='{{fname}}' name='firstname' id='firstname' />
     </p>
@@ -18,7 +20,7 @@
 	<input type='email' value='{{mail}}' name='email' id='email' />
 	</p>
 	<input type='submit' name='button' id='button' value='Submit' />
-	<input type='button' value='Turn Back' onclick='location="/AS/index/"'>
+	<input type='button' value='Return' onclick='location="/AS/index/"'>
 </form>
 </html>
 

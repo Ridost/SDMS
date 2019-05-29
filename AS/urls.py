@@ -8,4 +8,5 @@ urlpatterns = [
     path('index/', views.index),
     path('logout/', views.logout),
     path('modify/', views.modify),
+    #path('modify_password/', views.modify_password),
 ]
