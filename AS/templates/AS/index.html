@@ -1,10 +1,13 @@
 {% block content %}
 <html>
 {{message}}
-<p>User ID: {{stuID}}</p>
-<p>User name: {{name}}</p>
-<p>User permission: {{permission}}</p>
-<input type="button" value="登出" onclick="location='/AS/logout/'">
+<p>User ID: {{stu_id}}</p>
+<p>User Name: {{name}}</p>
+<p>User Phone: {{phone}}</p>
+<p>User Email: {{mail}}</p>
+<p>User Permission: {{permission}}</p>
+<input type='button' value='Logout' onclick='location="/AS/logout/"'>
+<input type='button' value='Modify Account' onclick='location="/AS/modify/"'>
 <!--
 <input type="button" value="修改資料" onclick="location='/account/modify/'">
 <input type="button" value="返回主頁" onclick="location='/shoppingCart/index/'">
