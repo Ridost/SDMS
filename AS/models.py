@@ -82,9 +82,7 @@ class StudentInfo(models.Model):
         ('4', '四年級')
     )
 
-    studentID = models.OneToOneField(
-        'Account', on_delete=models.CASCADE, primary_key=True)
-    name = models.CharField(max_length=32)
+    studentID = models.ForeignKey('Account', on_delete=models.CASCADE)
     gender = models.CharField(max_length=1, choices=GENDERS)
     department = models.CharField(max_length=16)
     grade = models.CharField(max_length=1, choices=GRADES)
