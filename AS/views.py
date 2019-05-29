@@ -91,3 +91,26 @@ def modify(request):
 		return redirect("/AS/index/")
 	else:		
 		return render(request,"AS/modify.html",locals())
+
+@login_required(login_url='/AS/login/')
+def modify_password(request):
+	user = request.user
+	username = user.username
+	message = 'Modify password'
+	if request.method == 'POST':
+		curpass = request.POST['current_pass']
+		npass = request.POST['new_pass']	
+		chpass = request.POST['check_pass']
+		if not user.check_password(curpass):				
+			message = "Password failed!"
+			return render(request,"AS/modify_password.html",locals())
+		if npass!=chpass:
+			message = "Please confirm correct password!"
+			return render(request,"AS/modify_password.html",locals())
+		user.set_password(npass)
+		user.save()
+		User = authenticate(username=username, password=npass)
+		auth.login(request,User)
+		return redirect("/AS/index/")
+	else :
+		return render(request,"AS/modify_password.html",locals())
