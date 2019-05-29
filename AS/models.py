@@ -81,7 +81,6 @@ class StudentInfo(models.Model):
     )
 
     studentID = models.ForeignKey('Account', on_delete=models.CASCADE)
-    name = models.CharField(max_length=32)
     gender = models.CharField(max_length=1, choices=GENDERS)
     department = models.CharField(max_length=16)
     grade = models.CharField(max_length=1, choices=GRADES)
