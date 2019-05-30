@@ -1,0 +1,27 @@
+{% block content %}
+
+<html>
+<form action='.' method='POST' name='form1'>
+    {% csrf_token %}
+    <p>User Id:{{stu_id}}</p>
+    <!--
+    <p><a href='/AS/modify_password/'>Modify Password</a></p>
+    -->
+	<p>Firstname:
+	<input type='text' value='{{fname}}' name='firstname' id='firstname' />
+    </p>
+    <p>Lastname:
+    <input type='text' value='{{lname}}' name='lastname' id='lastname' />
+    </p>
+	<p>Phone:
+	<input type='text' value='{{phone}}' name='phone' id='phone' />
+	</p>
+	<p>Email:
+	<input type='email' value='{{mail}}' name='email' id='email' />
+	</p>
+	<input type='submit' name='button' id='button' value='Submit' />
+	<input type='button' value='Return' onclick='location="/AS/index/"'>
+</form>
+</html>
+
+{% endblock %}

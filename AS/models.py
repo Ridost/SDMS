@@ -2,8 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
 
+
 class Account(models.Model):
-    
+
     PERMISSIONS = (
         (0, '系統管理員'),
         (1, '宿舍管理員'),
@@ -11,8 +12,10 @@ class Account(models.Model):
         (3, '學生')
     )
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    permission = models.IntegerField(choices=PERMISSIONS)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True)
+    permission = models.IntegerField(choices=PERMISSIONS, default=3)
+    phone = models.CharField(max_length=10, default='')
 
 
 class Billboard(models.Model):
@@ -79,13 +82,28 @@ class StudentInfo(models.Model):
         ('4', '四年級')
     )
 
-    studentID = models.ForeignKey('Account', on_delete=models.CASCADE)
+    studentID = models.OneToOneField(
+        'Account', on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=32)
     gender = models.CharField(max_length=1, choices=GENDERS)
     department = models.CharField(max_length=16)
     grade = models.CharField(max_length=1, choices=GRADES)
     room = models.CharField(max_length=8)
     bed = models.IntegerField()
+
+
+class DormRecord(models.Model):
+    studentID = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
+    check_in_date = models.DateField()
+    check_out_date = models.DateField()
+
+
+class DormInfo(models.Model):
+    building = models.CharField(max_length=2)
+    room = models.CharField(max_length=8)
+    bed = models.IntegerField()
+    user = models.OneToOneField(
+        'StudentInfo', on_delete=models.SET_NULL, null=True)
 
 
 class BillInfo(models.Model):
@@ -141,11 +159,14 @@ class Package(models.Model):
     receiver = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
     sender = models.CharField(max_length=32)
 
+
 class PackageAdmin(admin.ModelAdmin):
-    list_display = ['category','sender','receiver','date']
+    list_display = ['category', 'sender', 'receiver', 'date']
     search_fields = ['category', 'sender', 'receiver', 'date']
     ordering = ['date']
+
     def __str__(self):
         return str(self.pk)
 
-admin.site.register(Package,PackageAdmin)
+
+admin.site.register(Package, PackageAdmin)
