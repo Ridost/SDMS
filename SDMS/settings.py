@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,7 +42,7 @@ INSTALLED_APPS = [
     'BMS.apps.BmsConfig',
     'DLS.apps.DlsConfig',
     'DMS.apps.DmsConfig',
-    'RS.apps.RsConfig'
+    'RS.apps.RsConfig',
 ]
 
 MIDDLEWARE = [
@@ -118,6 +119,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+STARTTIME = datetime.datetime(2019, 3, 20)
+ENDTIME = datetime.datetime(2019, 7,10)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

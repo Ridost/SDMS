@@ -2,6 +2,7 @@
 
 {% block title %}
     宿舍申請
+    {{message}}
 {% endblock %}
 {%block user%}
         {{name}}
@@ -23,5 +24,10 @@
 </script>
 {%endblock%}
 {% block content %}
-
+    <select name = "宿舍類型">
+        <option value="綜合宿舍">綜合宿舍</option>
+        <option value="學一">學一</option>
+        <option value="學二">學二</option>
+    </select>
+    <input type="submit"    >
 {% endblock%}
