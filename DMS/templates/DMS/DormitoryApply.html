@@ -6,8 +6,8 @@
 {% endblock %}
 {%block user%}
         {{name}}
-        <input type="button" value="修改資料" onclick="location='/DMS/modify/'">
-        <input type="button" value="登出" onclick="location='/DMS/logout/'">
+        <input type="button" value="修改資料" onclick="location='/AS/modify/'">
+        <input type="button" value="登出" onclick="location='/AS/logout/'">
 <script type="text/Javascript">
      function admin(){
             //document.write("Hello World!");
@@ -24,10 +24,29 @@
 </script>
 {%endblock%}
 {% block content %}
-    <select name = "宿舍類型">
+    <form action="/DMS/DormCheck" method="post">
+        {% csrf_token %}
+    志願序一：
+    <select name = "Dorm1">
         <option value="綜合宿舍">綜合宿舍</option>
         <option value="學一">學一</option>
         <option value="學二">學二</option>
-    </select>
-    <input type="submit"    >
+    </select><br><br>
+    志願序二：
+    <select name = "Dorm2">
+        <option value="綜合宿舍">綜合宿舍</option>
+        <option value="學一">學一</option>
+        <option value="學二">學二</option>
+    </select><br><br>
+    志願序三：
+    <select name = "Dorm3">
+        <option value="綜合宿舍">綜合宿舍</option>
+        <option value="學一">學一</option>
+        <option value="學二">學二</option>
+    </select><br><br>
+
+    <input type="submit" value="確定申請"><br>
+    </form>
+    <a href = 'http://140.127.232.71/02life/life061.asp'>宿舍說明</a><br>
+    <font color="fb0606">{{ error }}</font>
 {% endblock%}
