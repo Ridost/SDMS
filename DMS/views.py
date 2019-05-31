@@ -59,14 +59,15 @@ def DormCheck(request):
 
 
 def AccountCreate(request):
-    for i in range(10):
-        name = "a10"+str(int(i/900))+str(int((i%900)/30))+str(i%30)
-        print(int((i%900)/30))
-        pw = "0000"
-        #us = User(username=name,password=pw)
-        #us.save()
-        #Account.objects.create(user=us,permission=3)
-        print(i)
+    for i in range(3600):
+        name = "a10"+str(i/900)+str((i%900)/30)+str(i%30)
+        pw = ""
+        for j in range(9):
+            pw += str(random.randint(0,9))
+        us = User(username=name,password=pw)
+        us.save()
+        Account.objects.create(user=us,permission=3)
+
     return render(request, "DMS/DMS.html",locals())
 def StudentCreate(request):
     ##製造假學生資料
