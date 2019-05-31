@@ -59,12 +59,14 @@ def DormCheck(request):
 
 
 def AccountCreate(request):
-    for i in range(3600):
-        name = "a10"+str(int(i/900))+str(int((i%900)/30)).zfill(2)+str((i%30)).zfill(2)
-        pw = "ggininder30cm"
-        us = User.objects.create_user(name,"",pw)
-        us.save()
-        Account.objects.create(user=us,permission=3)
+
+    for i in range(10):
+        name = "a10"+str(int(i/900))+str(int((i%900)/30))+str(i%30)
+        print(int((i%900)/30))
+        pw = "0000"
+        #us = User(username=name,password=pw)
+        #us.save()
+        #Account.objects.create(user=us,permission=3)
         print(i)
     return render(request, "DMS/DMS.html",locals())
 def StudentCreate(request):
