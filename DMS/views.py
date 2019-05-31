@@ -60,4 +60,3 @@ def DormCheck(request):
 
 
 
-
