@@ -56,22 +56,3 @@ def DormCheck(request):
         with transaction.atomic():
             DormInfo.objects.create(studentID = student,order1 = D1,order2=D2,order3=D3)
             DormInfo.save()
-
-
-def AccountCreate(request):
-    for i in range(3600):
-        name = "a10"+str(i/900)+str((i%900)/30)+str(i%30)
-        pw = ""
-        for j in range(9):
-            pw += str(random.randint(0,9))
-        us = User(username=name,password=pw)
-        us.save()
-        Account.objects.create(user=us,permission=3)
-
-    return render(request, "DMS/DMS.html",locals())
-def StudentCreate(request):
-    ##製造假學生資料
-    StudentInfo.create()
-
-
-
