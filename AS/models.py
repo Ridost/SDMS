@@ -94,8 +94,15 @@ class StudentInfo(models.Model):
 
 class DormRecord(models.Model):
     studentID = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
-    check_in_date = models.DateField()
-    check_out_date = models.DateField()
+    Dorms = (
+        (0,'綜合'),
+        (1,'學一'),
+        (2,'學二')
+    )
+    order1 = models.IntegerField(choices=Dorms)
+    order2 = models.IntegerField(choices=Dorms)
+    order3 = models.IntegerField(choices=Dorms)
+
 
 
 class DormInfo(models.Model):
