@@ -59,7 +59,6 @@ def DormCheck(request):
 
 
 def AccountCreate(request):
-
     for i in range(3600):
         name = "a10"+str(i/900)+str((i%900)/30)+str(i%30)
         pw = ""
