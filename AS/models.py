@@ -161,6 +161,7 @@ class Package(models.Model):
     category = models.CharField(max_length=10, choices=CATEGORIES)
     receiver = models.ForeignKey('Account', on_delete=models.CASCADE)
     sender = models.CharField(max_length=32)
+    verify = models.BooleanField(default = False)
 
 class PackageAdmin(admin.ModelAdmin):
     list_display = ['category', 'sender', 'receiver', 'date']
