@@ -12,8 +12,7 @@ class Account(models.Model):
         (3, '學生')
     )
 
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     permission = models.IntegerField(choices=PERMISSIONS, default=3)
     phone = models.CharField(max_length=10, default='')
 
@@ -91,7 +90,7 @@ class StudentInfo(models.Model):
 
 
 class DormRecord(models.Model):
-    studentID = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
+    account = models.ForeignKey('Account', on_delete=models.CASCADE)
     Dorms = (
         (0,'綜合'),
         (1,'學一'),
@@ -107,8 +106,8 @@ class DormInfo(models.Model):
     building = models.CharField(max_length=2)
     room = models.CharField(max_length=8)
     bed = models.IntegerField()
-    user = models.OneToOneField(
-        'StudentInfo', on_delete=models.SET_NULL, null=True)
+    account = models.OneToOneField(
+        'Account', on_delete=models.SET_NULL, null=True)
 
 
 class BillInfo(models.Model):
@@ -144,8 +143,7 @@ class BorrowRecord(models.Model):
     )
 
     tag = models.ForeignKey('Equipment', on_delete=models.CASCADE)
-    user = models.CharField(max_length=32)
-    phone_number = models.CharField(max_length=16)
+    account = models.ForeignKey('Account', on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
     memo = models.CharField(max_length=512)
