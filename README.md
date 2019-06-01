@@ -12,26 +12,26 @@
 - [Resources to learn Git](https://try.github.io/)
 
 ### some git commends which commonly used
-> "AS" is a branch forked by "master"
-> So... replace "master" as the branch you forked by
-> So... replace "AS" as your branch
+> - "AS" is a branch forked by "master"
+> - So... replace "master" as the branch you forked by
+> - So... replace "AS" as your branch
 
 - pull and rebase
-> purpose: 下載master和更新自己的branch
+  - purpose: 下載master和更新自己的branch
   1. **git checkout master**(切換到master)
   2. **git pull**(pull master的更新)
   3. **git checkout AS**(切換到AS)
   4. **git rebase master**(從master rebase到AS)
 
 - rebase and push
-> purpose: 把最新的master上傳
+  - purpose: 把最新的master上傳
   1. **git rebase master**(從master rebase到AS)
   2. **git checkout master**(切換到master)
   3. **git merge AS**(merge AS to master)
   4. **git push**(push更新)
 
 - reset
-> purpose: 回到某一個commit
+  - purpose: 回到某一個commit
   1. **git reset abcde**
   > "abcde" is a commit hash number which you want to reset
 
