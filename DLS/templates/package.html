@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if is_manager %}
+<script>
+    window.location.href = "packagemanage.html";
+</script>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+{% if package %}
+    <script>
+        alert('您有新包裹尚未領取!!!');
+    </script>
+    <table>
+        <thead>
+            <tr>
+                <td>日期</td>
+                <td>種類</td>
+                <td>寄件者</td>
+            </tr>
+        </thead>    
+        <tbody>
+        {% for p in package %}
+        
+            <tr>
+                <td> {{ p.date }} </td>
+                <td> {{ p.category }}</td>
+                <td> {{ p.sender }}</td>
+            </tr>
+        
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+
+    <script>
+        alert('當前沒有新包裹');
+    </script>
+    
+{% endif %}
+
+
+{% endblock %}
