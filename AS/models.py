@@ -41,7 +41,7 @@ class Repairment(models.Model):
     )
 
     date = models.DateField()
-    publisher = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
+    publisher = models.ForeignKey('Account', on_delete=models.CASCADE)
     category = models.CharField(max_length=16, choices=CATEGORIES)
     content = models.CharField(max_length=512)
     state = models.CharField(max_length=16, choices=STATES)
@@ -63,7 +63,7 @@ class Report(models.Model):
     )
 
     date = models.DateField()
-    publisher = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
+    publisher = models.ForeignKey('Account', on_delete=models.CASCADE)
     category = models.CharField(max_length=16, choices=CATEGORIES)
     content = models.CharField(max_length=512)
     state = models.CharField(max_length=16, choices=STATES)
@@ -82,7 +82,7 @@ class StudentInfo(models.Model):
         ('4', '四年級')
     )
 
-    studentID = models.ForeignKey('Account', on_delete=models.CASCADE)
+    account = models.ForeignKey('Account', on_delete=models.CASCADE)
     gender = models.CharField(max_length=1, choices=GENDERS)
     department = models.CharField(max_length=16)
     grade = models.CharField(max_length=1, choices=GRADES)
@@ -118,7 +118,7 @@ class BillInfo(models.Model):
         ('Expired', '過期')
     )
 
-    account = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
+    account = models.ForeignKey('Account', on_delete=models.CASCADE)
     year = models.CharField(max_length=4)
     content = models.CharField(max_length=512)
     state = models.CharField(max_length=2, choices=STATES)
@@ -160,8 +160,8 @@ class Package(models.Model):
     )
 
     date = models.DateField()
-    category = models.CharField(max_length=4, choices=CATEGORIES)
-    receiver = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
+    category = models.CharField(max_length=2, choices=CATEGORIES)
+    receiver = models.ForeignKey('Account', on_delete=models.CASCADE)
     sender = models.CharField(max_length=32)
 
 class PackageAdmin(admin.ModelAdmin):
