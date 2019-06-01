@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style = "align : center;">
+    <table>
+        <thead>
+            <tr>
+                <td>日期</td>
+                <td>種類</td>
+                <td>寄件者</td>
+            </tr>
+        </thead>    
+        <tbody>
+        {% for p in package %}
+        
+            <tr>
+                <td> {{ p.date }} </td>
+                <td> {{ p.category }}</td>
+                <td> {{ p.sender }}</td>
+            </tr>
+        </tbody>
+
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

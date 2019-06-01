@@ -38,7 +38,7 @@ def index(request):
 	return render(request, 'AS/index.html', locals())
 
 def login(request):
-	message = 'Wellcome please login!'
+	message = 'Welcome please login!'
 	if request.user.is_authenticated:
 		return redirect('/AS/index/')
 	if request.method == 'POST':
@@ -101,12 +101,15 @@ def modify_password(request):
 		curpass = request.POST['current_pass']
 		npass = request.POST['new_pass']	
 		chpass = request.POST['check_pass']
+		
 		if not user.check_password(curpass):				
 			message = "Password failed!"
 			return render(request,"AS/modify_password.html",locals())
-		if npass!=chpass:
+
+		if npass != chpass:
 			message = "Please confirm correct password!"
 			return render(request,"AS/modify_password.html",locals())
+
 		user.set_password(npass)
 		user.save()
 		User = authenticate(username=username, password=npass)

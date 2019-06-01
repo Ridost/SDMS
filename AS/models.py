@@ -21,7 +21,7 @@ class Account(models.Model):
 class Billboard(models.Model):
     date = models.DateField()
     title = models.CharField(max_length=128)
-    publisher = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
+    publisher = models.ForeignKey('Account', on_delete=models.CASCADE)
     content = models.CharField(max_length=512)
 
 
@@ -155,10 +155,9 @@ class Package(models.Model):
     )
 
     date = models.DateField()
-    category = models.CharField(max_length=2, choices=CATEGORIES)
+    category = models.CharField(max_length=4, choices=CATEGORIES)
     receiver = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
     sender = models.CharField(max_length=32)
-
 
 class PackageAdmin(admin.ModelAdmin):
     list_display = ['category', 'sender', 'receiver', 'date']
