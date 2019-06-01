@@ -59,7 +59,6 @@ def DormCheck(request):
 
 
 def AccountCreate(request):
-
     for i in range(10):
         name = "a10"+str(int(i/900))+str(int((i%900)/30))+str(i%30)
         print(int((i%900)/30))
@@ -86,6 +85,7 @@ def StudentCreate(request):
         grd = str(4-int(i/900))
         StudentInfo.objects.create(studentID=ac,name=nm,gender=gd,department=dplist[int((i%900)/30)],grade=grd)
         print(i)
+    StudentInfo.create()
 
 
 
