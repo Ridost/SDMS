@@ -16,7 +16,8 @@ class Account(models.Model):
     permission = models.IntegerField(choices=PERMISSIONS, default=3)
     phone = models.CharField(max_length=10, default='')
 
-
+    def __str__(self):
+        return self.user.last_name+self.user.first_name
 class Billboard(models.Model):
     date = models.DateField()
     title = models.CharField(max_length=128)
@@ -88,6 +89,13 @@ class StudentInfo(models.Model):
     room = models.CharField(max_length=8, null=True)
     bed = models.IntegerField(null=True)
 
+class StudentInfoAdmin(admin.ModelAdmin):
+    list_display = ['account', 'gender', 'department', 'grade']
+    search_fields = ['account', 'gender', 'department', 'grade']
+    ordering = ['account']
+
+    def __str__(self):
+        return self.account.user.last_name+self.account.user.first_name
 
 class DormRecord(models.Model):
     account = models.ForeignKey('Account', on_delete=models.CASCADE)
@@ -172,4 +180,6 @@ class PackageAdmin(admin.ModelAdmin):
         return str(self.pk)
 
 
+
 admin.site.register(Package, PackageAdmin)
+admin.site.register(StudentInfo,StudentInfoAdmin)

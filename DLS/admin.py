@@ -1,6 +1,5 @@
 from django.contrib import admin
-from AS.models import Billboard, StudentInfo
+from AS.models import Billboard
 # Register your models here.
 
 admin.site.register(Billboard)
-admin.site.register(StudentInfo)
