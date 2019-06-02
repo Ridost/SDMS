@@ -56,4 +56,3 @@ def DormCheck(request):
         with transaction.atomic():
             DormInfo.objects.create(studentID = student,order1 = D1,order2=D2,order3=D3)
             DormInfo.save()
-
