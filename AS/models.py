@@ -89,14 +89,6 @@ class StudentInfo(models.Model):
     room = models.CharField(max_length=8, null=True)
     bed = models.IntegerField(null=True)
 
-class StudentInfoAdmin(admin.ModelAdmin):
-    list_display = ['account', 'gender', 'department', 'grade']
-    search_fields = ['account', 'gender', 'department', 'grade']
-    ordering = ['account']
-
-    def __str__(self):
-        return self.account.user.last_name+self.account.user.first_name
-
 class DormRecord(models.Model):
     account = models.ForeignKey('Account', on_delete=models.CASCADE)
     Dorms = (
@@ -171,15 +163,5 @@ class Package(models.Model):
     sender = models.CharField(max_length=32)
     verify = models.BooleanField(default = False)
 
-class PackageAdmin(admin.ModelAdmin):
-    list_display = ['category', 'sender', 'receiver', 'date']
-    search_fields = ['category', 'sender', 'receiver', 'date']
-    ordering = ['date']
-
-    def __str__(self):
-        return str(self.pk)
 
 
-
-admin.site.register(Package, PackageAdmin)
-admin.site.register(StudentInfo,StudentInfoAdmin)
