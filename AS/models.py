@@ -85,8 +85,8 @@ class StudentInfo(models.Model):
     gender = models.CharField(max_length=1, choices=GENDERS)
     department = models.CharField(max_length=16)
     grade = models.CharField(max_length=1, choices=GRADES)
-    room = models.CharField(max_length=8)
-    bed = models.IntegerField()
+    room = models.CharField(max_length=8, null=True)
+    bed = models.IntegerField(null=True)
 
 
 class DormRecord(models.Model):
