@@ -1,0 +1,40 @@
+{% extends 'DMS/base.html'%}
+
+{% block title %}
+    宿舍申請查詢
+{% endblock %}
+
+{%block user%}
+        {{name}}
+        <input type="button" value="修改資料" onclick="location='/AS/modify/'">
+        <input type="button" value="登出" onclick="location='/AS/logout/'">
+<script type="text/Javascript">
+     function DormDelete(){
+        r = confirm("確定要刪除嗎?")
+        if(r==true){
+            window.location.href = "/DMS/DormDelete"
+        }
+     }
+</script>
+{%endblock%}
+
+{% block content %}
+    <table style="text-align:center;" border="1" cellpadding="0" cellspacing="0" align="center" valign="middle">
+        <tr>
+            <td><b>志願序一</b></td><td><b>志願序二</b></td><td><b>志願序三</b></td><td><b>結果</b></td><td><b>刪除</b></td>
+        </tr>
+        <tr>
+            <td>{{D1}}</td><td>{{D2}}</td><td>{{D3}}</td><td>{{result}}</td>
+            <td><input type="button" onclick="DormDelete()"value="刪除"></td>
+        </tr>
+    </table>
+    <font color="fb0606">{{ error }}{{ message }}</font>
+{% endblock %}
+
+{% block right %}
+
+{% endblock %}
+
+{% block bottom %}
+
+{% endblock %}
