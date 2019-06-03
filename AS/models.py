@@ -43,7 +43,7 @@ class Repairment(models.Model):
     )
 
     date = models.DateField()
-    location=models.CharField(max_length=15,choices=LOCATION)
+    location=models.CharField(max_length=15)
     publisher = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
     category = models.CharField(max_length=16, choices=CATEGORIES)
     content = models.CharField(max_length=512)
