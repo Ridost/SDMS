@@ -1,5 +1,9 @@
 {% extends 'AS/base.html' %}
 
+{% block title %}
+    宿舍管理系統 - 會員基本資料
+{% endblock %}
+
 {% block article %}
 
 {{message}}
@@ -8,8 +12,9 @@
 <p>User Phone: {{phone}}</p>
 <p>User Email: {{mail}}</p>
 <p>User Permission: {{permission}}</p>
-<input type='button' value='Logout' onclick='location="/AS/logout/"'>
-<input type='button' value='Modify Account' onclick='location="/AS/modify/"'>
+<input class='button-accept' type='button' value='Logout' onclick='location="/AS/logout/"'>
+<input class='button-decline' type='button' value='Modify Account' onclick='location="/AS/modify/"'>
+<input class='button-warning' type='button' value='Warning'>
 <!--
 <input type="button" value="修改資料" onclick="location='/account/modify/'">
 <input type="button" value="返回主頁" onclick="location='/shoppingCart/index/'">
@@ -18,14 +23,18 @@
 
 {% endblock %}
 
+{% block topbar %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'AS/navbar.html' %}
+{% endblock %}
+
 {% block sidebar %}
-
-<ul>
-    <li><a href="/AS/index/" class="sidebar-item">會員基本資料</a></li>
-    <li>修改基本資料</li>
-    <li>修改密碼</li>
-    <li>test1</li>
-    <li>test2</li>
-</ul>
-
+    <ul>
+        <li><a href="/AS/index/" class="sidebar-item-selected">會員基本資料</a></li>
+        <li><a href="/AS/modify/" class="sidebar-item">修改基本資料</a></li>
+        <li><a href="/AS/logout/" class="sidebar-item">登出系統</a></li>
+        <li><a href="/AS/test/" class="sidebar-item">測試</a></li>
+    </ul>
 {% endblock %}

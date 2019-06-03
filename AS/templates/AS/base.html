@@ -7,7 +7,7 @@
 
     {% load staticfiles %}
 
-    <link rel="SHORTCUT ICON" href={% static "AS/small_icon.ico" %} type="image/x-icon">
+    <link rel="shortcut icon" href={% static "AS/favicon.ico" %} type="image/x-icon">
     <link rel=stylesheet type="text/css" href={% static "AS/main_style.css" %}>
 
     {% block script %}{% endblock %}
@@ -42,16 +42,10 @@
         </header>
 
         <div id="content-container">
-            <div id="topbar">
-                {% block topbar %}{% endblock %}
-                <img src={% static "AS/topbar_banner.png" %} width=1024 height=259>
-            </div>
+            {% block topbar %}{% endblock %}
 
             <nav id="navbar">
-                <a href="/DMS/hello/" class={% if 'DMS/' in request.path %} "navbar-item-selected" {% else %} "navbar-item" {% endif %}>宿舍管理</a>
-                <a href="/DLS/billboard/" class={% if 'DLS/' in request.path %} "navbar-item-selected" {% else %} "navbar-item" {% endif %}>宿舍生活</a>
-                <a href="/RS/" class={% if 'RS/' in request.path %} "navbar-item-selected" {% else %} "navbar-item" {% endif %}>問題回報</a>
-                <a href="/AS/index/" class={% if 'AS/' in request.path %} "navbar-item-selected" {% else %} "navbar-item" {% endif %}>會員專區</a>
+                {% block navbar %}{% endblock %}
             </nav>
 
             <div id="content">
