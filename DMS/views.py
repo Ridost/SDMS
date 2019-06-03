@@ -97,3 +97,4 @@ def DormDelete(request):
     except:
         error = "查無此資料!!!"
         return render(request,"DMS/DMS.html",locals())
+
