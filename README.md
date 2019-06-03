@@ -60,6 +60,7 @@
   - [Djagno official doc](https://docs.djangoproject.com/zh-hans/2.0/)
   - [IMU-web example](https://github.com/tratitude/IMU-web)
   - [BridgeMaster web example](https://github.com/tratitude/BridgeMaster/tree/master/Web)
+  - [django.contrib.auth.models.User](https://docs.djangoproject.com/en/2.0/ref/contrib/auth/#django.contrib.auth.models.User)
 
 - django 1.0 (legacy, just see how it works)
   - [MDN doc](https://developer.mozilla.org/zh-TW/docs/Learn/Server-side/Django)
