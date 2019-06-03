@@ -23,10 +23,12 @@
         <tr>
             <td><b>志願序一</b></td><td><b>志願序二</b></td><td><b>志願序三</b></td><td><b>結果</b></td><td><b>刪除</b></td>
         </tr>
+        {% for dorm in dorms %}
         <tr>
-            <td>{{D1}}</td><td>{{D2}}</td><td>{{D3}}</td><td>{{result}}</td>
+            <td>{{dorm.D1}}</td><td>{{dorm.D2}}</td><td>{{dorm.D3}}</td><td>{{dorm.result}}</td>
             <td><input type="button" onclick="DormDelete()"value="刪除"></td>
         </tr>
+        {% endfor %}
     </table>
     <font color="fb0606">{{ error }}{{ message }}</font>
 {% endblock %}
