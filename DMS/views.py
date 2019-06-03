@@ -130,5 +130,18 @@ def DormDelete(request):
         error = "查無此資料!!!"
         return render(request,"DMS/DMS.html",locals())
 
+def DormInfoCreate(request):
+    # OE 280 男 1~5  14rooms/floor
+    # OA1 240 男 1~4 15rooms/floor
+    # 綜宿 320 男  3~4 40rooms/floor
+    # OF 280 女 1~5 14rooms/floor
+    # OA2 128 女 5~6 16rooms/floor
+    # OB 360 女 1~6 15rooms/floor
+    for i in range(1,7):
+        for j in range(1,16):
+            for k in range(1,5):
+                DormInfo.objects.create(building="OB",room=str(i)+str(j).zfill(2),bed=k,status='None',gender='F')
+                print(i,j,k)
 
+    return render(request,"DMS/DMS.html",locals())
 
