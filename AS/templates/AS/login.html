@@ -5,17 +5,19 @@
 {% endblock %}
 
 {% block article %}
+    <h1>登入</h1>
+    <hr class="heading">
     <form action='.' method='POST' name='form1'>
         {% csrf_token %}
-        <div>User Id：<input type='text' name='username' id='username'/></div>
-        <div>User Password：<input type='password' name='password' id='password'/></div>
-        <div>
-        <input class='button-accept' type='submit' name='login' value='Login' />
+        <table>
+            <tr><th>帳號：</th> <td><input type='text' name='username' id='username'/></td></tr>
+            <tr><th>密碼：</th> <td><input type='password' name='password' id='password'/></td></tr>
+        </table>
+        <div class="button-section"><input class='button-accept' type='submit' name='login' value='Login'></div>
         <!--
+        <span style='color:blue'>{{message}}</span>
         <input type='button' value='sign' onclick="location='/AS/sign/'">
         -->
-        </div> 
-        <span style='color:blue'>{{message}}</span>
     </form>
 {% endblock %}
 
