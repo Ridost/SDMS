@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+
+    {% load staticfiles %}
+
+    <link rel="SHORTCUT ICON" href={% static "AS/small_icon.ico" %} type="image/x-icon">
+    <link rel=stylesheet type="text/css" href={% static "AS/main_style.css" %}>
+
+    {% block script %}{% endblock %}
+</head>
+
+<body id="body">
+    <div id="main-container">
+        <header id="header">
+            <div id="system-logo">
+                <span><img src={% static "AS/logoword_.png" %} width=300 height=60></span>
+            </div>
+            <div id="system-title">
+                <span>宿舍管理系統</span>
+            </div>
+            <div id="login">
+                {% if request.user.is_authenticated %}
+                <span>
+                    {{ request.user.first_name }}，你好。
+                </span>
+                <span>
+                    <a href="/AS/logout/" class="login-button">登出</a>
+                </span>
+                {% else %}
+                <span>
+                    尚未登入。
+                </span>
+                <span>
+                    <a href="/AS/login/" class="login-button">登入</a>
+                </span>
+                {% endif %}
+            </div>
+        </header>
+
+        <div id="content-container">
+            <div id="topbar">
+                {% block topbar %}{% endblock %}
+                <img src={% static "AS/topbar_banner.png" %} width=1024 height=259>
+            </div>
+
+            <nav id="navbar">
+                <a href="/DMS/hello/" class={% if 'DMS/' in request.path %} "navbar-item-selected" {% else %} "navbar-item" {% endif %}>宿舍管理</a>
+                <a href="/DLS/billboard/" class={% if 'DLS/' in request.path %} "navbar-item-selected" {% else %} "navbar-item" {% endif %}>宿舍生活</a>
+                <a href="/RS/" class={% if 'RS/' in request.path %} "navbar-item-selected" {% else %} "navbar-item" {% endif %}>問題回報</a>
+                <a href="/AS/index/" class={% if 'AS/' in request.path %} "navbar-item-selected" {% else %} "navbar-item" {% endif %}>會員專區</a>
+            </nav>
+
+            <div id="content">
+                <aside id="sidebar">
+                    <div id="sidebar-guide"></div>
+                    <div id="sidebar-list">{% block sidebar %}{% endblock %}</div> 
+                </aside>
+                <div id="article">{% block article %}{% endblock %}</div>
+            </div>
+        </div>
+
+        <footer id="footer">
+            <p>81148 高雄市楠梓區高雄大學路700號</p>
+            <p>700, Kaohsiung University Rd., Nanzih District, Kaohsiung 811, Taiwan, R.O.C.</p>
+            <p>高大總機：886-7-5919000 傳真號碼：886-7-5919083</p>
+            <p>高大校園緊急聯絡電話：886-7-5917885 高大警衛室：886-7-5919009</p>
+            <p>Web Designer: soimportant, Yabadado, NerovaRiuzGX, weiber-hsu, Ridost, tratitude</p>
+        </footer>
+    </div>
+</body>
+
+</html>

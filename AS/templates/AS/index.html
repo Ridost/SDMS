@@ -1,5 +1,7 @@
-{% block content %}
-<html>
+{% extends 'AS/base.html' %}
+
+{% block article %}
+
 {{message}}
 <p>User ID: {{stu_id}}</p>
 <p>User Name: {{name}}</p>
@@ -13,5 +15,17 @@
 <input type="button" value="返回主頁" onclick="location='/shoppingCart/index/'">
 <input type="button" value="訂單查詢 " onclick="location='/account/list_order'">
 -->
-</html>
+
+{% endblock %}
+
+{% block sidebar %}
+
+<ul>
+    <li><a href="/AS/index/" class="sidebar-item">會員基本資料</a></li>
+    <li>修改基本資料</li>
+    <li>修改密碼</li>
+    <li>test1</li>
+    <li>test2</li>
+</ul>
+
 {% endblock %}
