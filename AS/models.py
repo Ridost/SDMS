@@ -164,10 +164,16 @@ class Package(models.Model):
     )
 
     date = models.DateField()
+<<<<<<< HEAD
     category = models.CharField(max_length = 10, choices = CATEGORIES)
     receiver = models.ForeignKey('Account', on_delete = models.CASCADE)
     sender = models.CharField(max_length = 32)
     verify = models.BooleanField(default = False)
+=======
+    category = models.CharField(max_length=2, choices=CATEGORIES)
+    receiver = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
+    sender = models.CharField(max_length=32)
+>>>>>>> 4b7e473f7b61da3759f131302d136c6d6d6c80f4
 
 class PackageAdmin(admin.ModelAdmin):
     list_display = ['category', 'sender', 'receiver', 'date']

@@ -108,16 +108,24 @@
 
     function Modify_Billboard(id){
 
+<<<<<<< HEAD
         var billboard = document.getElementById('content'+id).getElementsByTagName('td');
         var origin_title = billboard[0].innerHTML;
         var origin_content = billboard[1].innerHTML;
         
+=======
+        var billboard = document.getElementById('content'+id).getElementsByTagName('td')
+>>>>>>> 4b7e473f7b61da3759f131302d136c6d6d6c80f4
 
         $("#modify_dialog").dialog({
             width: 800,
             buttons: {
                 "更新公告" : function(){
+<<<<<<< HEAD
                     var Modify_title = $("#modify_title").val();
+=======
+                    var Modify_title = $("#modify_title").val()
+>>>>>>> 4b7e473f7b61da3759f131302d136c6d6d6c80f4
                     var Modify_content = CKEDITOR.instances.modify_content.getData();
                     
                     if(content.length !== 0){
@@ -132,13 +140,22 @@
                     }
                 },
                 "取消" : function(){
+<<<<<<< HEAD
                     $(this).dialog("close");
+=======
+                    $(this).dialog("close")
+>>>>>>> 4b7e473f7b61da3759f131302d136c6d6d6c80f4
                 }
             },
             open : function(){
                 $("#modify_content").ckeditor();
+<<<<<<< HEAD
                 $("#modify_title").val(origin_title);
                 CKEDITOR.instances.modify_content.setData(origin_content);
+=======
+                $("#modify_title").val(title);
+                CKEDITOR.instances.modify_content.setData(content);
+>>>>>>> 4b7e473f7b61da3759f131302d136c6d6d6c80f4
             }
         });
     }

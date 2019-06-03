@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
 from django.contrib import auth
 
 from django.http import HttpResponse, HttpResponseRedirect
+=======
+from django.shortcuts import render
+from django.contrib import auth
+
+from django.http import HttpResponse
+>>>>>>> 4b7e473f7b61da3759f131302d136c6d6d6c80f4
 
 from AS.models import StudentInfo, Billboard, BorrowRecord, Account, Package
 import datetime
@@ -70,6 +77,7 @@ def ModifyBillboard(request):
 def ShowPackage(request):
     is_manager = False
 
+<<<<<<< HEAD
     user = Account.objects.get(user = auth.get_user(request))
 
     package = None
@@ -130,3 +138,13 @@ def DeletePackage(request):
     package = Package.objects.filter(id = id).delete()
 
     
+=======
+    user = Account.objects.get(user = auth.get_user())
+
+    if user.permission <= 1:
+        is_manager = True
+
+
+
+    return HttpResponse('package.html', locals())
+>>>>>>> 4b7e473f7b61da3759f131302d136c6d6d6c80f4
