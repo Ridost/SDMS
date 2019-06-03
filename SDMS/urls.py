@@ -22,6 +22,6 @@ urlpatterns = [
     path('DMS/', include('DMS.urls')),
     path('DLS/', include('DLS.urls')),
     path('BMS/', include('BMS.urls')),
-    path('RS/',include('RS.urls')),
+    path('RS/', include('RS.urls')),
 
 ]

@@ -29,9 +29,10 @@ class Billboard(models.Model):
 class Repairment(models.Model):
     CATEGORIES = (
         ('AC', '冷氣'),
+        ('Bathroom', '衛浴'),
         ('Furnitures', '家具'),
-        ('Bathroom', '浴室'),
-        ('Others', '其他')
+        ('Internet', '網路'),
+        ('Others', '其他'),
     )
 
     STATES = (
@@ -47,7 +48,6 @@ class Repairment(models.Model):
     category = models.CharField(max_length=16, choices=CATEGORIES)
     content = models.CharField(max_length=512)
     state = models.CharField(max_length=16, choices=STATES)
-
 
 class Report(models.Model):
     CATEGORIES = (
@@ -65,7 +65,7 @@ class Report(models.Model):
     )
 
     date = models.DateField()
-    publisher = models.ForeignKey('Account', on_delete=models.CASCADE)
+    publisher = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
     category = models.CharField(max_length=16, choices=CATEGORIES)
     content = models.CharField(max_length=512)
     state = models.CharField(max_length=16, choices=STATES)
@@ -145,6 +145,7 @@ class Equipment(models.Model):
         ('NotAvailable', '不可使用')
     )
 
+
     tag = models.CharField(max_length = 16, primary_key = True)
     name = models.CharField(max_length = 20)
     current_state = models.CharField(max_length = 16, choices = STATES)
@@ -166,6 +167,7 @@ class BorrowRecord(models.Model):
     confirm = models.IntegerField(choices = STATES)
 
 
+
 class Package(models.Model):
     CATEGORIES = (
         ('Mail', '信件'),
@@ -182,5 +184,6 @@ class Package(models.Model):
 class System(models.Model):
     StartTime = models.DateField()
     EndTime = models.DateField()
+
 
 
