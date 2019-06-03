@@ -17,10 +17,12 @@ class Account(models.Model):
 
     def __str__(self):
         return str(self.user)
+
 class Billboard(models.Model):
     date = models.DateField()
     title = models.CharField(max_length=128)
     publisher = models.ForeignKey('Account', on_delete=models.CASCADE)
+
     content = models.CharField(max_length=512)
 
 
@@ -40,7 +42,8 @@ class Repairment(models.Model):
     )
 
     date = models.DateField()
-    publisher = models.ForeignKey('Account', on_delete=models.CASCADE)
+    location=models.CharField(max_length=15,choices=LOCATION)
+    publisher = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
     category = models.CharField(max_length=16, choices=CATEGORIES)
     content = models.CharField(max_length=512)
     state = models.CharField(max_length=16, choices=STATES)
@@ -118,6 +121,7 @@ class DormInfo(models.Model):
     gender = models.CharField(max_length=1, choices=GENDERS)
     account = models.OneToOneField(
         'Account', on_delete=models.SET_NULL, null=True)
+
 
 
 class BillInfo(models.Model):
