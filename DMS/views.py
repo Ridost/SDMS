@@ -25,6 +25,13 @@ def DMS(request):
 def DormitoryApply(request):
     #判斷是否為管理員
     name = request.user.username
+    ac = Account.objects.get(user=request.user)
+    try:
+        gender = StudentInfo.objects.get(account=ac).gender
+        if gender=='M':
+            gd = True
+    except:
+        gd = True
     start = settings.STARTTIME
     end = settings.ENDTIME
     now = datetime.datetime.now()
@@ -40,6 +47,12 @@ def DormitoryApply(request):
 def DormCheck(request):
     name = request.user.username
     account = Account.objects.get(user=request.user)
+    try:
+        gender = StudentInfo.objects.get(account=account).gender
+        if gender=='M':
+            gd = True
+    except:
+        gd = True
     if  account.permission==0:  #管理員
         DormRecords = DormRecord.objects.all()
         dorms = []
@@ -57,16 +70,22 @@ def DormCheck(request):
             dm = {
                 'D1': DormRecord.Dorms[dormRecord.order1][1],
                 'D2': DormRecord.Dorms[dormRecord.order2][1],
-                'D3': DormRecord.Dorms[dormRecord.order3][1],
                 'result': result
             }
+            try:
+                dm.setdefault('D3',DormRecord.Dorms[dormRecord.order3][1])
+            except:
+                dm.setdefault('D3','')
             dorms.append(dm)
         return render(request, "DMS/DormCheck.html", locals())
     elif request.method=='POST':    #學生
         name = request.user.username
         D1 = request.POST['Dorm1']
         D2 = request.POST['Dorm2']
-        D3 = request.POST['Dorm3']
+        try:
+            D3 = request.POST['Dorm3']
+        except:
+            D3 = 9
         if D1==D2 or D2==D3 or D1==D3:
             error = "志願序不可重複"
             return render(request, "DMS/DormitoryApply.html",locals())
@@ -92,7 +111,10 @@ def DormCheck(request):
             return render(request,"DMS/DMS.html",locals())
         D1 = DormRecord.Dorms[dorm.order1][1]
         D2 = DormRecord.Dorms[dorm.order2][1]
-        D3 = DormRecord.Dorms[dorm.order3][1]
+        try:
+            D3 = DormRecord.Dorms[dorm.order3][1]
+        except:
+            D3 = ''
         try:
             dorminfo = DormInfo.objects.get(account=ac)
             result = dorminfo.building+dorminfo.room+dorminfo.bed
@@ -130,6 +152,7 @@ def DormDelete(request):
         error = "查無此資料!!!"
         return render(request,"DMS/DMS.html",locals())
 
+"""
 def DormInfoCreate(request):
     # OE 280 男 1~5  14rooms/floor
     # OA1 240 男 1~4 15rooms/floor
@@ -144,4 +167,5 @@ def DormInfoCreate(request):
                 print(i,j,k)
 
     return render(request,"DMS/DMS.html",locals())
+"""
 
