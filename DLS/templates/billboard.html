@@ -108,13 +108,16 @@
 
     function Modify_Billboard(id){
 
-        var billboard = document.getElementById('content'+id).getElementsByTagName('td')
+        var billboard = document.getElementById('content'+id).getElementsByTagName('td');
+        var origin_title = billboard[0].innerHTML;
+        var origin_content = billboard[1].innerHTML;
+        
 
         $("#modify_dialog").dialog({
             width: 800,
             buttons: {
                 "更新公告" : function(){
-                    var Modify_title = $("#modify_title").val()
+                    var Modify_title = $("#modify_title").val();
                     var Modify_content = CKEDITOR.instances.modify_content.getData();
                     
                     if(content.length !== 0){
@@ -129,13 +132,13 @@
                     }
                 },
                 "取消" : function(){
-                    $(this).dialog("close")
+                    $(this).dialog("close");
                 }
             },
             open : function(){
                 $("#modify_content").ckeditor();
-                $("#modify_title").val(title);
-                CKEDITOR.instances.modify_content.setData(content);
+                $("#modify_title").val(origin_title);
+                CKEDITOR.instances.modify_content.setData(origin_content);
             }
         });
     }
