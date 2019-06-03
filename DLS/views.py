@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
+from django.contrib.auth.models import User
 from django.contrib import auth
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 from AS.models import StudentInfo, Billboard, BorrowRecord, Account, Package
 import datetime
@@ -76,15 +77,56 @@ def ShowPackage(request):
     if user.permission <= 1:
         is_manager = True
     else:
-        student = StudentInfo.objects.get(studentID = user)
-        package = Package.objects.filter(receiver = student)
+        # student = StudentInfo.objects.get(account = user)
+        package = Package.objects.filter(receiver = user)
 
     print(is_manager)
         
     return render(request, 'package.html', locals())
 
 def ManagePackage(request):
-    
+
     package = Package.objects.all()
 
     return render(request, 'packagemanage.html', locals())
+
+def AddPackage(request):
+    pass
+
+def VerifyPackage(request):
+    id = request.POST.get('id')
+    package = Package.objects.get(id = id)
+    package.verify = True
+    package.save()
+
+    return HttpResponse()
+
+def ModifyPackage(request, id = None):
+    
+    if request.method == 'GET':
+        p = Package.objects.get(id = id)
+
+        date = str(p.date)
+        
+        return render(request, 'modifypackage.html', { 'package' : p , 'date': date})
+    # 送出要更改的資料
+    elif request.method == 'POST':
+
+        p = Package.objects.get(id = id)
+
+        p.sender = request.POST.get('sender')
+        p.category = request.POST.get('category')
+
+        p.receiver = Account.objects.get(user = User.objects.get(username = request.POST.get('receiver')))
+        p.date = request.POST.get('date')
+
+        p.save()
+        
+        # Redirect到管理頁面
+        return HttpResponseRedirect('/DLS/packagemanage')
+
+def DeletePackage(request):
+    id = request.POST.get('id')
+    package = Package.objects.filter(id = id).delete()
+
+    

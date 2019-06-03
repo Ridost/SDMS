@@ -1,14 +1,18 @@
 {% extends "base.html" %}
 
 {% block title %}
-{% if is_manager %}
-<script>
-    window.location.href = "packagemanage.html";
-</script>
-{% endif %}
+
 {% endblock %}
 
 {% block content %}
+
+{% if is_manager %}
+
+<script>
+    window.location.href = "packagemanage";
+</script>
+
+{% endif %}
 
 {% if package %}
     <script>

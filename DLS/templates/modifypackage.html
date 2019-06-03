@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form method= "POST" action = '.'>
+    {% csrf_token %}
+    
+    <p> 日期 : <input name = "date" id = 'datepick' type = "date" value="{{ date }}"> </p>
+
+    {{ package.get_category_display }}
+
+    <p> 收件者 : <input name = "receiver" type = "text" value = '{{ package.receiver.user.username }}'> </p>
+    <p> 寄件者 : <input name = "sender" type = "text" value = '{{ package.sender }}'> </p>
+
+    <p>
+    種類 : 
+    <select name = "category">
+        <option selected> {{ package.get_category_display }} {{ package.category }} </option>
+        {% for a, b in package.CATEGORIES %}
+            <option value = "{{ a }}"> {{ b }} </option>
+        {% endfor %}
+    </select>
+    </p>
+
+    <p><input type = "submit" value = "更新"> </p>
+
+{% endblock %}
