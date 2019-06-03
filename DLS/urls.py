@@ -9,8 +9,8 @@ urlpatterns = [
     path('modifybillboard', ModifyBillboard),
 
     path('package', ShowPackage),
-    path('packagemanage', ManagePackage),
-    path('verifypackage', VerifyPackage),
-    re_path(r'^modifypackage/?([0-9]*)/$', ModifyPackage),
-    path('deletepackage', DeletePackage),
+    path('package/manage', ManagePackage),
+    path('package/verify', VerifyPackage),
+    re_path(r'^package/modify/?([0-9]*)/$', ModifyPackage),
+    path('package/delete', DeletePackage),
 ]

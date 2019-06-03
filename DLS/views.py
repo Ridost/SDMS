@@ -88,7 +88,7 @@ def ManagePackage(request):
 
     package = Package.objects.all()
 
-    return render(request, 'packagemanage.html', locals())
+    return render(request, 'package/manage.html', locals())
 
 def AddPackage(request):
     pass
@@ -108,7 +108,7 @@ def ModifyPackage(request, id = None):
 
         date = str(p.date)
         
-        return render(request, 'modifypackage.html', { 'package' : p , 'date': date})
+        return render(request, 'package/modify.html', { 'package' : p , 'date': date})
     # 送出要更改的資料
     elif request.method == 'POST':
 
@@ -123,7 +123,7 @@ def ModifyPackage(request, id = None):
         p.save()
         
         # Redirect到管理頁面
-        return HttpResponseRedirect('/DLS/packagemanage')
+        return HttpResponseRedirect('/DLS/package/manage.html')
 
 def DeletePackage(request):
     id = request.POST.get('id')

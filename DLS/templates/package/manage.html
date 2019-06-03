@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "../base.html" %}
 
 {% block content %}
 <button onclick="">新增包裹資訊</button>
@@ -36,11 +36,11 @@
     });
 
     function verify(id){
-        $.post('verifypackage', { id : id });
+        $.post('package/verify', { id : id });
         window.location.reload();
     }
     function modify(id){
-        window.location.href = "modifypackage/" + id + "/";
+        window.location.href = "modify/" + id + "/";
     }
     function delete_package(id){
 
