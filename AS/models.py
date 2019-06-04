@@ -103,9 +103,20 @@ class DormRecord(models.Model):
 
 
 class DormInfo(models.Model):
+    STATUS = {
+        ('Lived', '有住人'),
+        ('None', '沒有住人'),
+        ('Forbid', '不能住'),
+    }
+    GENDERS = (
+        ('M', '男'),
+        ('F', '女')
+    )
     building = models.CharField(max_length=2)
     room = models.CharField(max_length=8)
     bed = models.IntegerField()
+    status = models.CharField(max_length=16, choices=STATUS, default='None')
+    gender = models.CharField(max_length=1, choices=GENDERS)
     account = models.OneToOneField(
         'Account', on_delete=models.SET_NULL, null=True)
 
@@ -130,9 +141,16 @@ class Equipment(models.Model):
         ('NotAvailable', '不可使用')
     )
 
-    tag = models.CharField(max_length=16, primary_key=True)
-    name = models.CharField(max_length=32)
-    current_state = models.CharField(max_length=16, choices=STATES)
+    CATEGORIES = (
+        ('lounge', '交誼廳'),
+        ('ReadingRoom', '閱覽室'),
+        ('Kitchen', '廚房'),
+        ('Others', '其他')
+    )
+
+    tag = models.CharField(max_length = 16, primary_key = True)
+    category = models.CharField(max_length = 8, choices = CATEGORIES)
+    current_state = models.CharField(max_length = 16, choices = STATES)
 
 
 class BorrowRecord(models.Model):
@@ -142,13 +160,12 @@ class BorrowRecord(models.Model):
         ('NotAvailable', '不可使用')
     )
 
-    tag = models.ForeignKey('Equipment', on_delete=models.CASCADE)
-    account = models.ForeignKey('Account', on_delete=models.CASCADE)
+    tag = models.ForeignKey('Equipment', on_delete = models.CASCADE)
+    account = models.ForeignKey('Account', on_delete = models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
-    memo = models.CharField(max_length=512)
-    state = models.CharField(max_length=16, choices=STATES)
-
+    memo = models.CharField(max_length = 512)
+    state = models.CharField(max_length = 16, choices = STATES)
 
 class Package(models.Model):
     CATEGORIES = (
@@ -158,9 +175,9 @@ class Package(models.Model):
     )
 
     date = models.DateField()
-    category = models.CharField(max_length=10, choices=CATEGORIES)
-    receiver = models.ForeignKey('Account', on_delete=models.CASCADE)
-    sender = models.CharField(max_length=32)
+    category = models.CharField(max_length = 10, choices = CATEGORIES)
+    receiver = models.ForeignKey('Account', on_delete = models.CASCADE)
+    sender = models.CharField(max_length = 32)
     verify = models.BooleanField(default = False)
 
 

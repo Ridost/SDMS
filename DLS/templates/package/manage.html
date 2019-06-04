@@ -1,0 +1,49 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<button onclick="">新增包裹資訊</button>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <td>日期</td>
+                <td>種類</td>
+                <td>寄件者</td>
+            </tr>
+        </thead>    
+        <tbody>
+        {% for p in package %}
+        
+            <tr>
+                <td> {{ p.date }} </td>
+                <td> {{ p.category }} </td>
+                <td> {{ p.sender }} </td>
+                <td> {% if p.verify %} 已確認 {% else %} 尚未確認 {% endif %}</td>
+                <td> <button onclick = "verify('{{ p.id }}')"> 確認 </button></td>
+                <td> <button onclick = "modify('{{ p.id }}')"> 修改 </button></td>
+                <td> <button onclick = "delete_package('{{ p.id }}')"> 刪除 </button></td>
+            </tr>
+
+        </tbody>
+
+        {% endfor %}
+    </table>
+</div>
+
+<script>
+    $.ajaxSetup({
+        data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    function verify(id){
+        $.post('package/verify', { id : id });
+        window.location.reload();
+    }
+    function modify(id){
+        window.location.href = "modify/" + id + "/";
+    }
+    function delete_package(id){
+
+    }
+</script>
+{% endblock %}
