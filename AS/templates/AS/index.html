@@ -1,17 +1,47 @@
-{% block content %}
-<html>
-{{message}}
-<p>User ID: {{stu_id}}</p>
-<p>User Name: {{name}}</p>
-<p>User Phone: {{phone}}</p>
-<p>User Email: {{mail}}</p>
-<p>User Permission: {{permission}}</p>
-<input type='button' value='Logout' onclick='location="/AS/logout/"'>
-<input type='button' value='Modify Account' onclick='location="/AS/modify/"'>
-<!--
-<input type="button" value="修改資料" onclick="location='/account/modify/'">
-<input type="button" value="返回主頁" onclick="location='/shoppingCart/index/'">
-<input type="button" value="訂單查詢 " onclick="location='/account/list_order'">
--->
-</html>
+{% extends 'AS/base.html' %}
+
+{% block title %}
+    宿舍管理系統 - 會員基本資料
+{% endblock %}
+
+{% block article %}
+    <h1>會員基本資料</h1>
+    <hr class='heading'>
+    <!--{{message}}-->
+    <table>
+        <tr><th>User ID:</th> <td>{{stu_id}}</td></tr>
+        <tr><th>User Name:</th> <td>{{name}}</td></tr>
+        <tr><th>User Phone:</th> <td>{{phone}}</td></tr>
+        <tr><th>User Email:</th> <td>{{mail}}</td></tr>
+        <tr><th>User Permission:</th> <td>{{permission}}</td></tr>
+    </table>
+
+
+    <div class='button-section'>
+        <input class='button-accept' type='button' value='Logout' onclick='location="/AS/logout/"'>
+        <input class='button-decline' type='button' value='Modify Account' onclick='location="/AS/modify/"'>
+        <input class='button-warning' type='button' value='Warning'>
+    </div>
+
+    <!--
+    <input type="button" value="修改資料" onclick="location='/account/modify/'">
+    <input type="button" value="返回主頁" onclick="location='/shoppingCart/index/'">
+    <input type="button" value="訂單查詢 " onclick="location='/account/list_order'">
+    -->
+{% endblock %}
+
+{% block topbar %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'AS/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    <ul>
+        <li><a href="/AS/index/" class="sidebar-item-selected">會員基本資料</a></li>
+        <li><a href="/AS/modify/" class="sidebar-item">修改基本資料</a></li>
+        <li><a href="/AS/logout/" class="sidebar-item">登出系統</a></li>
+        <li><a href="/AS/test/" class="sidebar-item">測試</a></li>
+    </ul>
 {% endblock %}
