@@ -100,8 +100,6 @@ class DormRecord(models.Model):
     order2 = models.IntegerField(choices=Dorms)
     order3 = models.IntegerField(choices=Dorms)
 
-
-
 class DormInfo(models.Model):
     STATUS = {
         ('Lived', '有住人'),
