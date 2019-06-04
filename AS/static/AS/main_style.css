@@ -146,11 +146,13 @@
 
 .sidebar-item:link, .sidebar-item:visited{
     text-decoration: none;
-    color: black;
+    color: #2b2b2b;
 }
 
 .sidebar-item:hover, .sidebar-item:active{
     text-decoration: underline;
+    background-color: #2b2b2b;
+    color: #e2e2e2;
 }
 
 .sidebar-item-selected:link, .sidebar-item-selected:visited{
