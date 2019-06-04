@@ -257,6 +257,8 @@ h1 {
     margin-top: 0;
 }
 
+/*==============================================*/
+
 table {
     border: transparent;
     table-layout: fixed;
@@ -279,6 +281,47 @@ td {
 tr:hover {
     background-color: #c4c4c4;
 }
+
+/*==============================================*/
+
+.normal-input {
+    min-width: 125px;
+    background-color: transparent;
+    border: 2px solid #575757;
+    border-radius: 2px;
+    transition: border-color .2s ease-out;
+}
+
+.normal-input:focus {
+    border-color: #fabe00;
+}
+
+.check-input {
+    min-width: 125px;
+    background-color: transparent;
+    border: 2px solid #575757;
+    border-radius: 2px;
+    transition: border-color .2s ease-out;
+
+    box-shadow: none;
+}
+
+.check-input:focus {
+    border-color: #fabe00;
+}
+
+.check-input:required:invalid {
+    border-color: #d40d0d;
+}
+
+.check-input:required:not(:focus) {
+    border-color: #575757;
+}
+
+.check-input:required:valid {
+    border-color: #54bb18;
+}
+
 
 /*==============================================*/
 

@@ -10,8 +10,8 @@
     <form action='.' method='POST' name='form1'>
         {% csrf_token %}
         <table>
-            <tr><th>帳號：</th> <td><input type='text' name='username' id='username'/></td></tr>
-            <tr><th>密碼：</th> <td><input type='password' name='password' id='password'/></td></tr>
+            <tr><th>帳號：</th> <td><input required type='text' name='username' class='check-input'/></td></tr>
+            <tr><th>密碼：</th> <td><input required type='password' name='password' class='check-input'/></td></tr>
         </table>
         <div class="button-section"><input class='button-accept' type='submit' name='login' value='Login'></div>
         <!--
