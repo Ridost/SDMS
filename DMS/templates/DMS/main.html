@@ -1,0 +1,25 @@
+{% extends 'AS/base.html' %}
+
+{% block title %}
+    宿舍管理系統 - 宿舍管理
+{% endblock %}
+
+{% block article %}
+    <h1>宿舍管理</h1>
+    <hr class="heading">
+    <input class="button-accept" type="button" value="申請宿舍" onclick="location.href='/DMS/DormitoryApply'">
+    <input class="button-decline" type="button" value="宿舍申請查詢" onclick="location.href='/DMS/DormCheck'">
+    <font color="fb0606">{{ error }}{{ message }}</font>
+{% endblock %}
+
+{% block topbar %}{% endblock %}
+
+{% block navbar %}
+    {% include 'DMS/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    <ul>
+        <li><a href="" class="sidebar-item"></a></li>
+    </ul>
+{% endblock %}
