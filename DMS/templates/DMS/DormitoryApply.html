@@ -1,4 +1,4 @@
-{% extends 'DMS/base.html' %}
+{% extends 'AS/base.html' %}
 
 {% block title %}
     宿舍申請
@@ -28,25 +28,31 @@
         {% csrf_token %}
     志願序一：
     <select name = "Dorm1">
+        {% if gd %}
         <option value=0>綜合宿舍</option>
+        {% endif %}
         <option value=1>學一</option>
         <option value=2>學二</option>
     </select><br><br>
     志願序二：
     <select name = "Dorm2">
+        {% if gd %}
         <option value=0>綜合宿舍</option>
+        {% endif %}
         <option value=1>學一</option>
         <option value=2>學二</option>
     </select><br><br>
+        {% if gd %}
     志願序三：
     <select name = "Dorm3">
         <option value=0>綜合宿舍</option>
         <option value=1>學一</option>
         <option value=2>學二</option>
     </select><br><br>
-
+        {% endif %}
     <input type="submit" value="確定申請"><br>
     </form>
     <a href = 'http://140.127.232.71/02life/life061.asp'>宿舍說明</a><br>
+    開放申請時間：{{start}} ~ {{end}}
     <font color="fb0606">{{ error }}</font>
 {% endblock%}

@@ -103,9 +103,20 @@ class DormRecord(models.Model):
 
 
 class DormInfo(models.Model):
+    STATUS = {
+        ('Lived', '有住人'),
+        ('None', '沒有住人'),
+        ('Forbid', '不能住'),
+    }
+    GENDERS = (
+        ('M', '男'),
+        ('F', '女')
+    )
     building = models.CharField(max_length=2)
     room = models.CharField(max_length=8)
     bed = models.IntegerField()
+    status = models.CharField(max_length=16, choices=STATUS, default='None')
+    gender = models.CharField(max_length=1, choices=GENDERS)
     account = models.OneToOneField(
         'Account', on_delete=models.SET_NULL, null=True)
 
