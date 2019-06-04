@@ -143,6 +143,7 @@ def DormDelete(request):
         error = "查無此資料!!!"
         return render(request,"DMS/main.html",locals())
 
+
 """
 def DormInfoCreate(request):
     # OE 280 男 1~5  14rooms/floor
@@ -159,4 +160,22 @@ def DormInfoCreate(request):
 
     return render(request,"DMS/DMS.html",locals())
 """
-
+def DormRecordCreate(request):
+    Students = StudentInfo.objects.all()
+    i = 0
+    for Student in Students:
+        ac = Student.account
+        try:
+            DormRecord.objects.get(account=ac)  ##該學生已經申請過了
+        except:
+            if Student.gender=='M':
+                seq = [0,1,2]
+                order = random.sample(seq,k=3)
+                DormRecord.objects.create(account=ac,order1=order[0],order2=order[1],order3=order[2])
+            else:
+                seq = [1,2]
+                order = random.sample(seq,k=2)
+                DormRecord.objects.create(account=ac,order1=order[0],order2=order[1],order3=9)
+        print(i)
+        i+=1
+    return render(request,"DMS/DMS.html",locals())
