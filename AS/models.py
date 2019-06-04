@@ -17,7 +17,7 @@ class Account(models.Model):
     phone = models.CharField(max_length=10, default='')
 
     def __str__(self):
-        return self.user.last_name+self.user.first_name
+        return str(self.user)
 class Billboard(models.Model):
     date = models.DateField()
     title = models.CharField(max_length=128)
