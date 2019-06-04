@@ -18,7 +18,7 @@ class StudentInfoAdmin(admin.ModelAdmin):
     ordering = ['account']
 
     def __str__(self):
-        return self.account.user.last_name+self.account.user.first_name
+        return str(self.account.user)
 
 class DormInfoAdmin(admin.ModelAdmin):
     list_display = ['account', 'building', 'room', 'bed']
@@ -26,7 +26,7 @@ class DormInfoAdmin(admin.ModelAdmin):
     ordering = ['account']
 
     def __str__(self):
-        return self.account.user.last_name + self.account.user.first_name
+        return str(self.account.user)
 
 class DormRecordAdmin(admin.ModelAdmin):
     list_display = ['account','order1','order2','order3']
@@ -34,7 +34,7 @@ class DormRecordAdmin(admin.ModelAdmin):
     ordering = ['account']
 
     def __str__(self):
-        return self.account.user.last_name + self.account.user.first_name
+        return str(self.account.user)
 
 # Register your models here.
 admin.site.register(Account)

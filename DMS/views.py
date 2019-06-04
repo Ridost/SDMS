@@ -129,6 +129,14 @@ def DormCheck(request):
         except:
             error = "此用戶並非學生"
             return render(request, "DMS/main.html", locals())
+        dorms = []
+        dm = {
+            'D1': D1,
+            'D2': D2,
+            'D3': D3,
+            'result': result
+        }
+        dorms.append(dm)
         return render(request,"DMS/DormCheck.html",locals())
 
 @login_required(login_url='/AS/login/')
@@ -143,7 +151,35 @@ def DormDelete(request):
         error = "查無此資料!!!"
         return render(request,"DMS/main.html",locals())
 
-
+@login_required(login_url='/AS/login/')
+def DormDistribution(request):
+    DormRecords = DormRecord.objects.all().order_by('?')
+    #先分發志願序一
+    count = 0
+    for Record in DormRecords:
+        #print(Record)
+        Student = StudentInfo.objects.get(account=Record.account)
+        try:
+            dm = DormInfo.objects.filter(account__isnull=True,building=Record.Dorms[Record.order1][1],gender=Student.gender)
+            dm[0].account = Record.account
+            dm[0].save()
+        except:
+            try:
+                dm = DormInfo.objects.filter(account__isnull=True, building=Record.Dorms[Record.order2][1],
+                                             gender=Student.gender)
+                dm[0].account = Record.account
+                dm[0].save()
+            except:
+                try:
+                    dm = DormInfo.objects.filter(account__isnull=True, building=Record.Dorms[Record.order3][1],
+                                                 gender=Student.gender)
+                    dm[0].account = Record.account
+                    dm[0].save()
+                except:
+                    print('QQ')
+        print(count)
+        count+=1
+    return render(request,"DMS/main.html",locals())
 """
 def DormInfoCreate(request):
     # OE 280 男 1~5  14rooms/floor
@@ -159,6 +195,7 @@ def DormInfoCreate(request):
                 print(i,j,k)
 
     return render(request,"DMS/DMS.html",locals())
+"""
 """
 def DormRecordCreate(request):
     Students = StudentInfo.objects.all()
@@ -179,3 +216,4 @@ def DormRecordCreate(request):
         print(i)
         i+=1
     return render(request,"DMS/DMS.html",locals())
+"""
