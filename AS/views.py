@@ -29,7 +29,7 @@ def convert_permission(perID):
 def index(request):
 	user = request.user
 	stu_id = user.username
-	name = user.first_name
+	name = user.last_name+user.first_name
 	account = Account.objects.get(user=user)
 	permission = convert_permission(account.permission)
 	phone = account.phone

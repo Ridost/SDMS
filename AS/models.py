@@ -131,7 +131,7 @@ class BillInfo(models.Model):
     account = models.ForeignKey('Account', on_delete=models.CASCADE)
     year = models.CharField(max_length=4)
     content = models.CharField(max_length=512)
-    state = models.CharField(max_length=2, choices=STATES)
+    state = models.CharField(max_length=10, choices=STATES)
 
 
 class Equipment(models.Model):

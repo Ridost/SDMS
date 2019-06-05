@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth.models import User
-from AS.models import Account,StudentInfo,DormRecord,DormInfo
+from AS.models import Account,StudentInfo,DormRecord,DormInfo,BillInfo
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -17,8 +17,23 @@ def Delete(request):
     return render(request,"DMS/main.html",locals())
 
 @login_required(login_url='/AS/login/')
-def DMS(request):
+def main(request):
     name = request.user.username
+    ac = Account.objects.get(user = request.user)
+    dorm = {
+        'status':'無住宿',
+        'bed':'無',
+        'building':'無',
+        'room':'無'
+    }
+    try:
+        dorminfo = DormInfo.objects.get(account=ac)
+        dorm['status']= '入住中'
+        dorm['building'] = dorminfo.building
+        dorm['room'] = dorminfo.room
+        dorm['bed'] = dorminfo.bed
+    except:
+        dorm['status'] = '無住宿'
     return render(request,"DMS/main.html",locals())
 
 @login_required(login_url='/AS/login/')
@@ -155,6 +170,10 @@ def DormDelete(request):
 
 @login_required(login_url='/AS/login/')
 def DormDistribution(request):
+    account = Account.objects.get(user=request.user)
+    if account.permission!=0:
+        error = "權限不符"
+        return render(request,'AS/main.html',locals())
     DormRecords = DormRecord.objects.all().order_by('?')
     #先分發志願序一
     count = 0
@@ -181,6 +200,19 @@ def DormDistribution(request):
         print(count)
         count+=1
     return render(request,"DMS/main.html",locals())
+
+@login_required(login_url='/AS/login/')
+def BillCreate(request):
+    account = Account.objects.get(user=request.user)
+    if account.permission != 0:
+        error = "權限不符"
+        return render(request, 'AS/main.html', locals())
+    Students = DormInfo.objects.all()
+    year = datetime.datetime.now().year
+    for Student in Students:
+        content = Student.building
+        BillInfo.objects.create(account=Student.account,year=year,content=content,state='Unpaid')
+    return render(request,'DMS/main.html',locals())
 """
 def DormInfoCreate(request):
     # OE 280 男 1~5  14rooms/floor
