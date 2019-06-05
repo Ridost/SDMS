@@ -6,6 +6,6 @@ urlpatterns = [
     path('DormitoryApply/', views.DormitoryApply),
     path('DormCheck/', views.DormCheck),
     path('DormDelete/', views.DormDelete),
-    path('DormDistribution/', views.DormDistribution),
-    path('BillCreate/', views.BillCreate),
+    #path('DormDistribution/', views.DormDistribution),
+    #path('BillCreate/', views.BillCreate),
 ]
