@@ -195,6 +195,7 @@ def DormInfoCreate(request):
 
     return render(request,"DMS/DMS.html",locals())
 """
+"""
 
 def DormRecordCreate(request):
     Students = StudentInfo.objects.all()
@@ -214,5 +215,6 @@ def DormRecordCreate(request):
                 DormRecord.objects.create(account=ac,order1=order[0],order2=order[1],order3=order[2])
         print(i)
         i+=1
+
     return render(request,"DMS/main.html",locals())
 

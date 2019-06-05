@@ -7,6 +7,4 @@ urlpatterns = [
     path('DormCheck/', views.DormCheck),
     path('DormDelete/', views.DormDelete),
     path('DormDistribution/', views.DormDistribution),
-    path('DormRecordCreate/', views.DormRecordCreate),
-    path('Delete/', views.Delete),
 ]
