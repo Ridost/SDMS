@@ -217,4 +217,4 @@ def DormRecordCreate(request):
         i+=1
 
     return render(request,"DMS/main.html",locals())
-
+"""
