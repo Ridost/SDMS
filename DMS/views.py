@@ -12,9 +12,9 @@ import datetime,random
 # Create your views here.
 
 
-def hello(request):
-    message = "Hello World!!"
-    return render(request,"DMS/hello.html",locals())
+def Delete(request):
+    #DormRecord.objects.all().delete()
+    return render(request,"DMS/main.html",locals())
 
 @login_required(login_url='/AS/login/')
 def DMS(request):
@@ -58,7 +58,7 @@ def DormCheck(request):
         for dormRecord in DormRecords:
             try:
                 dorm = DormInfo.objects.get(account=dormRecord.account)
-                result = dorm.building+dorm.room+dorm.bed
+                result = dorm.building+dorm.room+"-"+str(dorm.bed)
             except:
                 now = datetime.datetime.now()
                 end = settings.ENDTIME
@@ -157,26 +157,25 @@ def DormDistribution(request):
     #先分發志願序一
     count = 0
     for Record in DormRecords:
-        #print(Record)
         Student = StudentInfo.objects.get(account=Record.account)
         try:
-            dm = DormInfo.objects.filter(account__isnull=True,building=Record.Dorms[Record.order1][1],gender=Student.gender)
-            dm[0].account = Record.account
-            dm[0].save()
+            D1 = DormInfo.objects.filter(account__isnull=True,building=Record.Dorms[Record.order1][1],gender=Student.gender)[0]
+            D1.account = Student.account
+            D1.save()
         except:
             try:
-                dm = DormInfo.objects.filter(account__isnull=True, building=Record.Dorms[Record.order2][1],
-                                             gender=Student.gender)
-                dm[0].account = Record.account
-                dm[0].save()
+                D2 = DormInfo.objects.filter(account__isnull=True, building=Record.Dorms[Record.order2][1],
+                                             gender=Student.gender)[0]
+                D2.account = Student.account
+                D2.save()
             except:
                 try:
-                    dm = DormInfo.objects.filter(account__isnull=True, building=Record.Dorms[Record.order3][1],
-                                                 gender=Student.gender)
-                    dm[0].account = Record.account
-                    dm[0].save()
+                    D3 = DormInfo.objects.filter(account__isnull=True, building=Record.Dorms[Record.order3][1],
+                                                 gender=Student.gender)[0]
+                    D3.account = Student.account
+                    D3.save()
                 except:
-                    print('QQ')
+                    print("QQ")
         print(count)
         count+=1
     return render(request,"DMS/main.html",locals())
@@ -196,7 +195,7 @@ def DormInfoCreate(request):
 
     return render(request,"DMS/DMS.html",locals())
 """
-"""
+
 def DormRecordCreate(request):
     Students = StudentInfo.objects.all()
     i = 0
@@ -206,14 +205,14 @@ def DormRecordCreate(request):
             DormRecord.objects.get(account=ac)  ##該學生已經申請過了
         except:
             if Student.gender=='M':
-                seq = [0,1,2]
+                seq = [0,1,3]
                 order = random.sample(seq,k=3)
                 DormRecord.objects.create(account=ac,order1=order[0],order2=order[1],order3=order[2])
             else:
-                seq = [1,2]
-                order = random.sample(seq,k=2)
-                DormRecord.objects.create(account=ac,order1=order[0],order2=order[1],order3=9)
+                seq = [1,2,4]
+                order = random.sample(seq,k=3)
+                DormRecord.objects.create(account=ac,order1=order[0],order2=order[1],order3=order[2])
         print(i)
         i+=1
-    return render(request,"DMS/DMS.html",locals())
-"""
+    return render(request,"DMS/main.html",locals())
+

@@ -92,9 +92,11 @@ class StudentInfo(models.Model):
 class DormRecord(models.Model):
     account = models.ForeignKey('Account', on_delete=models.CASCADE)
     Dorms = (
-        (0,'綜合'),
-        (1,'學一'),
-        (2,'學二')
+        (0,'綜宿'),
+        (1,'OA'),
+        (2,'OB'),
+        (3,'OE'),
+        (4,'OF')
     )
     order1 = models.IntegerField(choices=Dorms)
     order2 = models.IntegerField(choices=Dorms)

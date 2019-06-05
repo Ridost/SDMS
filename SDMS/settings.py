@@ -120,7 +120,7 @@ USE_L10N = True
 USE_TZ = True
 
 STARTTIME = datetime.datetime(2019, 3, 20)
-ENDTIME = datetime.datetime(2019, 7, 10)
+ENDTIME = datetime.datetime(2019, 5, 10)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

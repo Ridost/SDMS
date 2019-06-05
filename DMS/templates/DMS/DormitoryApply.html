@@ -6,32 +6,44 @@
 
 {% block article %}
 
-    <form action="/DMS/DormCheck" method="post">
+    <form action="/DMS/DormCheck/" method="post">
         {% csrf_token %}
     志願序一：
     <select class = 'check-input' name = "Dorm1">
         {% if gd %}
-        <option value=0>綜合宿舍</option>
+            <option value=0>綜合宿舍</option>
+            <option value=1>學一(OA1)</option>
+            <option value=3>學二(OE)</option>
+        {% else %}
+            <option value=1>學一(OA2)</option>
+            <option value=2>學一(OB)</option>
+            <option value=4>學二(OF)</option>
         {% endif %}
-        <option value=1>學一</option>
-        <option value=2>學二</option>
     </select><br><br>
     志願序二：
     <select class = 'check-input' name = "Dorm2">
         {% if gd %}
-        <option value=0>綜合宿舍</option>
+            <option value=0>綜合宿舍</option>
+            <option value=1>學一(OA1)</option>
+            <option value=3>學二(OE)</option>
+        {% else %}
+            <option value=1>學一(OA2)</option>
+            <option value=2>學一(OB)</option>
+            <option value=4>學二(OF)</option>
         {% endif %}
-        <option value=1>學一</option>
-        <option value=2>學二</option>
     </select><br><br>
-        {% if gd %}
     志願序三：
     <select class = 'check-input' name = "Dorm3">
-        <option value=0>綜合宿舍</option>
-        <option value=1>學一</option>
-        <option value=2>學二</option>
-    </select><br><br>
+        {% if gd %}
+            <option value=0>綜合宿舍</option>
+            <option value=1>學一(OA1)</option>
+            <option value=3>學二(OE)</option>
+        {% else %}
+            <option value=1>學一(OA2)</option>
+            <option value=2>學一(OB)</option>
+            <option value=4>學二(OF)</option>
         {% endif %}
+    </select><br><br>
     <input class = 'button-accept' type="submit" value="確定申請"><br>
     </form>
     <a href = 'http://140.127.232.71/02life/life061.asp'>宿舍說明</a><br>

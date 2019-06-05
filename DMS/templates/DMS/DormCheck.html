@@ -5,6 +5,16 @@
 {% endblock %}
 
 {% block article %}
+    <script type="text/javascript">
+    function DormDelete()
+    {
+        var r = confirm("確定要刪除嗎?")
+        if(r==true)
+        {
+            window.location.href = "/DMS/DormDelete/"
+        }
+    }
+        </script>
     <table>
         <tr>
             <td ><b>志願序一</b></td><td><b>志願序二</b></td><td><b>志願序三</b></td><td><b>結果</b></td><td><b>刪除</b></td>
