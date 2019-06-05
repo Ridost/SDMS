@@ -40,6 +40,7 @@ def DormitoryApply(request):
         #宿舍房間狀況 eg. OF 5層樓 20個房間 4個人
         return render(request, "DMS/DormitoryApply.html", locals())
     else:   #不開放
+        message = "目前不是開放申請時間"
         return render(request, "DMS/main.html", locals())
 
 @login_required(login_url='/AS/login/')
@@ -116,7 +117,8 @@ def DormCheck(request):
             D3 = ''
         try:
             dorminfo = DormInfo.objects.get(account=ac)
-            result = dorminfo.building+dorminfo.room+dorminfo.bed
+            result = dorminfo.building + dorminfo.room + "-" + str(dorminfo.bed)
+
         except:
             end = settings.ENDTIME
             now = datetime.datetime.now()
