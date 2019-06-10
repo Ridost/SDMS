@@ -177,7 +177,7 @@ def DormDelete(request):
     except:
         error = "查無此資料!!!"
         return redirect('/DMS/main/')
-
+"""
 @login_required(login_url='/AS/login/')
 def DormDistribution(request):
     account = Account.objects.get(user=request.user)
@@ -190,27 +190,34 @@ def DormDistribution(request):
     for Record in DormRecords:
         Student = StudentInfo.objects.get(account=Record.account)
         try:
-            D1 = DormInfo.objects.filter(account__isnull=True,building=Record.Dorms[Record.order1][1],gender=Student.gender)[0]
-            D1.account = Student.account
-            D1.save()
+            if DormInfo.objects.get(account=Record.account)!=None:
+                continue
         except:
             try:
-                D2 = DormInfo.objects.filter(account__isnull=True, building=Record.Dorms[Record.order2][1],
-                                             gender=Student.gender)[0]
-                D2.account = Student.account
-                D2.save()
+                D1 = DormInfo.objects.filter(account__isnull=True,building=Record.Dorms[Record.order1][1],gender=Student.gender)[0]
+                D1.account = Student.account
+                D1.status = 'Lived'
+                D1.save()
             except:
                 try:
-                    D3 = DormInfo.objects.filter(account__isnull=True, building=Record.Dorms[Record.order3][1],
+                    D2 = DormInfo.objects.filter(account__isnull=True, building=Record.Dorms[Record.order2][1],
                                                  gender=Student.gender)[0]
-                    D3.account = Student.account
-                    D3.save()
+                    D2.account = Student.account
+                    D2.status = 'Lived'
+                    D2.save()
                 except:
-                    print("QQ")
-        print(count)
-        count+=1
-        return redirect('/DMS/main/')
-
+                    try:
+                        D3 = DormInfo.objects.filter(account__isnull=True, building=Record.Dorms[Record.order3][1],
+                                                     gender=Student.gender)[0]
+                        D3.account = Student.account
+                        D3.status = 'Lived'
+                        D3.save()
+                    except:
+                        print("QQ")
+            print(count)
+            count+=1
+    return redirect('/DMS/main/')
+"""
 @login_required(login_url='/AS/login/')
 def DormRetreat(request,username):
     ac = Account.objects.get(user=request.user)
@@ -257,8 +264,8 @@ def DormInfoCreate(request):
 
     return render(request,"DMS/DMS.html",locals())
 """
-"""
 
+"""
 def DormRecordCreate(request):
     Students = StudentInfo.objects.all()
     i = 0
@@ -278,5 +285,5 @@ def DormRecordCreate(request):
         print(i)
         i+=1
 
-    return render(request,"DMS/main.html",locals())
+    return redirect('/DMS/main/')
 """

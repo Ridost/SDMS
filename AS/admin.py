@@ -48,7 +48,7 @@ admin.site.register(Account)
 admin.site.register(StudentInfo,StudentInfoAdmin)
 admin.site.register(DormInfo,DormInfoAdmin)
 admin.site.register(DormRecord,DormRecordAdmin)
-
+admin.site.register(BillInfo,BillAdmin)
 # DLS
 admin.site.register(Billboard)
 admin.site.register(Equipment)
