@@ -1,7 +1,5 @@
 from django.contrib import admin
-from AS.models import Billboard, Equipment, BorrowRecord
+from AS.models import Billboard
 # Register your models here.
 
-admin.site.register(Billboard)
-admin.site.register(Equipment)
-admin.site.register(BorrowRecord)
+

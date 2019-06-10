@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
 from django.contrib import auth
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 
-from AS.models import StudentInfo, Billboard, BorrowRecord, Account, Package
+from AS.models import StudentInfo, Billboard, Account, Package, Equipment, BorrowRecord
 import datetime
+import json
+
+# Billboard
 
 def ShowBillboard(request):
     """
@@ -58,7 +61,6 @@ def ModifyBillboard(request):
 
     print(billboard)
 
-
     billboard.title = new_title
     billboard.content = new_content
     billboard.publisher = new_publisher
@@ -66,6 +68,8 @@ def ModifyBillboard(request):
     billboard.save()
     
     return HttpResponse()
+
+# Package 
 
 def ShowPackage(request):
     is_manager = False
@@ -87,7 +91,6 @@ def ShowPackage(request):
 def ManagePackage(request):
 
     package = Package.objects.all()
-
     return render(request, 'package/manage.html', locals())
 
 def AddPackage(request):
@@ -129,4 +132,51 @@ def DeletePackage(request):
     id = request.POST.get('id')
     package = Package.objects.filter(id = id).delete()
 
+# Borrow Public Space
     
+def BorrowSpace(request):
+    equip = Equipment.objects.all()
+    return render(request, 'borrow.html', locals())
+
+def ApplySpace(request):
+    pass
+
+def CheckSpace(request):
+    
+    tag = request.POST.get('tag')
+    date = request.POST.get('date')
+    start_hour = request.POST.get('start_hour')
+    borrow_length = request.POST.get('borrow_length')
+
+    start = datetime.datetime.strptime(date, '%Y-%m-%d')
+    start = start.replace(hour = int(start_hour))
+
+    end = start
+    end = end.replace(hour = end.hour + int(borrow_length))
+
+    Yes = True
+    message = ""
+    record = BorrowRecord.objects.filter(tag = tag)
+
+    for rec in record:
+        if rec.start_time <= start and rec.end_time <= end:
+            Yes = False
+            end = rec.end_time
+        elif rec.start_time >= start and rec.end_time >= end:
+            Yes = False
+            start = rec.start_time
+        elif rec.start_time <= start and rec.end_time >= end:
+            Yes = False
+        elif rec.start_time >= start and rec.end_time <= end:
+            Yes = False
+            start = rec.start_time
+            end = rec.end_time
+
+    if Yes:
+        message = "這個時段沒有人借用!!!"
+    elif start < end:
+        message = '{0} 與 {1} 之間已經有人借用'.format(start, end)
+
+    ret = {'flag' : Yes, 'message' : message}
+
+    return JsonResponse(ret)

@@ -117,7 +117,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 STARTTIME = datetime.datetime(2019, 3, 20)
 ENDTIME = datetime.datetime(2019, 5, 10)
