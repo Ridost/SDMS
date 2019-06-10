@@ -154,6 +154,7 @@ class BorrowRecord(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     memo = models.CharField(max_length = 512)
+    confirm = models.BooleanField()
 
 
 class Package(models.Model):

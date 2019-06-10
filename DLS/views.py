@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
 from django.contrib import auth
-
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 
 from AS.models import StudentInfo, Billboard, Account, Package, Equipment, BorrowRecord
@@ -10,6 +9,10 @@ import json
 
 # Billboard
 
+def IsManager(request):
+    user = Account.objects.get(user = auth.get_user(request))
+    return user.permission <= 1
+
 def ShowBillboard(request):
     """
     取出公佈欄的資料，並判斷當前登入者是不是管理員
@@ -17,12 +20,7 @@ def ShowBillboard(request):
     billboard = Billboard.objects.all()
 
     # 是不是管理員
-    is_manager = False
-
-    user = Account.objects.get(user = auth.get_user(request))
-
-    if user.permission <= 1:
-        is_manager = True
+    is_manager = IsManager(request)
 
     return render(request, 'billboard.html', locals())
 
@@ -134,11 +132,18 @@ def DeletePackage(request):
 
 # Borrow Public Space
     
+def SpaceView(request):
+    is_manager = IsManager(request)
+
+    if is_manager:
+        record = BorrowRecord.objects.filter(confirm = False)
+        return render(request, 'borrow/manage.html')
+
 def BorrowSpace(request):
     equip = Equipment.objects.all()
     return render(request, 'borrow.html', locals())
 
-def ApplySpace(request):
+def ConfirmSpace(request):
     pass
 
 def CheckSpace(request):
