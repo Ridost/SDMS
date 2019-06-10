@@ -134,6 +134,7 @@ class BillInfo(models.Model):
     state = models.CharField(max_length=2, choices=STATES)
 
 
+
 class Equipment(models.Model):
     STATES = (
         ('Free', '可借用'),
@@ -141,31 +142,19 @@ class Equipment(models.Model):
         ('NotAvailable', '不可使用')
     )
 
-    CATEGORIES = (
-        ('lounge', '交誼廳'),
-        ('ReadingRoom', '閱覽室'),
-        ('Kitchen', '廚房'),
-        ('Others', '其他')
-    )
-
     tag = models.CharField(max_length = 16, primary_key = True)
-    category = models.CharField(max_length = 8, choices = CATEGORIES)
+    name = models.CharField(max_length = 20)
     current_state = models.CharField(max_length = 16, choices = STATES)
 
 
 class BorrowRecord(models.Model):
-    STATES = (
-        ('Free', '可借用'),
-        ('InUse', '出借中'),
-        ('NotAvailable', '不可使用')
-    )
 
     tag = models.ForeignKey('Equipment', on_delete = models.CASCADE)
     account = models.ForeignKey('Account', on_delete = models.CASCADE)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     memo = models.CharField(max_length = 512)
-    state = models.CharField(max_length = 16, choices = STATES)
+
 
 class Package(models.Model):
     CATEGORIES = (

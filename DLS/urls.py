@@ -13,4 +13,7 @@ urlpatterns = [
     path('package/verify', VerifyPackage),
     re_path(r'^package/modify/?([0-9]*)/$', ModifyPackage),
     path('package/delete', DeletePackage),
+
+    path('borrow', BorrowSpace),
+    path('borrow/check', CheckSpace)
 ]

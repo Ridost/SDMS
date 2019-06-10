@@ -38,7 +38,14 @@ class DormRecordAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Account)
-admin.site.register(Package, PackageAdmin)
+
+# DMS
 admin.site.register(StudentInfo,StudentInfoAdmin)
 admin.site.register(DormInfo,DormInfoAdmin)
 admin.site.register(DormRecord,DormRecordAdmin)
+
+# DLS
+admin.site.register(Billboard)
+admin.site.register(Equipment)
+admin.site.register(Package, PackageAdmin)
+admin.site.register(BorrowRecord)
