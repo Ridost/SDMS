@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -14,12 +14,17 @@ import datetime,random
 
 def Delete(request):
     #DormRecord.objects.all().delete()
-    return render(request,"DMS/main.html",locals())
+    return redirect('/DMS/main/')
 
 @login_required(login_url='/AS/login/')
 def main(request):
     name = request.user.username
     ac = Account.objects.get(user = request.user)
+    if ac.permission==0:    #管理員
+        Permission = True
+    else:
+        Permission = False
+
     dorm = {
         'status':'無住宿',
         'bed':'無',
@@ -32,10 +37,15 @@ def main(request):
         dorm['building'] = dorminfo.building
         dorm['room'] = dorminfo.room
         dorm['bed'] = dorminfo.bed
+        lived = True
     except:
         dorm['status'] = '無住宿'
+        lived = False
     return render(request,"DMS/main.html",locals())
 
+@login_required(login_url='/AS/login/')
+def DormRetreatApply(request):
+    return render(request,'DMS/DormRetreatApply.html',locals())
 @login_required(login_url='/AS/login/')
 def DormitoryApply(request):
     #判斷是否為管理員
@@ -56,7 +66,7 @@ def DormitoryApply(request):
         return render(request, "DMS/DormitoryApply.html", locals())
     else:   #不開放
         message = "目前不是開放申請時間"
-        return render(request, "DMS/main.html", locals())
+        return redirect('/DMS/main/')
 
 @login_required(login_url='/AS/login/')
 def DormCheck(request):
@@ -116,14 +126,14 @@ def DormCheck(request):
             with transaction.atomic():
                 DormRecord.objects.create(account=account,order1 = D1,order2=D2,order3=D3)
                 message = "申請成功"
-                return render(request, "DMS/main.html", locals())
+                return redirect('/DMS/main/')
     else:
         ac = Account.objects.get(user=request.user)
         try:
             dorm = DormRecord.objects.get(account = ac)
         except:
             error = "查無此資料!!!"
-            return render(request,"DMS/main.html",locals())
+            return redirect('/DMS/main/')
         D1 = DormRecord.Dorms[dorm.order1][1]
         D2 = DormRecord.Dorms[dorm.order2][1]
         try:
@@ -145,7 +155,7 @@ def DormCheck(request):
             student = StudentInfo.objects.get(account = ac)
         except:
             error = "此用戶並非學生"
-            return render(request, "DMS/main.html", locals())
+            return redirect('/DMS/main/')
         dorms = []
         dm = {
             'D1': D1,
@@ -163,17 +173,17 @@ def DormDelete(request):
         dm = DormRecord.objects.get(account = ac)
         dm.delete()
         message = "刪除成功!!!"
-        return render(request,"DMS/main.html",locals())
+        return redirect('/DMS/main/')
     except:
         error = "查無此資料!!!"
-        return render(request,"DMS/main.html",locals())
+        return redirect('/DMS/main/')
 
 @login_required(login_url='/AS/login/')
 def DormDistribution(request):
     account = Account.objects.get(user=request.user)
     if account.permission!=0:
         error = "權限不符"
-        return render(request,'AS/main.html',locals())
+        return redirect('/DMS/main/')
     DormRecords = DormRecord.objects.all().order_by('?')
     #先分發志願序一
     count = 0
@@ -199,8 +209,25 @@ def DormDistribution(request):
                     print("QQ")
         print(count)
         count+=1
-    return render(request,"DMS/main.html",locals())
+        return redirect('/DMS/main/')
 
+@login_required(login_url='/AS/login/')
+def DormRetreat(request,username):
+    ac = Account.objects.get(user=request.user)
+    if ac.permission==0:    #管理員
+        Permission=True
+    else:
+        error = "權限不符"
+        return redirect('/DMS/main/')
+    user = User.objects.get(username=username)
+    ac = Account.objects.get(user=user)
+    try:
+        Dorm = DormInfo.objects.get(account = ac)
+        #Dorm.delete()
+    except:
+        message = "查無該學生宿舍資料"
+    return redirect('/DMS/main/')
+"""
 @login_required(login_url='/AS/login/')
 def BillCreate(request):
     account = Account.objects.get(user=request.user)
@@ -213,6 +240,7 @@ def BillCreate(request):
         content = Student.building
         BillInfo.objects.create(account=Student.account,year=year,content=content,state='Unpaid')
     return render(request,'DMS/main.html',locals())
+"""
 """
 def DormInfoCreate(request):
     # OE 280 男 1~5  14rooms/floor
