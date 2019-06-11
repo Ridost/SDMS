@@ -1,15 +1,33 @@
-{% extends "base.html" %}
+{% extends "AS/base.html" %}
 
 {% block title %}
-
+    宿舍生活系統 -- 包裹
 {% endblock %}
 
-{% block content %}
+{% block navbar %}
+    {% include "navbar.html" %}
+{% endblock %}
+
+{% block sidebar %}
+<ul>
+    <li><a href="/DLS/billboard/" class="sidebar-item">公佈欄</a></li>
+    {% if is_manager %}
+        <li><a href="/DLS/package/" class="sidebar-item-selected">包裹管理</a></li>
+        <li><a href="/DLS/borrow/" class="sidebar-item">借用空間管理</a></li>
+    {% else %}
+        <li><a href="/DLS/package/" class="sidebar-item-selected">查看包裹</a></li>
+        <li><a href="/DLS/borrow/apply/" class="sidebar-item">申請借用空間</a></li>
+        <li><a href="/DLS/borrow/status/" class = "sidebar-item">空間申請狀態</a></li>
+    {% endif %}
+</ul>
+{% endblock %}
+
+{% block article %}
 
 {% if is_manager %}
 
 <script>
-    window.location.href = "package/manage";
+    window.location.href = "/DLS/package/manage/";
 </script>
 
 {% endif %}

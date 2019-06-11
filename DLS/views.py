@@ -22,7 +22,7 @@ def ShowBillboard(request):
     # 是不是管理員
     is_manager = IsManager(request)
 
-    return render(request, 'billboard.html', locals())
+    return render(request, 'main.html', locals())
 
 def AddBillboard(request):
     title = request.POST.get('title', '')
@@ -40,8 +40,7 @@ def AddBillboard(request):
     return HttpResponse()
 
 def DeleteBillboard(request):
-    print(request.POST.get('id'))
-    Billboard.objects.filter(id = request.POST.get('id')).delete()
+    Billboard.objects.get(id = int(request.POST.get('id'))).delete()
     return HttpResponse()
 
 def ModifyBillboard(request):
@@ -70,25 +69,20 @@ def ModifyBillboard(request):
 # Package 
 
 def ShowPackage(request):
-    is_manager = False
 
-    user = Account.objects.get(user = auth.get_user(request))
 
+    is_manager = IsManager(request)
     package = None
 
-    if user.permission <= 1:
-        is_manager = True
-    else:
-        # student = StudentInfo.objects.get(account = user)
-        package = Package.objects.filter(receiver = user)
-
-    print(is_manager)
+    if not is_manager:
+        package = Package.objects.filter(receiver = Account.objects.get(user = auth.get_user(request)))
         
     return render(request, 'package.html', locals())
 
 def ManagePackage(request):
-
+    is_manager = IsManager(request)
     package = Package.objects.all()
+
     return render(request, 'package/manage.html', locals())
 
 def AddPackage(request):
@@ -104,6 +98,8 @@ def VerifyPackage(request):
 
 def ModifyPackage(request, id = None):
     
+    is_manager = IsManager(request)
+
     if request.method == 'GET':
         p = Package.objects.get(id = id)
 
@@ -130,21 +126,49 @@ def DeletePackage(request):
     id = request.POST.get('id')
     package = Package.objects.filter(id = id).delete()
 
-# Borrow Public Space
-    
-def SpaceView(request):
-    is_manager = IsManager(request)
+    return HttpResponse()
 
-    if is_manager:
-        record = BorrowRecord.objects.filter(confirm = False)
-        return render(request, 'borrow/manage.html')
+# Borrow Public Space
+
+# for manager
+
+def ShowRecord(request):
+    is_manager = IsManager(request)
+    record = BorrowRecord.objects.all().order_by('-confirm')
+
+    return render(request, 'borrow/showall.html', locals())
+
+def ManageRecord(request):
+    is_manager = IsManager(request)
+    record = BorrowRecord.objects.filter(confirm = 0)
+    
+    return render(request, 'borrow/manage.html', locals())
+
+def ConfirmRecord(request):
+    id = request.POST.get('id')
+
+    record = BorrowRecord.objects.get(id = id)
+    record.confirm = 1
+    record.save()
+
+    return HttpResponse()
+    
+def WithdrawRecord(request):
+    id = request.POST.get('id')
+
+    record = BorrowRecord.objects.get(id = id)
+    record.confirm = 2
+    record.save()
+
+    return HttpResponse()
+    
+# for student
 
 def BorrowSpace(request):
+    is_manager = IsManager(request)
     equip = Equipment.objects.all()
-    return render(request, 'borrow.html', locals())
 
-def ConfirmSpace(request):
-    pass
+    return render(request, 'borrow/apply.html', locals())
 
 def CheckSpace(request):
     
@@ -185,3 +209,9 @@ def CheckSpace(request):
     ret = {'flag' : Yes, 'message' : message}
 
     return JsonResponse(ret)
+
+def ShowStatus(request):
+    is_manager = IsManager(request)
+    record = BorrowRecord.objects.filter(account = Account.objects.get(user = auth.get_user(request)))
+    
+    return render(request, 'borrow/showstatus.html', locals())
