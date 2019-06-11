@@ -1,0 +1,36 @@
+{% extends "AS/base.html" %}
+
+{% block navbar %}
+    {% include "navbar.html" %}
+{% endblock %}
+
+{% block sidebar %}
+<ul>
+    <li><a href="/DLS/billboard/" class="sidebar-item">公佈欄</a></li>
+    {% if is_manager %}
+        <li><a href="/DLS/package/" class="sidebar-item">包裹管理</a></li>
+        <li><a href="/DLS/borrow/" class="sidebar-item-selected">借用空間管理</a></li>
+    {% else %}
+        <li><a href="/DLS/package/" class="sidebar-item">查看包裹</a></li>
+        <li><a href="/DLS/borrow/apply/" class="sidebar-item">申請借用空間</a></li>
+        <li><a href="/DLS/borrow/status/" class = "sidebar-item">空間申請狀態</a></li>
+    {% endif %}
+</ul>
+{% endblock %}
+
+{% block article %}
+
+{% if is_manager %}
+
+    <button onclick="document.location.href = '/DLS/borrow/manage'">
+        核可借用紀錄
+    </button>
+
+    <button onclick="document.location.href = '/DLS/borrow/showall'">
+        查看借用紀錄
+    </button>
+
+
+{% endif %}
+
+{% endblock %}
