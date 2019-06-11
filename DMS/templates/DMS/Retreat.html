@@ -5,6 +5,16 @@
 {% endblock %}
 
 {% block article %}
+<script type="text/javascript">
+    function Retreat()
+    {
+        var r = confirm("確定要將該學生退宿嗎?")
+        if(r==true)
+        {
+            window.location.href = "{{ student.name }}"
+        }
+    }
+</script>
     <h1>退宿</h1>
     <hr class="heading">
     <form action="/DMS/DormRetreat/" method="post">
@@ -32,7 +42,7 @@
             <td>{{student.room}}</td>
             <td>{{student.bed}}</td>
             {% if Check %}
-                <td><a href="{{student.name}}">退宿</a></td>
+                <td><input class = "button-accept" type="button" onclick="Retreat()"value="退宿"></td>
             {% endif %}
         </tr>
     </table>
