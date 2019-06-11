@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
 
-
 class Account(models.Model):
 
     PERMISSIONS = (
@@ -149,12 +148,18 @@ class Equipment(models.Model):
 
 class BorrowRecord(models.Model):
 
+    STATES = (
+        (0, '等待核可中'),
+        (1, '核可完成'),
+        (2, '退件')
+    )
+
     tag = models.ForeignKey('Equipment', on_delete = models.CASCADE)
     account = models.ForeignKey('Account', on_delete = models.CASCADE)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     memo = models.CharField(max_length = 512)
-    confirm = models.BooleanField()
+    confirm = models.CharField(max_length = 10, choices = STATES)
 
 
 class Package(models.Model):
