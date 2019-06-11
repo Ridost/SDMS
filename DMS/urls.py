@@ -7,6 +7,7 @@ urlpatterns = [
     path('DormCheck/', views.DormCheck),
     path('DormDelete/', views.DormDelete),
     path('DormRetreat/<str:username>', views.DormRetreat),
+    path('DormRetreat/', views.DormRetreat),
     path('DormRetreatApply',views.DormRetreatApply),
     #path('DormRecordCreate/', views.DormRecordCreate),
     #path('DormDistribution/', views.DormDistribution),

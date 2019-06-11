@@ -6,6 +6,7 @@ from AS.models import Account,StudentInfo,DormRecord,DormInfo,BillInfo
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.core.paginator import  *
 import datetime,random
 
 #from AS.model import DormiotoryApply
@@ -46,6 +47,7 @@ def main(request):
 @login_required(login_url='/AS/login/')
 def DormRetreatApply(request):
     return render(request,'DMS/DormRetreatApply.html',locals())
+
 @login_required(login_url='/AS/login/')
 def DormitoryApply(request):
     #判斷是否為管理員
@@ -67,6 +69,7 @@ def DormitoryApply(request):
     else:   #不開放
         message = "目前不是開放申請時間"
         return redirect('/DMS/main/')
+
 
 @login_required(login_url='/AS/login/')
 def DormCheck(request):
@@ -102,6 +105,14 @@ def DormCheck(request):
             except:
                 dm.setdefault('D3','')
             dorms.append(dm)
+        paginator = Paginator(dorms,100)
+        page = request.GET.get('page')
+        try:
+            topics = paginator.page(page)
+        except PageNotAnInteger:
+            topics = paginator.page(1)
+        except EmptyPage:
+            topics = paginator.page(paginator.num_pages)
         return render(request, "DMS/DormCheck.html", locals())
     elif request.method=='POST':    #學生
         name = request.user.username
@@ -219,21 +230,47 @@ def DormDistribution(request):
     return redirect('/DMS/main/')
 """
 @login_required(login_url='/AS/login/')
-def DormRetreat(request,username):
+def DormRetreat(request,username=''):
     ac = Account.objects.get(user=request.user)
     if ac.permission==0:    #管理員
         Permission=True
     else:
         error = "權限不符"
-        return redirect('/DMS/main/')
+        return redirect('/DMS/main/',error=error)
+    if request.method =='POST':
+        try:
+            user = User.objects.get(username = request.POST['username'])
+        except:
+            message = "查無該學號"
+            return render(request, 'DMS/Retreat.html', locals())
+        student = {}
+        student['name'] = user.username
+        ac = Account.objects.get(user=user)
+        try:
+            dorm = DormInfo.objects.get(account=ac)
+        except:
+            message = "該學生並非住宿生"
+            return render(request,'DMS/Retreat.html',locals())
+        student['building'] = dorm.building
+        student['bed'] = dorm.bed
+        student['room'] = dorm.room
+        Check = True
+        return render(request, 'DMS/Retreat.html', locals())
+    if username=='':    ##導向住宿學生名單
+        return render(request,"DMS/Retreat.html",locals())
     user = User.objects.get(username=username)
     ac = Account.objects.get(user=user)
     try:
         Dorm = DormInfo.objects.get(account = ac)
+        Dorm.account = None
+        Dorm.status = 'None'
+        Dorm.save()
         #Dorm.delete()
+        message = "退宿成功"
+        return render(request,'DMS/Retreat.html',locals())
     except:
         message = "查無該學生宿舍資料"
-    return redirect('/DMS/main/')
+        return redirect('/DMS/main/',message=message)
 """
 @login_required(login_url='/AS/login/')
 def BillCreate(request):

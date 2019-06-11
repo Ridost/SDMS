@@ -19,13 +19,26 @@
         <tr>
             <td ><b>志願序一</b></td><td><b>志願序二</b></td><td><b>志願序三</b></td><td><b>結果</b></td><td><b>刪除</b></td>
         </tr>
-        {% for dorm in dorms %}
+        {% for dorm in topics.object_list %}
         <tr>
             <td>{{dorm.D1}}</td><td>{{dorm.D2}}</td><td>{{dorm.D3}}</td><td>{{dorm.result}}</td>
             <td><input class = "button-accept" type="button" onclick="DormDelete()"value="刪除"></td>
         </tr>
         {% endfor %}
     </table>
+    {% if topics.has_previous %}
+    <a href="?page={{ topics.previous_page_number }}"><<</a>
+    {% endif %}
+    {% for page_num in topics.paginator.page_range %}
+        {% if page_num > topics.number|add:"5" %}
+        {% else %}
+            {% ifequal page_num topics.number %}
+                {{page_num}}
+            {% else %}
+                <a href ="?page={{page_num}}">{{page_num}}</a>
+            {% endifequal %}
+        {% endif %}
+    {% endfor %}
     <font color="fb0606">{{ error }}{{ message }}</font>
 {% endblock %}
 

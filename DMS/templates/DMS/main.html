@@ -20,7 +20,8 @@
     <input class="button-warning" type="button" value="退宿申請" onclick="location.href='/DMS/DormRetreatApply'">
     {% endif %}
     {% if Permission %}
-    <input class="button-warning" type="button" value="退宿申請查詢" onclick="location.href='/DMS/RetreatCheck'">
+    <input class="button-warning" type="button" value="退宿" onclick="location.href='/DMS/DormRetreat'">
+    <input class="button-decline" type="button" value="系統設定" onclick="location.href='/DMS/DormSetting'">
     {% endif %}
     <font color="fb0606">{{ error }}{{ message }}</font>
 {% endblock %}
@@ -39,7 +40,8 @@
         <li><a href="/DMS/DormRetreatApply" class="sidebar-item">退宿申請</a></li>
         {% endif %}
         {% if Permission %}
-        <li><a href="/DMS/RetreatCheck" class="sidebar-item">退宿申請查詢</a></li>
+        <li><a href="/DMS/DormRetreat" class="sidebar-item">退宿</a></li>
+        <li><a href="/DMS/DormSetting" class="sidebar-item">系統設定</a></li>
         {% endif %}
     </ul>
 {% endblock %}
