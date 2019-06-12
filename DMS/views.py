@@ -1,14 +1,33 @@
 from django.shortcuts import render,redirect
 from django.utils import timezone
-from django.conf import settings
 from django.contrib.auth.models import User
-from AS.models import Account,StudentInfo,DormRecord,DormInfo,BillInfo
+from AS.models import Account,StudentInfo,DormRecord,DormInfo,BillInfo,System
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.core.paginator import  *
 import datetime,random
 
+
+@login_required(login_url='/AS/login/')
+def DormSetting(request):
+    ac = Account.objects.get(user=request.user)
+    if ac.permission!=0:
+        error ="權限不符"
+        return redirect('/DMS/main/')
+    time = System.objects.get(pk=1)
+    if request.method=='POST':
+        try:
+            start = request.POST['StartTime']
+            end = request.POST['EndTime']
+            time.StartTime = start
+            time.EndTime = end
+            time.save()
+            message = "修改成功"
+        except:
+            error = "格式不符"
+    time = System.objects.get(pk=1)
+    return render(request,'DMS/DormSetting.html',locals())
 def Delete(request):
     #DormRecord.objects.all().delete()
     return redirect('/DMS/main/')
@@ -52,9 +71,10 @@ def DormitoryApply(request):
             gd = True
     except:
         gd = True
-    start = settings.STARTTIME
-    end = settings.ENDTIME
-    now = datetime.datetime.now()
+    TIME = System.objects.get(pk=1)
+    start =TIME.StartTime
+    end = TIME.EndTime
+    now = datetime.date.today()
     if now>start and now<end:   #開放
         #誰申請 哪個系 年級 學號 姓名 哪一棟宿舍 申請時間 審核狀態
         #宿舍房間狀況 eg. OF 5層樓 20個房間 4個人
@@ -80,8 +100,9 @@ def DormCheck(request):
                 dorm = DormInfo.objects.get(account=dormRecord.account)
                 result = dorm.building+dorm.room+"-"+str(dorm.bed)
             except:
-                now = datetime.datetime.now()
-                end = settings.ENDTIME
+                TIME = System.objects.get(pk=1)
+                now = datetime.date.today()
+                end = TIME.EndTime
                 if now>end:
                     result = "銘謝惠顧"
                 else:
@@ -147,8 +168,9 @@ def DormCheck(request):
             result = dorminfo.building + dorminfo.room + "-" + str(dorminfo.bed)
 
         except:
-            end = settings.ENDTIME
-            now = datetime.datetime.now()
+            TIME = System.objects.get(pk=1)
+            end = TIME.EndTime
+            now = datetime.date.today()
             if now < end:
                 result = "尚未分發"
             else:
@@ -168,9 +190,10 @@ def DormCheck(request):
         dorms.append(dm)
         paginator = Paginator(dorms, 100)
         page = request.GET.get('page')
-        now = datetime.datetime.now()
-        start = settings.STARTTIME
-        end = settings.ENDTIME
+        now = datetime.date.today()
+        TIME = System.objects.get(pk=1)
+        start = TIME.StartTime
+        end = TIME.EndTime
         if now>start and now<end:   ##宿舍申請期間
             checked = 0
         elif now<end+datetime.timedelta(days=7):     ##截止7天之內
