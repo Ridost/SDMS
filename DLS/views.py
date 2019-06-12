@@ -29,6 +29,8 @@ def AddBillboard(request):
     content = request.POST.get('content', '').strip('\n')
     now = datetime.datetime.now()
 
+    print(content)
+
     # get publisher info
     publisher = auth.get_user(request)
     publisher = Account.objects.get(user = publisher)
@@ -48,9 +50,13 @@ def ModifyBillboard(request):
     new_content = request.POST.get('content', '')
     new_publisher = auth.get_user(request)
 
+    print("content = " , new_content)
+
     new_publisher = Account.objects.get(user = new_publisher)
 
     billboard = Billboard.objects.get(id = modify_id)
+
+    print(billboard)
 
     billboard.title = new_title
     billboard.content = new_content

@@ -11,7 +11,7 @@ urlpatterns = [
     path('package/', ShowPackage),
     path('package/manage/', ManagePackage),
     path('package/verify/', VerifyPackage),
-    # re_path(r'^package/modify/?([0-9]*)/$', ModifyPackage),
+    re_path(r'^package/modify/?([0-9]*)/$', ModifyPackage),
     path('package/delete/', DeletePackage),
 
     path('borrow/showall/', ShowRecord),
