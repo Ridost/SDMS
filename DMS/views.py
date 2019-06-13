@@ -274,6 +274,16 @@ def Retreat(request):
     return render(request,'DMS/DormCheck.html',locals())
 
 
+def StudentPermission(request):
+    dorms = DormInfo.objects.all()
+    count = 0
+    for dorm in dorms:
+        ac = dorm.account
+        ac.permission = 2
+        ac.save()
+        count+=1
+        print(count)
+    return redirect('/DMS/main/')
 """
 @login_required(login_url='/AS/login/')
 def DormDistribution(request):
