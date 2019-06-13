@@ -11,8 +11,8 @@ urlpatterns = [
     path('DormRetreatApply/',views.DormRetreatApply),
     path('Retreat/',views.Retreat),
     path('DormSetting/', views.DormSetting),
-    path('StudentPermission/', views.StudentPermission),
+    #path('StudentPermission/', views.StudentPermission),
     #path('DormRecordCreate/', views.DormRecordCreate),
-    #path('DormDistribution/', views.DormDistribution),
+    path('DormDistribution/', views.DormDistribution),
     #path('BillCreate/', views.BillCreate),
 ]
