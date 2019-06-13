@@ -1,0 +1,6 @@
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{messege}}
+    <input type="file" name="myfile">
+    <input type="submit" value="提交">
+</form>

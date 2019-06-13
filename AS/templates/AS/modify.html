@@ -1,27 +1,44 @@
-{% block content %}
+{% extends 'AS/base.html' %}
 
-<html>
-<form action='.' method='POST' name='form1'>
-    {% csrf_token %}
-    <p>User Id:{{stu_id}}</p>
-    <!--
-    <p><a href='/AS/modify_password/'>Modify Password</a></p>
-    -->
-	<p>Firstname:
-	<input type='text' value='{{fname}}' name='firstname' id='firstname' />
-    </p>
-    <p>Lastname:
-    <input type='text' value='{{lname}}' name='lastname' id='lastname' />
-    </p>
-	<p>Phone:
-	<input type='text' value='{{phone}}' name='phone' id='phone' />
-	</p>
-	<p>Email:
-	<input type='email' value='{{mail}}' name='email' id='email' />
-	</p>
-	<input type='submit' name='button' id='button' value='Submit' />
-	<input type='button' value='Return' onclick='location="/AS/index/"'>
-</form>
-</html>
+{% block title %}
+    宿舍管理系統 - 修改基本資料
+{% endblock %}
 
+{% block article %}
+	<form action='.' method='POST' name='form1'>
+		{% csrf_token %}
+		<p>User Id:{{stu_id}}</p>
+		<!--
+		<p><a href='/AS/modify_password/'>Modify Password</a></p>
+		-->
+		<p>Firstname:
+		<input type='text' value='{{fname}}' name='firstname' id='firstname' />
+		</p>
+		<p>Lastname:
+		<input type='text' value='{{lname}}' name='lastname' id='lastname' />
+		</p>
+		<p>Phone:
+		<input type='text' value='{{phone}}' name='phone' id='phone' />
+		</p>
+		<p>Email:
+		<input type='email' value='{{mail}}' name='email' id='email' />
+		</p>
+		<input class='button-accept' type='submit' name='button' value='Submit' />
+		<input class='button-decline' type='button' value='Return' onclick='location="/AS/index/"'>
+	</form>
+{% endblock %}
+
+{% block topbar %}{% endblock %}
+
+{% block navbar %}
+    {% include 'AS/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    <ul>
+        <li><a href="/AS/main/" class="sidebar-item">會員基本資料</a></li>
+        <li><a href="/AS/modify/" class="sidebar-item-selected">修改基本資料</a></li>
+        <li><a href="/AS/logout/" class="sidebar-item">登出系統</a></li>
+        <li><a href="/AS/test/" class="sidebar-item">測試</a></li>
+    </ul>
 {% endblock %}

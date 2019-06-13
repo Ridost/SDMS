@@ -1,0 +1,47 @@
+{% extends 'AS/base.html' %}
+
+{% block title %}
+    宿舍管理系統 - 宿舍管理
+{% endblock %}
+
+{% block article %}
+    <h1>宿舍管理</h1>
+    <hr class="heading">
+    <table>
+        <tr><th>宿舍入住狀況：</th><td>{{dorm.status}}</td></tr>
+        <tr><th>宿舍：</th><td>{{dorm.building}}</td></tr>
+        <tr><th>房間：</th><td>{{dorm.room}}</td></tr>
+        <tr><th>床位：</th><td>{{dorm.bed}}</td></tr>
+    </table>
+    <br><br>
+    <input class="button-accept" type="button" value="申請宿舍" onclick="location.href='/DMS/DormitoryApply'">
+    <input class="button-decline" type="button" value="住宿申請結果查詢" onclick="location.href='/DMS/DormCheck'">
+    {% if lived %}
+    <input class="button-warning" type="button" value="退宿申請" onclick="location.href='/DMS/DormRetreatApply'">
+    {% endif %}
+    {% if Permission %}
+    <input class="button-warning" type="button" value="退宿" onclick="location.href='/DMS/DormRetreat'">
+    <input class="button-decline" type="button" value="系統設定" onclick="location.href='/DMS/DormSetting'">
+    {% endif %}
+    <font color="fb0606">{{ error }}{{ message }}</font>
+{% endblock %}
+
+{% block topbar %}{% endblock %}
+
+{% block navbar %}
+    {% include 'DMS/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    <ul>
+        <li><a href="/DMS/DormitoryApply" class="sidebar-item">宿舍申請</a></li>
+        <li><a href="/DMS/DormCheck" class="sidebar-item">住宿申請結果查詢</a></li>
+        {% if lived %}
+        <li><a href="/DMS/DormRetreatApply" class="sidebar-item">退宿申請</a></li>
+        {% endif %}
+        {% if Permission %}
+        <li><a href="/DMS/DormRetreat" class="sidebar-item">退宿</a></li>
+        <li><a href="/DMS/DormSetting" class="sidebar-item">系統設定</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}

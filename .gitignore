@@ -1,4 +1,4 @@
 .vscode
-*.pyc
+*.xlsx
 .idea
-db.sqlite3
+*.pyc

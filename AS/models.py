@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
 
-
 class Account(models.Model):
 
     PERMISSIONS = (
@@ -17,7 +16,7 @@ class Account(models.Model):
     phone = models.CharField(max_length=10, default='')
 
     def __str__(self):
-        return self.user.last_name+self.user.first_name
+        return str(self.user)
 class Billboard(models.Model):
     date = models.DateField()
     title = models.CharField(max_length=128)
@@ -92,20 +91,31 @@ class StudentInfo(models.Model):
 class DormRecord(models.Model):
     account = models.ForeignKey('Account', on_delete=models.CASCADE)
     Dorms = (
-        (0,'綜合'),
-        (1,'學一'),
-        (2,'學二')
+        (0,'綜宿'),
+        (1,'OA'),
+        (2,'OB'),
+        (3,'OE'),
+        (4,'OF')
     )
     order1 = models.IntegerField(choices=Dorms)
     order2 = models.IntegerField(choices=Dorms)
     order3 = models.IntegerField(choices=Dorms)
 
-
-
 class DormInfo(models.Model):
+    STATUS = {
+        ('Lived', '有住人'),
+        ('None', '沒有住人'),
+        ('Forbid', '不能住'),
+    }
+    GENDERS = (
+        ('M', '男'),
+        ('F', '女')
+    )
     building = models.CharField(max_length=2)
     room = models.CharField(max_length=8)
     bed = models.IntegerField()
+    status = models.CharField(max_length=16, choices=STATUS, default='None')
+    gender = models.CharField(max_length=1, choices=GENDERS)
     account = models.OneToOneField(
         'Account', on_delete=models.SET_NULL, null=True)
 
@@ -120,7 +130,8 @@ class BillInfo(models.Model):
     account = models.ForeignKey('Account', on_delete=models.CASCADE)
     year = models.CharField(max_length=4)
     content = models.CharField(max_length=512)
-    state = models.CharField(max_length=2, choices=STATES)
+    state = models.CharField(max_length=10, choices=STATES)
+
 
 
 class Equipment(models.Model):
@@ -130,31 +141,26 @@ class Equipment(models.Model):
         ('NotAvailable', '不可使用')
     )
 
-    CATEGORIES = (
-        ('lounge', '交誼廳'),
-        ('ReadingRoom', '閱覽室'),
-        ('Kitchen', '廚房'),
-        ('Others', '其他')
-    )
-
     tag = models.CharField(max_length = 16, primary_key = True)
-    category = models.CharField(max_length = 8, choices = CATEGORIES)
+    name = models.CharField(max_length = 20)
     current_state = models.CharField(max_length = 16, choices = STATES)
 
 
 class BorrowRecord(models.Model):
+
     STATES = (
-        ('Free', '可借用'),
-        ('InUse', '出借中'),
-        ('NotAvailable', '不可使用')
+        (0, '等待核可中'),
+        (1, '核可完成'),
+        (2, '退件')
     )
 
     tag = models.ForeignKey('Equipment', on_delete = models.CASCADE)
     account = models.ForeignKey('Account', on_delete = models.CASCADE)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     memo = models.CharField(max_length = 512)
-    state = models.CharField(max_length = 16, choices = STATES)
+    confirm = models.IntegerField(choices = STATES)
+
 
 class Package(models.Model):
     CATEGORIES = (
@@ -169,5 +175,8 @@ class Package(models.Model):
     sender = models.CharField(max_length = 32)
     verify = models.BooleanField(default = False)
 
+class System(models.Model):
+    StartTime = models.DateField()
+    EndTime = models.DateField()
 
 

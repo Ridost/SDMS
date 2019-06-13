@@ -1,42 +1,73 @@
-{% extends 'DMS/base.html'%}
+{% extends 'AS/base.html' %}
 
 {% block title %}
-    宿舍申請查詢
+    宿舍管理系統 - 宿舍申請查詢
 {% endblock %}
 
-{%block user%}
-        {{name}}
-        <input type="button" value="修改資料" onclick="location='/AS/modify/'">
-        <input type="button" value="登出" onclick="location='/AS/logout/'">
-<script type="text/Javascript">
-     function DormDelete(){
-        r = confirm("確定要刪除嗎?")
-        if(r==true){
-            window.location.href = "/DMS/DormDelete"
+{% block article %}
+    <script type="text/javascript">
+    function DormDelete()
+    {
+        var r = confirm("確定要刪除嗎?")
+        if(r==true)
+        {
+            window.location.href = "/DMS/DormDelete/"
         }
-     }
-</script>
-{%endblock%}
-
-{% block content %}
-    <table style="text-align:center;" border="1" cellpadding="0" cellspacing="0" align="center" valign="middle">
+    }
+    function DormRetreat()
+    {
+        var r = confirm("確定要退宿嗎?")
+        if(r==true)
+        {
+            window.location.href = "/DMS/Retreat/"
+        }
+    }
+    </script>
+    <h1>宿舍申請查詢</h1>
+    <hr class="heading">
+    <font color="fb0606">{{ error }}{{ message }}</font>
+    <table>
         <tr>
-            <td><b>志願序一</b></td><td><b>志願序二</b></td><td><b>志願序三</b></td><td><b>結果</b></td><td><b>刪除</b></td>
-        </tr>
-        {% for dorm in dorms %}
+            <td ><b>志願序一</b></td><td><b>志願序二</b></td><td><b>志願序三</b></td><td><b>結果</b></td>
+        {% for dorm in topics.object_list %}
         <tr>
             <td>{{dorm.D1}}</td><td>{{dorm.D2}}</td><td>{{dorm.D3}}</td><td>{{dorm.result}}</td>
-            <td><input type="button" onclick="DormDelete()"value="刪除"></td>
+            {% ifequal checked 0 %}
+                <td><input class = "button-accept" type="button" onclick="DormDelete()"value="刪除"></td>
+            {% endifequal %}
+            {% ifequal checked 1 %}
+                <td><input class = "button-accept" type="button" onclick="DormRetreat()"value="退宿"></td>
+            {% endifequal %}
         </tr>
         {% endfor %}
     </table>
-    <font color="fb0606">{{ error }}{{ message }}</font>
+    {% if topics.has_previous %}
+    <a href="?page={{ topics.previous_page_number }}"><<</a>
+    {% endif %}
+    {% for page_num in topics.paginator.page_range %}
+        {% if page_num > topics.number|add:"5" %}
+        {% else %}
+            {% ifequal page_num topics.number %}
+                {% if topics.has_other_pages %}
+                   {{page_num}}
+                {% endif %}
+            {% else %}
+                <a href ="?page={{page_num}}">{{page_num}}</a>
+            {% endifequal %}
+        {% endif %}
+    {% endfor %}
 {% endblock %}
 
-{% block right %}
 
+{% block topbar %}{% endblock %}
+
+{% block navbar %}
+    {% include 'DMS/navbar.html' %}
 {% endblock %}
 
-{% block bottom %}
-
+{% block sidebar %}
+    <ul>
+        <li><a href="/DMS/DormitoryApply" class="sidebar-item">宿舍申請</a></li>
+        <li><a href="/DMS/DormCheck" class="sidebar-item-selected">申請結果查詢</a></li>
+    </ul>
 {% endblock %}

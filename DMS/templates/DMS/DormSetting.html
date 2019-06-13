@@ -1,0 +1,51 @@
+{% extends 'AS/base.html' %}
+
+{% block title %}
+    宿舍管理系統 - 宿舍申請查詢
+{% endblock %}
+
+{% block article %}
+    <script type="text/javascript">
+    function DormDelete()
+    {
+        var r = confirm("確定要刪除嗎?")
+        if(r==true)
+        {
+            window.location.href = "/DMS/DormDelete/"
+        }
+    }
+    function DormRetreat()
+    {
+        var r = confirm("確定要退宿嗎?")
+        if(r==true)
+        {
+            window.location.href = "/DMS/Retreat/"
+        }
+    }
+    </script>
+    <h1>宿舍申請查詢</h1>
+    <hr class="heading">
+    <form method="post" action="/DMS/DormSetting/">
+        {% csrf_token %}
+        申請開始時間：<input type="date" name="StartTime" value="{{time.StartTime|date:'Y-m-d'}}"><br>
+        申請結束時間：<input type="date" name="EndTime" value="{{time.EndTime|date:'Y-m-d'}}"><br>
+        <input class = 'button-accept' type="submit" value="確定修改"><br>
+        <font color="fb0606">{{ message }}{{ error }}</font>
+    </form>
+{% endblock %}
+
+
+{% block topbar %}{% endblock %}
+
+{% block navbar %}
+    {% include 'DMS/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    <ul>
+        <li><a href="/DMS/DormitoryApply" class="sidebar-item">宿舍申請</a></li>
+        <li><a href="/DMS/DormCheck" class="sidebar-item">申請結果查詢</a></li>
+        <li><a href="/DMS/DormSetting" class="sidebar-item-selected">系統設定</a></li>
+        <li><a href="/DMS/Retreat" class="sidebar-item">退宿</a></li>
+    </ul>
+{% endblock %}

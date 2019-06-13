@@ -14,11 +14,11 @@ class PackageAdmin(admin.ModelAdmin):
 
 class StudentInfoAdmin(admin.ModelAdmin):
     list_display = ['account', 'gender', 'department', 'grade']
-    search_fields = ['account', 'gender', 'department', 'grade']
+    search_fields = [ 'gender', 'department', 'grade']
     ordering = ['account']
 
     def __str__(self):
-        return self.account.user.last_name+self.account.user.first_name
+        return str(self.account.user)
 
 class DormInfoAdmin(admin.ModelAdmin):
     list_display = ['account', 'building', 'room', 'bed']
@@ -26,7 +26,7 @@ class DormInfoAdmin(admin.ModelAdmin):
     ordering = ['account']
 
     def __str__(self):
-        return self.account.user.last_name + self.account.user.first_name
+        return str(self.account.user)
 
 class DormRecordAdmin(admin.ModelAdmin):
     list_display = ['account','order1','order2','order3']
@@ -34,11 +34,27 @@ class DormRecordAdmin(admin.ModelAdmin):
     ordering = ['account']
 
     def __str__(self):
-        return self.account.user.last_name + self.account.user.first_name
+        return str(self.account.user)
+
+class BillAdmin(admin.ModelAdmin):
+    list_display = ['account','content','state','year']
+    search_fields =['content','state','year']
+    ordering = ['content']
+
+class SystemAdmin(admin.ModelAdmin):
+    list_display = ['StartTime','EndTime']
 
 # Register your models here.
 admin.site.register(Account)
-admin.site.register(Package, PackageAdmin)
+
+# DMS
 admin.site.register(StudentInfo,StudentInfoAdmin)
 admin.site.register(DormInfo,DormInfoAdmin)
 admin.site.register(DormRecord,DormRecordAdmin)
+admin.site.register(BillInfo,BillAdmin)
+admin.site.register(System,SystemAdmin)
+# DLS
+admin.site.register(Billboard)
+admin.site.register(Equipment)
+admin.site.register(Package, PackageAdmin)
+admin.site.register(BorrowRecord)

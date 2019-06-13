@@ -29,18 +29,18 @@ def convert_permission(perID):
 def index(request):
 	user = request.user
 	stu_id = user.username
-	name = user.first_name
+	name = user.last_name+user.first_name
 	account = Account.objects.get(user=user)
 	permission = convert_permission(account.permission)
 	phone = account.phone
 	mail = user.email
 	message='Login successed!'
-	return render(request, 'AS/index.html', locals())
+	return render(request, 'AS/main.html', locals())
 
 def login(request):
 	message = 'Welcome please login!'
 	if request.user.is_authenticated:
-		return redirect('/AS/index/')
+		return redirect('/AS/main/')
 	if request.method == 'POST':
 		name = request.POST['username']
 		password = request.POST['password']
@@ -48,7 +48,7 @@ def login(request):
 		if user is not None:
 			if user.is_active:
 				auth.login(request,user)
-				return redirect('/AS/index/')		
+				return redirect('/AS/main/')		
 			else:
 				message = 'Account is not active, please login again!'
 				return render(request, 'AS/login.html', locals())
@@ -88,7 +88,7 @@ def modify(request):
 		if mail != new_mail and new_mail != '':
 			user.email = new_mail
 			user.save()
-		return redirect("/AS/index/")
+		return redirect("/AS/main/")
 	else:		
 		return render(request,"AS/modify.html",locals())
 
@@ -114,6 +114,6 @@ def modify_password(request):
 		user.save()
 		User = authenticate(username=username, password=npass)
 		auth.login(request,User)
-		return redirect("/AS/index/")
+		return redirect("/AS/main/")
 	else :
 		return render(request,"AS/modify_password.html",locals())

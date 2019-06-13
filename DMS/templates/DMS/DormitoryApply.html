@@ -1,53 +1,65 @@
-{% extends 'DMS/base.html' %}
+{% extends 'AS/base.html' %}
 
 {% block title %}
-    宿舍申請
-    {{message}}
+    宿舍管理系統 - 宿舍申請
 {% endblock %}
-{%block user%}
-        {{name}}
-        <input type="button" value="修改資料" onclick="location='/AS/modify/'">
-        <input type="button" value="登出" onclick="location='/AS/logout/'">
-<script type="text/Javascript">
-     function admin(){
-            //document.write("Hello World!");
-            token = document.getElementById('PermissionToken');
-            //document.write(token.value);
-        if (token.value=="False"){
-            var Btn = document.getElementById("btn");
-            Btn.style.display = "none";
-        }
-        else{
-            window.location.href = "/DMS/Administrator/";
-        }
-     }
-</script>
-{%endblock%}
-{% block content %}
-    <form action="/DMS/DormCheck" method="post">
+
+{% block article %}
+
+    <form action="/DMS/DormCheck/" method="post">
         {% csrf_token %}
     志願序一：
-    <select name = "Dorm1">
-        <option value=0>綜合宿舍</option>
-        <option value=1>學一</option>
-        <option value=2>學二</option>
+    <select class = 'check-input' name = "Dorm1">
+        {% if gd %}
+            <option value=0>綜合宿舍</option>
+            <option value=1>學一(OA1)</option>
+            <option value=3>學二(OE)</option>
+        {% else %}
+            <option value=1>學一(OA2)</option>
+            <option value=2>學一(OB)</option>
+            <option value=4>學二(OF)</option>
+        {% endif %}
     </select><br><br>
     志願序二：
-    <select name = "Dorm2">
-        <option value=0>綜合宿舍</option>
-        <option value=1>學一</option>
-        <option value=2>學二</option>
+    <select class = 'check-input' name = "Dorm2">
+        {% if gd %}
+            <option value=0>綜合宿舍</option>
+            <option value=1>學一(OA1)</option>
+            <option value=3>學二(OE)</option>
+        {% else %}
+            <option value=1>學一(OA2)</option>
+            <option value=2>學一(OB)</option>
+            <option value=4>學二(OF)</option>
+        {% endif %}
     </select><br><br>
     志願序三：
-    <select name = "Dorm3">
-        <option value=0>綜合宿舍</option>
-        <option value=1>學一</option>
-        <option value=2>學二</option>
+    <select class = 'check-input' name = "Dorm3">
+        {% if gd %}
+            <option value=0>綜合宿舍</option>
+            <option value=1>學一(OA1)</option>
+            <option value=3>學二(OE)</option>
+        {% else %}
+            <option value=1>學一(OA2)</option>
+            <option value=2>學一(OB)</option>
+            <option value=4>學二(OF)</option>
+        {% endif %}
     </select><br><br>
-
-    <input type="submit" value="確定申請"><br>
+    <input class = 'button-accept' type="submit" value="確定申請"><br>
     </form>
     <a href = 'http://140.127.232.71/02life/life061.asp'>宿舍說明</a><br>
     開放申請時間：{{start}} ~ {{end}}
     <font color="fb0606">{{ error }}</font>
-{% endblock%}
+{% endblock %}
+
+{% block topbar %}{% endblock %}
+
+{% block navbar %}
+    {% include 'DMS/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    <ul>
+        <li><a href="/DMS/DormitoryApply" class="sidebar-item-selected">宿舍申請</a></li>
+        <li><a href="/DMS/DormCheck" class="sidebar-item">申請結果查詢</a></li>
+    </ul>
+{% endblock %}
