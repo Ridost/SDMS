@@ -7,27 +7,26 @@
 {% block article %}
     <h1>回報系統</h1>
     <hr class="heading">
-        {{name}}
-        {{messege}}
         <script type="text/Javascript">
              function RepairDelete(id){
                     var check = confirm("確定要刪除?")
                     if(check==true)
                     {
-                        windows.location.href="RS/RepairDelete/"+id;
+                        window.location.href="/RS/RepairDelete/"+id;
                     }
              }
              function RepairModify(id){
                     var check= confirm("請確認已完成現階段")
                     if(check==true)
                     {
-                        windows.location.href="RS/RepairModify/"+id;
+                        window.location.href="/RS/RepairModify/"+id;
                     }
              }
         </script>
 
         <div>
-            <form>
+            <form action="/RS/RepairmentCheck" method="POST">
+                {% csrf_token %}
                 <select name="viewapply">
                     <option value="1">待審核的申請</option>
                     <option value="2">處理中的申請</option>
@@ -38,50 +37,75 @@
         </div>
         <div>
         {% if not_empty %}
-            <table>
+            <table class="vertical">
+                {% if stage == 1 %}
+                <th colspan="7" style="text-align: center;">待審核的申請</th>
+                {% endif %}
+                {% if stage == 2 %}
+                <th colspan="7" style="text-align: center;">處理中的申請</th>
+                {% endif %}
+                {% if stage == 3 %}
+                <th colspan="7" style="text-align: center;">已完成的申請</th>
+                {% endif %}
                 <tr>
-                    <td>申請編號</td><td>維修地點</td><td>維修類別</td><td>物品損壞狀況描述</td>
-                    <td>目前狀態</td><td>回報日期</td>
-                    {% if permission == '0' or permission == '1' %}
+                    <td>編號</td><td>地點</td><td>類別</td><td>狀況描述</td>
+                    <td>狀態</td><td>日期</td>
+                    {% if permission == 0 or permission == 1 %}
+                        {% if stage != 3 %}
                         <td>
                             審核申請
                         </td>
+                        {% endif %}
                     {% endif %}
-                    {% if permission == '2' or permission == '3' and stage == '1' %}
+                    {% if permission == 2 or permission == 3 %}
+                        {% if stage == 1 %}
                         <td>
                             刪除申請
                         </td>
+                        {% endif %}
                     {% endif %}
                 </tr>
                 {% for repair in rec %}
                 <tr>
                     <td>{{repair.id}}</td><td>{{repair.location}}</td><td>{{repair.category}}</td>
-                    <td>{{repair.state}}</td><td>{{repair.date}}</td>
-                    {% if permission == '2' or permission == '3' and stage == 1 %}
+                    <td>{{repair.content}}</td><td>{{repair.state}}</td><td>{{repair.date}}</td>
+                    {% if permission == 2 or permission == 3 and stage == 1 %}
                      <td>
                          <input type="button" value="刪除" onclick="RepairDelete({{repair.id}})">
                      </td>
                     {% endif %}
-                    % if permission == '0' or permission == '1' and stage != 3 %}
-                     <td>
-                         <input type="button" value="確認" onclick="RepairModify({{repair.id}})">
-                     </td>
+                    {% if permission == 0 or permission == 1 %}
+                        {% if stage != 3 %}
+                         <td>
+                             <input type="button" value="確認" onclick="RepairModify({{repair.id}})">
+                         </td>
+                        {% endif %}
                     {% endif %}
                 </tr>
-                {% end for %}
+                {% endfor %}
             </table>
         {% endif %}
         </div>
+        {{messege}}
 {% endblock %}
 
 {% block topbar %}
 
 {% endblock %}
 
-{% block navbar %}{% endblock %}
+{% block navbar %}
+    {% include 'RS/navbar.html' %}
+{% endblock %}
 
 {% block sidebar %}
     <ul>
-        <li><a href="" class="sidebar-item"></a></li>
+        <li><a href="/RS/RepairmentApply" class="sidebar-item">維修申請</a></li>
+        <li><a href="/RS/RepairmentCheck" class="sidebar-item-selected">維修查詢</a></li>
+        <li><a href="/RS/ReportApply" class="sidebar-item">檢舉系統</a></li>
+        <li><a href="/RS/ReportCheck" class="sidebar-item">檢舉查詢</a></li>
+        <li><a href="/RS/Conductjudge" class="sidebar-item">違規記點</a></li>
+        {% if permission == 0 or permission == 1 %}
+            <li><a href="/RS/ConductCheck" class="sidebar-item">違規停權名單</a></li>
+        {% endif %}
     </ul>
 {% endblock %}
