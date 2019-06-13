@@ -259,13 +259,13 @@ h1 {
 
 /*==============================================*/
 
-table {
+.normal {
     border: transparent;
     table-layout: fixed;
     margin: 15px 0;
 }
 
-th, td{
+.normal th, td{
     font-family: "NS-Regular";
     /*font-weight: normal;*/
     text-align: left;
@@ -273,12 +273,12 @@ th, td{
     padding: 5px 10px;
 }
 
-td {
+.normal td {
     min-width: 200px;
     height: 30px;
 }
 
-tr:hover {
+.normal tr:hover {
     background-color: #c4c4c4;
 }
 
@@ -286,6 +286,7 @@ tr:hover {
 
 .vertical {
     border: transparent;
+    width: 100%;
     table-layout: auto;
     margin: 15px 0;
 }
@@ -295,6 +296,7 @@ tr:hover {
     text-align: left;
     vertical-align: middle;
     padding: 5px 10px;
+    border-bottom: 1px solid #c4c4c4;
 }
 
 .vertical td {
