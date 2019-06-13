@@ -1,0 +1,83 @@
+{% extends "AS/base.html" %}
+
+{% block navbar %}
+    {% include "navbar.html" %}
+{% endblock %}
+
+{% block sidebar %}
+<ul>
+    <li><a href="/DLS/billboard/" class="sidebar-item">公佈欄</a></li>
+    {% if is_manager %}
+        <li><a href="/DLS/package/" class="sidebar-item">包裹管理</a></li>
+        <li><a href="/DLS/borrow/manage/" class="sidebar-item">借用空間管理</a></li>
+    {% else %}
+        <li><a href="/DLS/package/" class="sidebar-item">查看包裹</a></li>
+        <li><a href="/DLS/borrow/apply/" class="sidebar-item-selected">申請借用空間</a></li>
+        <li><a href="/DLS/borrow/status/" class = "sidebar-item">空間申請狀態</a></li>
+    {% endif %}
+</ul>
+{% endblock %}
+
+
+{% block script %}
+{% include '../jquery.html %}
+
+<script>
+    var now = new Date()
+    $("#date").val(now.toISOString().substr(0, 10));
+    function is_ok(){
+        $.ajax({
+            type : "POST",
+            url : "/DLS/borrow/check/",
+            data : {
+                csrfmiddlewaretoken : '{{ csrf_token }}',
+                tag : $("#space").val(),
+                date : $("#date").val(),
+                start_hour : $("#start_hour").val(),
+                borrow_length : $("#borrow_length").val()
+            },
+            dataType : 'json',
+            success : function(result){
+                $("#checkmessage").html(result['message'])
+            }
+        });
+    }
+</script>
+
+{% endblock %}
+
+{% block article %}
+
+    <form method="POST" action="../apply">
+
+        <span>請選擇欲借用的空間 : </span>
+        <select id = "space" onchange="is_ok()">
+            {% for e in equip %}
+            <option value="{{ e.tag }}"> {{ e.name }}</option>
+            {% endfor %}
+        </select> <br/> <br/>
+
+        <span>借用時間 : </span>
+        <input type="date" id = "date" name = "date" onchange = "is_ok()"> 
+        <select id = "start_hour" name = "start_hour" onchange = "is_ok()">
+            {% for i in i|rjust:11 %}
+                <option value = "{{ forloop.counter | add:'7' }}"> {{ forloop.counter | add:'7' }}</option>
+            {% endfor %}
+        </select> <span>點</span> <br/> <br/>
+
+        <span>欲借用時間長度 : </span>
+        <select id = "borrow_length" name = "borrow_length" onchange="is_ok()">
+            {% for i in i|rjust:12 %}
+                <option value = "{{ forloop.counter }}"> {{ forloop.counter }}</option>
+            {% endfor %}
+        </select> <span>小時</span> <br/> <br/>
+        <span>附註 : </span> <input type="text" name = "memo"> <br/> <br/>
+
+        <input class = "button-accept" type="submit" value = "提交">
+    </form>
+
+    <strong id = "checkmessage"></strong> <br/>
+
+    
+
+{% endblock %}

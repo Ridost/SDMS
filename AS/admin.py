@@ -41,6 +41,9 @@ class BillAdmin(admin.ModelAdmin):
     search_fields =['content','state','year']
     ordering = ['content']
 
+class SystemAdmin(admin.ModelAdmin):
+    list_display = ['StartTime','EndTime']
+
 # Register your models here.
 admin.site.register(Account)
 
@@ -49,6 +52,7 @@ admin.site.register(StudentInfo,StudentInfoAdmin)
 admin.site.register(DormInfo,DormInfoAdmin)
 admin.site.register(DormRecord,DormRecordAdmin)
 admin.site.register(BillInfo,BillAdmin)
+admin.site.register(System,SystemAdmin)
 # DLS
 admin.site.register(Billboard)
 admin.site.register(Equipment)

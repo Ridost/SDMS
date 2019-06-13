@@ -159,7 +159,7 @@ class BorrowRecord(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     memo = models.CharField(max_length = 512)
-    confirm = models.CharField(max_length = 10, choices = STATES)
+    confirm = models.IntegerField(choices = STATES)
 
 
 class Package(models.Model):
@@ -175,5 +175,8 @@ class Package(models.Model):
     sender = models.CharField(max_length = 32)
     verify = models.BooleanField(default = False)
 
+class System(models.Model):
+    StartTime = models.DateField()
+    EndTime = models.DateField()
 
 

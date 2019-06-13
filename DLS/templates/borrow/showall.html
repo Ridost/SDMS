@@ -1,33 +1,5 @@
 {% extends "AS/base.html" %}
 
-{% block script %}
-
-{% include '../jquery.html' %}
-<script>
-    $.ajaxSetup({
-        data : {csrfmiddlewaretoken : '{{ csrf_token }}'}
-    })
-    function Confirm(id){
-        console.log(id);
-        $.post('./manage/confirm',{
-            'id' : id
-        }, function(result){
-            alert('核可成功');
-            document.location.reload();
-        });
-    }
-    function withdraw(id){
-        $.post('./manage/withdraw', {
-            'id' : id
-        }, function(result){
-            alert('該申請已退回');
-            document.location.reload();
-        });
-    }
-</script>
-
-{% endblock %}
-
 {% block navbar %}
     {% include "navbar.html" %}
 {% endblock %}
@@ -47,11 +19,13 @@
 {% endblock %}
 
 {% block article %}
-    <button class = 'button-accept' onclick="document.location.href = '../showall'"> 
-        列出全部借用紀錄 
-    </button>
-    <div>
-    <table>
+
+<button class = 'button-accept' onclick="document.location.href = '../manage'"> 
+    核可申請紀錄
+</button>
+
+<div>
+    <table border = '1'>
         <thead>
             <tr>
                 <th> 借用編號 </th>
@@ -60,23 +34,25 @@
                 <th> 開始時間 </th>
                 <th> 結束時間 </th>
                 <th> 備註 </th>
-                <th> </th>
+                <th> 狀態 </th>
             </tr>
         </thead>
         <tbody>
             {% for r in record %}
-            <tr>
+
+                <tr>
                     <td> {{ r.id }} </td>
                     <td> {{ r.account.user.username }} </td>
                     <td> {{ r.tag.name }} </td>
                     <td> {{ r.start_time }} </td>
                     <td> {{ r.end_time }} </td>
                     <td> {{ r.memo }}</td>
-                    <td> <button class = 'button-accept' onclick = "Confirm('{{ r.id }}')"> 核可申請 </button></td>
-                    <td> <button class = 'button-warning' onclick = "withdraw('{{ r.id }}')"> 退回申請 </button></td>
+                    <td> {{ r.get_confirm_display }} </td>
                 </tr>
+
             {% endfor %}
         </tbody>
     </table>
 </div>
+
 {% endblock %}
