@@ -286,6 +286,7 @@ h1 {
 
 .vertical {
     border: transparent;
+    width: 100%;
     table-layout: auto;
     margin: 15px 0;
 }
@@ -295,6 +296,7 @@ h1 {
     text-align: left;
     vertical-align: middle;
     padding: 5px 10px;
+    border-bottom: 1px solid #c4c4c4;
 }
 
 .vertical td {
