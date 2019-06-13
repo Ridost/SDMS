@@ -1,32 +1,14 @@
-{% extends 'RS/base.html' %}
+{% extends 'AS/base.html' %}
 
 {% block title %}
-    維修申請
+宿舍管理系統-回報系統
 {% endblock %}
-{%block user%}
-        <input type="button" value="回報系統" onclick="location='/RS/main'">
-        <input type="button" value="申請維修" onclick="location='/RS/RepairmentApply'">
-        <input type="button" value="紀錄查詢" onclick="location='/RS/RepairmentCheck'">
-        {{user}} 歡迎!
-<script type="text/Javascript">
-     function admin(){
-            //document.write("Hello World!");
-            token = document.getElementById('PermissionToken');
-            //document.write(token.value);
-        if (token.value=="False"){
-            var Btn = document.getElementById("btn");
-            Btn.style.display = "none";
-        }
-        else{
-            window.location.href = "/RS/";
-        }
-     }
-</script>
-{%endblock%}
 
+{% block article %}
+    <h1>問題回報</h1>
+    <hr class="heading">
 
-{% block content %}
-<form action="/RS/RepairmentApply" method="POST">
+    <form action="/RS/RepairmentApply" method="POST">
     {% csrf_token %}
     <br>
     <div>
@@ -46,7 +28,29 @@
 
         <input type="submit" value="送出">
     </div>
-</form>
-{{messege}}
-{% endblock%}
+    </form>
+    {{messege}}
+
+{% endblock %}
+
+{% block topbar %}
+
+{% endblock %}
+
+{% block navbar %}
+    {% include 'RS/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    <ul>
+        <li><a href="/RS/RepairmentApply" class="sidebar-item-selected">維修申請</a></li>
+        <li><a href="/RS/RepairmentCheck" class="sidebar-item">維修查詢</a></li>
+        <li><a href="/RS/ReportApply" class="sidebar-item">檢舉系統</a></li>
+        <li><a href="/RS/ReportCheck" class="sidebar-item">檢舉查詢</a></li>
+        <li><a href="/RS/Conductjudge" class="sidebar-item">違規記點</a></li>
+		{% if permission == 0 or permission == 1 %}
+            <li><a href="/RS/ConductCheck" class="sidebar-item">違規停權名單</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}
 
