@@ -238,6 +238,8 @@ def DormRetreat(request,username=''):
     user = User.objects.get(username=username)
     ac = Account.objects.get(user=user)
     try:
+        ac.permission = 3
+        ac.save()
         Dorm = DormInfo.objects.get(account = ac)
         Dorm.account = None
         Dorm.status = 'None'
@@ -262,12 +264,16 @@ def DormDelete(request):
 @login_required(login_url='/AS/login')
 def Retreat(request):
     ac = Account.objects.get(user=request.user)
+    ac.permission = 3
+    ac.save()
     dorm = DormInfo.objects.get(account=ac)
     dorm.account = None
     dorm.status = 'None'
     dorm.save()
     message = "退宿成功"
     return render(request,'DMS/DormCheck.html',locals())
+
+
 """
 @login_required(login_url='/AS/login/')
 def DormDistribution(request):
