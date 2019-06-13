@@ -3,6 +3,6 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    path('excelimport/', views.excelimport),
-
+    path('stuinfo_import/', views.stuinfo_import),
+    path('mail_import/', views.mail_import),
 ]

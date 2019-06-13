@@ -161,7 +161,6 @@ class BorrowRecord(models.Model):
     memo = models.CharField(max_length = 512)
     confirm = models.IntegerField(choices = STATES)
 
-
 class Package(models.Model):
     CATEGORIES = (
         ('Mail', '信件'),
@@ -169,7 +168,7 @@ class Package(models.Model):
         ('Prompt', '限時')
     )
 
-    date = models.DateField()
+    date = models.DateField(auto_now=True)
     category = models.CharField(max_length = 10, choices = CATEGORIES)
     receiver = models.ForeignKey('Account', on_delete = models.CASCADE)
     sender = models.CharField(max_length = 32)
