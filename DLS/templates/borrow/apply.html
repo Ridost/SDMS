@@ -9,7 +9,7 @@
     <li><a href="/DLS/billboard/" class="sidebar-item">公佈欄</a></li>
     {% if is_manager %}
         <li><a href="/DLS/package/" class="sidebar-item">包裹管理</a></li>
-        <li><a href="/DLS/borrow/" class="sidebar-item">借用空間管理</a></li>
+        <li><a href="/DLS/borrow/manage/" class="sidebar-item">借用空間管理</a></li>
     {% else %}
         <li><a href="/DLS/package/" class="sidebar-item">查看包裹</a></li>
         <li><a href="/DLS/borrow/apply/" class="sidebar-item-selected">申請借用空間</a></li>
@@ -21,13 +21,14 @@
 
 {% block script %}
 {% include '../jquery.html %}
+
 <script>
     var now = new Date()
     $("#date").val(now.toISOString().substr(0, 10));
     function is_ok(){
         $.ajax({
             type : "POST",
-            url : "borrow/check",
+            url : "/DLS/borrow/check/",
             data : {
                 csrfmiddlewaretoken : '{{ csrf_token }}',
                 tag : $("#space").val(),
@@ -42,11 +43,12 @@
         });
     }
 </script>
+
 {% endblock %}
 
 {% block article %}
 
-    <form method="POST" action="apply">
+    <form method="POST" action="../apply">
 
         <span>請選擇欲借用的空間 : </span>
         <select id = "space" onchange="is_ok()">

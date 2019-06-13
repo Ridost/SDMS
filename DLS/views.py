@@ -70,7 +70,6 @@ def ModifyBillboard(request):
 
 def ShowPackage(request):
 
-
     is_manager = IsManager(request)
     package = None
 
@@ -165,6 +164,9 @@ def WithdrawRecord(request):
 # for student
 
 def BorrowSpace(request):
+    if request.method == 'POST':
+        
+
     is_manager = IsManager(request)
     equip = Equipment.objects.all()
 
