@@ -27,11 +27,14 @@
         </script>
 
         <div>
-            <select name="viewapply">
-                <option value="1">待審核的申請</option>
-                <option value="2">處理中的申請</option>
-                <option value="3">已完成的申請</option>
-            </select>
+            <form>
+                <select name="viewapply">
+                    <option value="1">待審核的申請</option>
+                    <option value="2">處理中的申請</option>
+                    <option value="3">已完成的申請</option>
+                </select>
+                <input type="submit" value="確定">
+            </form>
         </div>
         <div>
         {% if not_empty %}
