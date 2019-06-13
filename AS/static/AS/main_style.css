@@ -284,7 +284,31 @@ tr:hover {
 
 /*==============================================*/
 
+.vertical {
+    border: transparent;
+    table-layout: auto;
+    margin: 15px 0;
+}
+
+.vertical th, td{
+    font-family: "NS-Regular";
+    text-align: left;
+    vertical-align: middle;
+    padding: 5px 10px;
+}
+
+.vertical td {
+    height: 30px;
+}
+
+.vertical tr:hover {
+    background-color: #c4c4c4;
+}
+
+/*==============================================*/
+
 .normal-input {
+    font-family: "NS-Regular";
     min-width: 125px;
     background-color: transparent;
     border: 2px solid #575757;
@@ -297,6 +321,7 @@ tr:hover {
 }
 
 .check-input {
+    font-family: "NS-Regular";
     min-width: 125px;
     background-color: transparent;
     border: 2px solid #575757;
