@@ -47,7 +47,7 @@ def mail_import(request):
         messege="請選擇excel檔案上傳"
     return render(request, 'mail_import.html', locals())
 #開檔寫入資料庫 
-#表格順序為Account,First-name,Last-name,Gender,Departmane,Grade,Permission
+#表格順序為Account,First-name,Last-name,Gender,Departmane,Grade
 def stuinfo_insert(filename):
     column = {
         1:'Account',
@@ -56,7 +56,6 @@ def stuinfo_insert(filename):
         4:'Gender',
         5:'Department',
         6:'Grade',
-        #7:'Permission'
     }
     #try:
     wb = load_workbook('stuinfo excel//'+filename,'read_only')
@@ -66,7 +65,7 @@ def stuinfo_insert(filename):
     #確認表格順序
     for i in range(1,maxcol+1):
         if sheet.cell(row=1, column=i).value != column[i] :
-            messege='請將資料表第一列依照 Account,First-name,Last-name,Gender,Department,Grade,Permission 順序排列'
+            messege='請將資料表第一列依照 Account,First-name,Last-name,Gender,Department,Grade 順序排列'
             return messege
     #type check
     for c in range(2,maxrow+1):
