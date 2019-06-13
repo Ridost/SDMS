@@ -1,0 +1,41 @@
+{% extends 'AS/base.html' %}
+
+{% block title %}宿舍管理系統-回報系統{% endblock %}
+
+{% block script %}{% endblock %}
+
+{% block article %}
+    <h1>回報系統</h1>
+    <hr class="heading">
+        {{name}}
+        {{messege}}
+        <input type="button" value="報修申請" onclick="location='/RS/RepairmentApply'">
+        <input type="button" value="報修查詢" onclick="location='/RS/RepairmentCheck'">
+        <input type="button" value="申訴回報" onclick="location='/RS/ReportApply'">
+        <input type="button" value="申訴查詢" onclick="location='/RS/ReportCheck'">
+        <input type="button" value="登出" onclick="location='/AS/logout/'">
+        <script type="text/Javascript">
+             function admin(){
+                    token = document.getElementById('PermissionToken');
+                if (token.value=="False"){
+                    var Btn = document.getElementById("btn");
+                    Btn.style.display = "none";
+                }
+                else{
+                    window.location.href = "/RS/";
+                }
+             }
+        </script>
+{% endblock %}
+
+{% block topbar %}
+
+{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block sidebar %}
+    <ul>
+        <li><a href="" class="sidebar-item"></a></li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'RS/base.html' %}
+
+{% block title %}
+    維修申請
+{% endblock %}
+{%block user%}
+        <input type="button" value="回報系統" onclick="location='/RS/main'">
+        <input type="button" value="申請維修" onclick="location='/RS/RepairmentApply'">
+        <input type="button" value="紀錄查詢" onclick="location='/RS/RepairmentCheck'">
+        {{user}} 歡迎!
+<script type="text/Javascript">
+     function admin(){
+            //document.write("Hello World!");
+            token = document.getElementById('PermissionToken');
+            //document.write(token.value);
+        if (token.value=="False"){
+            var Btn = document.getElementById("btn");
+            Btn.style.display = "none";
+        }
+        else{
+            window.location.href = "/RS/";
+        }
+     }
+</script>
+{%endblock%}
+
+
+{% block content %}
+<form action="/RS/RepairmentApply" method="POST">
+    {% csrf_token %}
+    <br>
+    <div>
+        <div>申請維修區域:<input type="text" value="" name="Locate"></div><br>
+        <div>
+            申請維修類別:
+            <select name="Category">
+                    <option value="AC">冷氣</option>
+                    <option value="Bathroom">衛浴</option>
+                    <option value="Furnitures">家具</option>
+                    <option value="Internet">網路</option>
+                    <option value="Others">其他</option>
+            </select>
+        </div>
+        <br>
+        <div>損壞狀況描述:<input type="text" value="" name="discribe"></div><br>
+        <div>方便維修時間:<input type="text" value="" name="comment"></div>
+        <input type="submit" value="送出">
+    </div>
+</form>
+{{messege}}
+{% endblock%}
+
