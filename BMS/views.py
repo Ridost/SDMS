@@ -30,22 +30,24 @@ def stuinfo_import(request):
     return render(request, 'stuinfo_import.html', locals())
 
 #mail_import
+@user_passes_test(lambda u: u.is_superuser,login_url='/AS/login/')
 def mail_import(request):
     if request.method == 'POST':
         myfile = request.FILES.get('myfile')
         validate=myfile.name.split('.')
-    #確認副檔名為excel檔
-    if validate[-1]=='xlsx' or validate[-1]=='xls':
-        now = str(datetime.datetime.now().year)+'-'+str(datetime.datetime.now().month)+'-'+str(datetime.datetime.now().day)\
-            +' '+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'_'+str(datetime.datetime.now().second)
-        name=now+' '+myfile.name
-        with open('mail excel/'+name,'wb') as fp:
-            for chunk in myfile.chunks():
-                fp.write(chunk)
-        messege="上傳成功!"+mail_insert(name)
-    else :
-        messege="請選擇excel檔案上傳"
+        #確認副檔名為excel檔
+        if validate[-1]=='xlsx' or validate[-1]=='xls':
+            now = str(datetime.datetime.now().year)+'-'+str(datetime.datetime.now().month)+'-'+str(datetime.datetime.now().day)\
+                +' '+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'_'+str(datetime.datetime.now().second)
+            name=now+' '+myfile.name
+            with open('mail excel/'+name,'wb') as fp:
+                for chunk in myfile.chunks():
+                    fp.write(chunk)
+            messege="上傳成功!"+mail_insert(name)
+        else :
+            messege="請選擇excel檔案上傳"
     return render(request, 'mail_import.html', locals())
+    
 #開檔寫入資料庫 
 #表格順序為Account,First-name,Last-name,Gender,Departmane,Grade
 def stuinfo_insert(filename):
