@@ -76,16 +76,16 @@
   - Graphviz Preview (vscode extension)
 
 ### generate diagrams
-    - required:
-        - [graphviz windows version](https://graphviz.gitlab.io/_pages/Download/Download_windows.html)
-    - generate db schema
-        - [Using django-extensions to visualize the database diagram in django application](https://medium.com/@yathomasi1/1-using-django-extensions-to-visualize-the-database-diagram-in-django-application-c5fa7e710e16)
-    - generate UML of views
-        1. install pylint for python
-        2. rewrite views.py as a class
-        3. **cd docs\diagrams\src**
-        4. **pyreverse -ASmy ..\..\..\AS\views.py -p AS_view** (generate *AS_view.dot* from *AS\views.py*)
-        5. generate diagram from *AS_view.dot* by "GraphvizOnline" or "Graphviz Preview (vscode extension)"
+  - required:
+    - [graphviz windows version](https://graphviz.gitlab.io/_pages/Download/Download_windows.html)
+  - generate db schema
+    - [Using django-extensions to visualize the database diagram in django application](https://medium.com/@yathomasi1/1-using-django-extensions-to-visualize-the-database-diagram-in-django-application-c5fa7e710e16)
+  - generate UML of views
+    1. install pylint for python
+    2. rewrite views.py as a class
+    3. **cd docs\diagrams\src**
+    4. **pyreverse -ASmy ..\..\..\AS\views.py -p AS_view** (generate *AS_view.dot* from *AS\views.py*)
+    5. generate diagram from *AS_view.dot* by "GraphvizOnline" or "Graphviz Preview (vscode extension)"
         
 ## web design
 - bootstrap
