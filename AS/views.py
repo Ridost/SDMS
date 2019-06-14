@@ -26,7 +26,7 @@ def convert_permission(perID):
 	return convert_table[perID]
 
 @login_required(login_url='/AS/login/')
-def index(request):
+def main(request):
 	user = request.user
 	stu_id = user.username
 	name = user.last_name+user.first_name
@@ -96,20 +96,22 @@ def modify(request):
 def modify_password(request):
 	user = request.user
 	username = user.username
-	message = 'Modify password'
+	message = ''
 	if request.method == 'POST':
 		curpass = request.POST['current_pass']
 		npass = request.POST['new_pass']	
 		chpass = request.POST['check_pass']
 		
 		if not user.check_password(curpass):				
-			message = "Password failed!"
+			message = "Current password failed!"
 			return render(request,"AS/modify_password.html",locals())
 
 		if npass != chpass:
 			message = "Please confirm correct password!"
 			return render(request,"AS/modify_password.html",locals())
-
+		else:
+			message = "Success!"
+			return render(request,"AS/modify_password.html",locals())
 		user.set_password(npass)
 		user.save()
 		User = authenticate(username=username, password=npass)

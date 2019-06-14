@@ -3,10 +3,10 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    path('test/', views.current_datetime),
+    path('', views.login),  # login as default
     path('login/', views.login),
-    path('main/', views.index),
+    path('main/', views.main),
     path('logout/', views.logout),
     path('modify/', views.modify),
-    #path('modify_password/', views.modify_password),
+    path('modify_password/', views.modify_password),
 ]

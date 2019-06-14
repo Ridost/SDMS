@@ -8,9 +8,6 @@
 	<form action='.' method='POST' name='form1'>
 		{% csrf_token %}
 		<p>User Id:{{stu_id}}</p>
-		<!--
-		<p><a href='/AS/modify_password/'>Modify Password</a></p>
-		-->
 		<p>Firstname:
 		<input type='text' value='{{fname}}' name='firstname' id='firstname' />
 		</p>
@@ -24,7 +21,8 @@
 		<input type='email' value='{{mail}}' name='email' id='email' />
 		</p>
 		<input class='button-accept' type='submit' name='button' value='Submit' />
-		<input class='button-decline' type='button' value='Return' onclick='location="/AS/index/"'>
+		<input class='button-decline' type='button' value='Return' onclick='location="/AS/main/"'>
+		<input class='button-warning' type='button' name='button' value='Modify Password' onclick='location="/AS/modify_password/"' />
 	</form>
 {% endblock %}
 
@@ -39,6 +37,5 @@
         <li><a href="/AS/main/" class="sidebar-item">會員基本資料</a></li>
         <li><a href="/AS/modify/" class="sidebar-item-selected">修改基本資料</a></li>
         <li><a href="/AS/logout/" class="sidebar-item">登出系統</a></li>
-        <li><a href="/AS/test/" class="sidebar-item">測試</a></li>
     </ul>
 {% endblock %}
