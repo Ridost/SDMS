@@ -68,9 +68,11 @@
 
 - diagram generator
   - [Using django-extensions to visualize the database diagram in django application](https://medium.com/@yathomasi1/1-using-django-extensions-to-visualize-the-database-diagram-in-django-application-c5fa7e710e16)
+  - [GraphvizOnline](https://dreampuf.github.io/GraphvizOnline/)
   - [The sitemap framework](https://docs.djangoproject.com/en/2.0/ref/contrib/sitemaps/)
   
 ## web design
 - bootstrap
   - [django-bootstrap4 0.0.8 official](https://pypi.org/project/django-bootstrap4/)
   - [Django搭建个人博客：使用 Bootstrap 4 改写模板文件](https://segmentfault.com/a/1190000016459726)
+  - [Bootstrap official](https://getbootstrap.com/)
