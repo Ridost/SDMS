@@ -9,13 +9,14 @@
     <hr class="heading">
     <form action='.' method='POST' name='form1'>
         {% csrf_token %}
-        <table>
+        <table class="normal">
             <tr><th>帳號：</th> <td><input required type='text' name='username' class='check-input'/></td></tr>
             <tr><th>密碼：</th> <td><input required type='password' name='password' class='check-input'/></td></tr>
         </table>
-        <div class="button-section"><input class='button-accept' type='submit' name='login' value='Login'></div>
+        <div class="button-section"><input class='button-accept' type='submit' name='login' value='登入'></div>
+        
+        <span class="attention-font">{{message}}</span>
         <!--
-        <span style='color:blue'>{{message}}</span>
         <input type='button' value='sign' onclick="location='/AS/sign/'">
         -->
     </form>
@@ -31,6 +32,10 @@
     <ul>
         <li><a href="/AS/main/" class="sidebar-item">會員基本資料</a></li>
         <li><a href="/AS/modify/" class="sidebar-item">修改基本資料</a></li>
+        <li><a href="/AS/modify_password/" class="sidebar-item">修改密碼</a></li>
         <li><a href="/AS/logout/" class="sidebar-item">登出系統</a></li>
+
+        <li><a href="/BMS/stuinfo_import/" class="sidebar-item-limited">匯入學生資料</a></li>
+        <li><a href="/admin/" class="sidebar-item-limited">管理員後台</a></li>
     </ul>
 {% endblock %}

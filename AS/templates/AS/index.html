@@ -1,14 +1,21 @@
-{% block content %}
-<html>
-{{message}}
-<p>User ID: {{stuID}}</p>
-<p>User name: {{name}}</p>
-<p>User permission: {{permission}}</p>
-<input type="button" value="登出" onclick="location='/AS/logout/'">
+{% extends 'AS/base.html' %}
 
-<input type="button" value="修改資料" onclick="location='/account/modify/'">
-<input type="button" value="返回主頁" onclick="location='/shoppingCart/index/'">
-<input type="button" value="訂單查詢 " onclick="location='/account/list_order'">
+{% block title %}
+    宿舍管理系統
+{% endblock %}
 
-</html>
+{% block article %}
+
+{% endblock %}
+
+{% block topbar %}
+    {% include 'AS/topbat.html' %}
+{% endblock %}
+
+{% block navbar %}
+    {% include 'AS/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    最新消息
 {% endblock %}
