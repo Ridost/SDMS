@@ -8,19 +8,21 @@
     <h1>會員基本資料</h1>
     <hr class='heading'>
     <!--{{message}}-->
-    <table>
-        <tr><th>User ID:</th> <td>{{stu_id}}</td></tr>
-        <tr><th>User Name:</th> <td>{{name}}</td></tr>
-        <tr><th>User Phone:</th> <td>{{phone}}</td></tr>
-        <tr><th>User Email:</th> <td>{{mail}}</td></tr>
-        <tr><th>User Permission:</th> <td>{{permission}}</td></tr>
+    <table class="normal">
+        <tr><th>學號:</th> <td>{{stu_id}}</td></tr>
+        <tr><th>姓名:</th> <td>{{name}}</td></tr>
+        <tr><th>連絡電話:</th> <td>{{phone}}</td></tr>
+        <tr><th>E-mail:</th> <td>{{mail}}</td></tr>
+        <tr><th>使用者權限:</th> <td>{{permission}}</td></tr>
     </table>
 
-
     <div class='button-section'>
-        <input class='button-accept' type='button' value='Logout' onclick='location="/AS/logout/"'>
-        <input class='button-decline' type='button' value='Modify Account' onclick='location="/AS/modify/"'>
-        <input class='button-warning' type='button' value='Warning'>
+        <input class='button-accept' type='button' value='登出' onclick='location="/AS/logout/"'>
+        <input class='button-decline' type='button' value='修改基本資料' onclick='location="/AS/modify/"'>
+        <input class='button-decline' type='button' value='修改密碼' onclick='location="/AS/modify_password/"'>
+        
+        <input class='button-warning' type='button' value='匯入學生資料' onclick='location="/BMS/stuinfo_import/"'>
+        <input class='button-warning' type='button' value='管理員後台' onclick='location="/BMS/mail_import/"'>
     </div>
 
     <!--
@@ -39,8 +41,12 @@
 
 {% block sidebar %}
     <ul>
-        <li><a href="/AS/index/" class="sidebar-item-selected">會員基本資料</a></li>
+        <li><a href="/AS/main/" class="sidebar-item-selected">會員基本資料</a></li>
         <li><a href="/AS/modify/" class="sidebar-item">修改基本資料</a></li>
+        <li><a href="/AS/modify_password/" class="sidebar-item">修改密碼</a></li>
         <li><a href="/AS/logout/" class="sidebar-item">登出系統</a></li>
+
+        <li><a href="/BMS/stuinfo_import/" class="sidebar-item-limited">匯入學生資料</a></li>
+        <li><a href="/admin/" class="sidebar-item-limited">管理員後台</a></li>
     </ul>
 {% endblock %}

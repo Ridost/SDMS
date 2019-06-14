@@ -168,6 +168,27 @@
     text-decoration: underline;
 }
 
+.sidebar-item-limited:link, .sidebar-item-limited:visited{
+    text-decoration: none;
+    color: #d40d0d;
+}
+
+.sidebar-item-limited:hover, .sidebar-item-limited:active{
+    background-color: #d40d0d;
+    text-decoration: underline;
+    color: #e2e2e2;
+}
+
+.sidebar-item-limited-selected:link, .sidebar-item-limited-selected:visited{
+    background-color: #d40d0d;
+    text-decoration: none;
+    color: #e2e2e2;
+}
+
+.sidebar-item-limited-selected:hover, .sidebar-item-limited-selected:active{
+    text-decoration: underline;
+}
+
 #article{
     flex: 3;
     padding: 40px 65px;
@@ -352,6 +373,12 @@ h1 {
     border-color: #54bb18;
 }
 
+
+/*==============================================*/
+
+.attention-font {
+    color: #d40d0d;
+}
 
 /*==============================================*/
 
