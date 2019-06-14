@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'RS.apps.RsConfig',
     #'django_extensions',
     'django.contrib.sitemaps',
-    'django.contrib.sites'
 ]
 
 MIDDLEWARE = [
