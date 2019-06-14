@@ -1,0 +1,45 @@
+{% extends 'AS/base.html' %}
+
+{% block title %}
+    宿舍管理系統 - 宿舍管理
+{% endblock %}
+
+{% block article %}
+<script type="text/javascript">
+    function Distribution()
+    {
+        var r = confirm("確定要開始分發嗎?")
+        if(r==true)
+        {
+            window.location.href = "/DMS/DormDistribution/"
+        }
+    }
+</script>
+    <h1>宿舍分發</h1>
+    <hr class="heading">
+    申請時間：{{start}} ~ {{end}}<br><br>
+    <form action="/DMS/DormDistribution" method="post">
+        <input type="button" class="button-warning"  value="開始分發" onclick="Distribution()">
+    </form>
+    <font color="fb0606">{{ error }}{{ message }}</font>
+{% endblock %}
+
+{% block topbar %}{% endblock %}
+
+{% block navbar %}
+    {% include 'DMS/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    <ul>
+        <li><a href="/DMS/DormitoryApply" class="sidebar-item">宿舍申請</a></li>
+        <li><a href="/DMS/DormCheck" class="sidebar-item">住宿申請結果查詢</a></li>
+        {% if lived %}
+        <li><a href="/DMS/DormRetreatApply" class="sidebar-item">退宿申請</a></li>
+        {% endif %}
+        {% if Permission %}
+        <li><a href="/DMS/DormRetreat" class="sidebar-item">退宿</a></li>
+        <li><a href="/DMS/DormSetting" class="sidebar-item">系統設定</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}

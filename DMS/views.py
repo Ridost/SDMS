@@ -238,6 +238,8 @@ def DormRetreat(request,username=''):
     user = User.objects.get(username=username)
     ac = Account.objects.get(user=user)
     try:
+        ac.permission = 3
+        ac.save()
         Dorm = DormInfo.objects.get(account = ac)
         Dorm.account = None
         Dorm.status = 'None'
@@ -262,12 +264,26 @@ def DormDelete(request):
 @login_required(login_url='/AS/login')
 def Retreat(request):
     ac = Account.objects.get(user=request.user)
+    ac.permission = 3
+    ac.save()
     dorm = DormInfo.objects.get(account=ac)
     dorm.account = None
     dorm.status = 'None'
     dorm.save()
     message = "退宿成功"
     return render(request,'DMS/DormCheck.html',locals())
+
+""""
+def StudentPermission(request):
+    dorms = DormInfo.objects.all()
+    count = 0
+    for dorm in dorms:
+        ac = dorm.account
+        ac.permission = 2
+        ac.save()
+        count+=1
+        print(count)
+    return redirect('/DMS/main/')
 """
 @login_required(login_url='/AS/login/')
 def DormDistribution(request):
@@ -275,6 +291,11 @@ def DormDistribution(request):
     if account.permission!=0:
         error = "權限不符"
         return redirect('/DMS/main/')
+    if request.method!="POST":
+        TIME = System.objects.get(pk=1)
+        start = TIME.StartTime
+        end = TIME.EndTime
+        return render(request,'DMS/DormDistribution.html',locals())
     DormRecords = DormRecord.objects.all().order_by('?')
     #先分發志願序一
     count = 0
@@ -308,7 +329,7 @@ def DormDistribution(request):
             print(count)
             count+=1
     return redirect('/DMS/main/')
-"""
+
 """
 @login_required(login_url='/AS/login/')
 def BillCreate(request):
