@@ -1,0 +1,5 @@
+digraph "classes_BMS_views" {
+charset="utf-8"
+rankdir=BT
+"0" [label="{C:\Users\Kellen\SDMS\BMS\views.py.BMS|\l|mail_import()\lmail_insert()\lstuinfo_import()\lstuinfo_insert()\l}", shape="record"];
+}
