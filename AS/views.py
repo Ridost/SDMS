@@ -38,7 +38,7 @@ def main(request):
 	return render(request, 'AS/main.html', locals())
 
 def login(request):
-	message = 'Welcome please login!'
+	message = ''
 	if request.user.is_authenticated:
 		return redirect('/AS/main/')
 	if request.method == 'POST':
@@ -50,10 +50,10 @@ def login(request):
 				auth.login(request,user)
 				return redirect('/AS/main/')		
 			else:
-				message = 'Account is not active, please login again!'
+				message = '此帳戶目前不可用。如有任何問題，請聯絡管理員。'
 				return render(request, 'AS/login.html', locals())
 		else:
-			message = 'Login failed!'
+			message = '登入失敗。請檢查你的帳號或密碼是否有誤。'
 	return render(request, 'AS/login.html', locals())
 
 @login_required(login_url='/AS/login/')
