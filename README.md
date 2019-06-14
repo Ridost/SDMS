@@ -66,6 +66,10 @@
   - [MDN doc](https://developer.mozilla.org/zh-TW/docs/Learn/Server-side/Django)
   - [Django 基本教學 - 從無到有 Django-Beginners-Guide](https://github.com/twtrubiks/django-tutorial)
 
+- diagram generator
+  - [Using django-extensions to visualize the database diagram in django application](https://medium.com/@yathomasi1/1-using-django-extensions-to-visualize-the-database-diagram-in-django-application-c5fa7e710e16)
+  - [The sitemap framework](https://docs.djangoproject.com/en/2.0/ref/contrib/sitemaps/)
+  
 ## web design
 - bootstrap
   - [django-bootstrap4 0.0.8 official](https://pypi.org/project/django-bootstrap4/)
