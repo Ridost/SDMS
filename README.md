@@ -3,6 +3,7 @@
 - all db model in AS
 - user: admin pwd: ggininder30cm
 - [宿舍管理系統需求分析規格書](https://docs.google.com/document/d/1e4HUTmRYDU0zfzpa5FRnCo6pT7ENsX0ncKWby8rSg88/edit)
+- [系統設計報告](https://docs.google.com/document/d/19FATRTutHnMtz7H8xt8t3aB0g5tSCgG0Q-nIaRZheLU/edit)
 
 ## git management
 - use your own branch
