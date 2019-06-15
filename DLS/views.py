@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.contrib.auth.decorators import login_required
 
 from AS.models import StudentInfo, Billboard, Account, Package, Equipment, BorrowRecord
 import datetime
@@ -9,10 +10,12 @@ import json
 
 # Billboard
 
+@login_required(login_url='/AS/login/')
 def IsManager(request):
     user = Account.objects.get(user = auth.get_user(request))
     return user.permission <= 1
 
+@login_required(login_url='/AS/login/')
 def ShowBillboard(request):
     """
     取出公佈欄的資料，並判斷當前登入者是不是管理員
@@ -63,6 +66,7 @@ def ModifyBillboard(request):
 
 # Package 
 
+@login_required(login_url='/AS/login/')
 def ShowPackage(request):
 
 
@@ -91,48 +95,20 @@ def VerifyPackage(request):
 
     return HttpResponse()
 
-def ModifyPackage(request, id = None):
-    
-    is_manager = IsManager(request)
-
-    if request.method == 'GET':
-        p = Package.objects.get(id = id)
-
-        date = str(p.date)
-        
-        return render(request, 'package/modify.html', { 'package' : p , 'date': date})
-    # 送出要更改的資料
-    elif request.method == 'POST':
-
-        p = Package.objects.get(id = id)
-
-        p.sender = request.POST.get('sender')
-        p.category = request.POST.get('category')
-
-        p.receiver = Account.objects.get(user = User.objects.get(username = request.POST.get('receiver')))
-        p.date = request.POST.get('date')
-
-        p.save()
-        
-        # Redirect到管理頁面
-        return HttpResponseRedirect('/DLS/package/manage.html')
-
-def DeletePackage(request):
-    id = request.POST.get('id')
-    package = Package.objects.filter(id = id).delete()
-
-    return HttpResponse()
-
 # Borrow Public Space
 
 # for manager
 
+
+@login_required(login_url='/AS/login/')
 def ShowRecord(request):
     is_manager = IsManager(request)
     record = BorrowRecord.objects.all().order_by('-confirm')
 
     return render(request, 'borrow/showall.html', locals())
 
+
+@login_required(login_url='/AS/login/')
 def ManageRecord(request):
     is_manager = IsManager(request)
     record = BorrowRecord.objects.filter(confirm = 0)
@@ -159,6 +135,7 @@ def WithdrawRecord(request):
     
 # for student
 
+@login_required(login_url='/AS/login/')
 def BorrowSpace(request):
 
     if request.method == 'POST':
@@ -195,6 +172,7 @@ def BorrowSpace(request):
 
     return render(request, 'borrow/apply.html', locals())
 
+@login_required(login_url='/AS/login/')
 def CheckSpace(request):
     
     tag = request.POST.get('tag')
@@ -236,6 +214,7 @@ def CheckSpace(request):
 
     return JsonResponse(ret)
 
+@login_required(login_url='/AS/login/')
 def ShowStatus(request):
     is_manager = IsManager(request)
     record = BorrowRecord.objects.filter(account = Account.objects.get(user = auth.get_user(request)))
