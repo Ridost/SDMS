@@ -30,19 +30,19 @@ class Repairment(models.Model):
         ('AC', '冷氣'),
         ('Furnitures', '家具'),
         ('Bathroom', '浴室'),
+        ('Internet','網路'),
         ('Others', '其他')
     )
 
     STATES = (
         ('Reported', '已回報'),
-        ('Pending', '等待中'),
         ('WIP', '修復中'),
         ('Done', '已完成')
     )
 
     date = models.DateField()
     publisher = models.ForeignKey('Account', on_delete=models.CASCADE)
-    #location = models.CharField(max_length=20)
+    location = models.CharField(max_length=20)
     category = models.CharField(max_length=16, choices=CATEGORIES)
     content = models.CharField(max_length=512)
     state = models.CharField(max_length=16, choices=STATES)
@@ -58,7 +58,6 @@ class Report(models.Model):
 
     STATES = (
         ('Reported', '已回報'),
-        ('Pending', '等待中'),
         ('WIP', '處理中'),
         ('Done', '已完成')
     )
@@ -70,13 +69,13 @@ class Report(models.Model):
     content = models.CharField(max_length=512)
     state = models.CharField(max_length=16, choices=STATES)
 
-""""
+
 class Conduct(models.Model):
     student = models.ForeignKey('Account', on_delete=models.CASCADE)
     reason = models.CharField(max_length=50)
     point = models.PositiveSmallIntegerField()
     date = models.DateField()
-"""
+
 
 class StudentInfo(models.Model):
     GENDERS = (

@@ -67,5 +67,5 @@ admin.site.register(BorrowRecord)
 # RS
 admin.site.register(Repairment)
 admin.site.register(Report)
-#admin.site.register(Conduct)
+admin.site.register(Conduct)
 
