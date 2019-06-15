@@ -1,22 +1,30 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib.auth.models import User
-from AS.models import Account,StudentInfo,DormRecord,DormInfo,BillInfo,System
+from AS.models import Account, StudentInfo, DormRecord, DormInfo, BillInfo, System
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.core.paginator import  *
-import datetime,random
+from django.core.paginator import *
+import datetime
+import random
 
 
 @login_required(login_url='/AS/login/')
 def DormSetting(request):
     ac = Account.objects.get(user=request.user)
-    if ac.permission!=0:
-        error ="權限不符"
+    lived = False
+    try:
+        dorminfo = DormInfo.objects.get(account=ac)
+        lived = True
+    except:
+        lived = False
+
+    if ac.permission != 0:
+        error = "權限不符"
         return redirect('/DMS/main/')
     time = System.objects.get(pk=1)
-    if request.method=='POST':
+    if request.method == 'POST':
         try:
             start = request.POST['StartTime']
             end = request.POST['EndTime']
@@ -27,28 +35,32 @@ def DormSetting(request):
         except:
             error = "格式不符"
     time = System.objects.get(pk=1)
-    return render(request,'DMS/DormSetting.html',locals())
+    return render(request, 'DMS/DormSetting.html', locals())
+
+
 def Delete(request):
-    #DormRecord.objects.all().delete()
+    # DormRecord.objects.all().delete()
     return redirect('/DMS/main/')
+
+
 @login_required(login_url='/AS/login/')
 def main(request,message='',error=''):
     name = request.user.username
-    ac = Account.objects.get(user = request.user)
-    if ac.permission==0:    #管理員
+    ac = Account.objects.get(user=request.user)
+    if ac.permission <= 1:  # 管理員
         Permission = True
     else:
         Permission = False
 
     dorm = {
-        'status':'無住宿',
-        'bed':'無',
-        'building':'無',
-        'room':'無'
+        'status': '無住宿',
+        'bed': '無',
+        'building': '無',
+        'room': '無'
     }
     try:
         dorminfo = DormInfo.objects.get(account=ac)
-        dorm['status']= '入住中'
+        dorm['status'] = '入住中'
         dorm['building'] = dorminfo.building
         dorm['room'] = dorminfo.room
         dorm['bed'] = dorminfo.bed
@@ -56,48 +68,70 @@ def main(request,message='',error=''):
     except:
         dorm['status'] = '無住宿'
         lived = False
-    #try:
-    message = message
-    #except:
-     #   return render(request,"DMS/main.html",locals())
     return render(request, "DMS/main.html", locals())
-    #except:
-     #   return render(request, "DMS/main.html", locals())
+
+
 @login_required(login_url='/AS/login/')
 def DormRetreatApply(request):
-    return render(request,'DMS/DormRetreatApply.html',locals())
+    account = Account.objects.get(user=request.user)
+    lived = False
+    try:
+        dorminfo = DormInfo.objects.get(account=account)
+        lived = True
+    except:
+        lived = False
+    return render(request, 'DMS/DormRetreatApply.html', locals())
+
+
 @login_required(login_url='/AS/login/')
 def DormitoryApply(request):
-    #判斷是否為管理員
+    # 判斷是否為管理員
     name = request.user.username
     ac = Account.objects.get(user=request.user)
+    lived = False
+    try:
+        dorminfo = DormInfo.objects.get(account=ac)
+        lived = True
+    except:
+        lived = False
+
     try:
         gender = StudentInfo.objects.get(account=ac).gender
-        if gender=='M':
+        if gender == 'M':
             gd = True
     except:
         gd = True
     TIME = System.objects.get(pk=1)
-    start =TIME.StartTime
+    start = TIME.StartTime
     end = TIME.EndTime
     now = datetime.date.today()
-    if now>start and now<end:   #開放
-        #誰申請 哪個系 年級 學號 姓名 哪一棟宿舍 申請時間 審核狀態
-        #宿舍房間狀況 eg. OF 5層樓 20個房間 4個人
+    if now > start and now < end:  # 開放
+        # 誰申請 哪個系 年級 學號 姓名 哪一棟宿舍 申請時間 審核狀態
+        # 宿舍房間狀況 eg. OF 5層樓 20個房間 4個人
         return render(request, "DMS/DormitoryApply.html", locals())
-    else:   #不開放
-        return redirect('/DMS/main/目前不是開放申請時間')
+    else:  # 不開放
+        message = "目前並未開放申請宿舍。"
+        return redirect('/DMS/main/')
+
+
 @login_required(login_url='/AS/login/')
 def DormCheck(request):
     name = request.user.username
     account = Account.objects.get(user=request.user)
+    lived = False
+    try:
+        dorminfo = DormInfo.objects.get(account=account)
+        lived = True
+    except:
+        lived = False
+
     try:
         gender = StudentInfo.objects.get(account=account).gender
-        if gender=='M':
+        if gender == 'M':
             gd = True
     except:
         gd = True
-    if  account.permission==0:  #管理員
+    if account.permission == 0:  # 管理員
         DormRecords = DormRecord.objects.all()
         dorms = []
         for dormRecord in DormRecords:
@@ -108,7 +142,7 @@ def DormCheck(request):
                 TIME = System.objects.get(pk=1)
                 now = datetime.date.today()
                 end = TIME.EndTime
-                if now>end:
+                if now > end:
                     result = "銘謝惠顧"
                 else:
                     result = "尚未開始分發"
@@ -118,11 +152,11 @@ def DormCheck(request):
                 'result': result
             }
             try:
-                dm.setdefault('D3',DormRecord.Dorms[dormRecord.order3][1])
+                dm.setdefault('D3', DormRecord.Dorms[dormRecord.order3][1])
             except:
-                dm.setdefault('D3','')
+                dm.setdefault('D3', '')
             dorms.append(dm)
-        paginator = Paginator(dorms,100)
+        paginator = Paginator(dorms, 100)
         page = request.GET.get('page')
         try:
             topics = paginator.page(page)
@@ -131,7 +165,11 @@ def DormCheck(request):
         except EmptyPage:
             topics = paginator.page(paginator.num_pages)
         return render(request, "DMS/DormCheck.html", locals())
-    elif request.method=='POST':    #學生
+    elif request.method == 'POST':  # 學生
+        TIME = System.objects.get(pk=1)
+        start = TIME.StartTime
+        end = TIME.EndTime
+        now = datetime.date.today()
         name = request.user.username
         D1 = request.POST['Dorm1']
         D2 = request.POST['Dorm2']
@@ -139,28 +177,29 @@ def DormCheck(request):
             D3 = request.POST['Dorm3']
         except:
             D3 = 9
-        if D1==D2 or D2==D3 or D1==D3:
-            error = "志願序不可重複"
-            return render(request, "DMS/DormitoryApply.html",locals())
+        if D1 == D2 or D2 == D3 or D1 == D3:
+            error = "志願序不可重複。"
+            return render(request, "DMS/DormitoryApply.html", locals())
         else:
             try:
-                student = StudentInfo.objects.get(account = account)
+                student = StudentInfo.objects.get(account=account)
             except:
-                error = "此用戶並非學生"
-                return render(request, "DMS/DormitoryApply.html",locals())
+                error = "此用戶並非學生。"
+                return render(request, "DMS/DormitoryApply.html", locals())
             if DormRecord.objects.filter(account=account):
-                error = "不可重複申請"
-                return render(request, "DMS/DormitoryApply.html",locals())
+                error = "不可重複申請。"
+                return render(request, "DMS/DormitoryApply.html", locals())
             with transaction.atomic():
-                DormRecord.objects.create(account=account,order1 = D1,order2=D2,order3=D3)
-                message = "申請成功"
+                DormRecord.objects.create(
+                    account=account, order1=D1, order2=D2, order3=D3)
+                message = "申請成功。"
                 return redirect('/DMS/main/')
     else:
         ac = Account.objects.get(user=request.user)
         try:
-            dorm = DormRecord.objects.get(account = ac)
+            dorm = DormRecord.objects.get(account=ac)
         except:
-            error = "查無此資料!!!"
+            error = "查無此資料。"
             return redirect('/DMS/main/')
         D1 = DormRecord.Dorms[dorm.order1][1]
         D2 = DormRecord.Dorms[dorm.order2][1]
@@ -170,7 +209,8 @@ def DormCheck(request):
             D3 = ''
         try:
             dorminfo = DormInfo.objects.get(account=ac)
-            result = dorminfo.building + dorminfo.room + "-" + str(dorminfo.bed)
+            result = dorminfo.building + \
+                dorminfo.room + "-" + str(dorminfo.bed)
 
         except:
             TIME = System.objects.get(pk=1)
@@ -181,9 +221,9 @@ def DormCheck(request):
             else:
                 result = "銘謝惠顧"
         try:
-            student = StudentInfo.objects.get(account = ac)
+            student = StudentInfo.objects.get(account=ac)
         except:
-            error = "此用戶並非學生"
+            error = "此用戶並非學生。"
             return redirect('/DMS/main/')
         dorms = []
         dm = {
@@ -199,9 +239,9 @@ def DormCheck(request):
         TIME = System.objects.get(pk=1)
         start = TIME.StartTime
         end = TIME.EndTime
-        if now>start and now<end:   ##宿舍申請期間
+        if now > start and now < end:  # 宿舍申請期間
             checked = 0
-        elif now<end+datetime.timedelta(days=7):     ##截止7天之內
+        elif now < end+datetime.timedelta(days=7):  # 截止7天之內
             if result != "銘謝惠顧":
                 checked = 1
         try:
@@ -210,20 +250,29 @@ def DormCheck(request):
             topics = paginator.page(1)
         except EmptyPage:
             topics = paginator.page(paginator.num_pages)
-        return render(request,"DMS/DormCheck.html",locals())
+        return render(request, "DMS/DormCheck.html", locals())
+
+
 @login_required(login_url='/AS/login/')
-def DormRetreat(request,username=''):
+def DormRetreat(request, username=''):
     ac = Account.objects.get(user=request.user)
-    if ac.permission==0:    #管理員
-        Permission=True
+    account = ac
+    lived = False
+    try:
+        dorminfo = DormInfo.objects.get(account=ac)
+        lived = True
+    except:
+        lived = False
+    if ac.permission == 0:  # 管理員
+        Permission = True
     else:
-        error = "權限不符"
-        return redirect('/DMS/main/',error=error)
-    if request.method =='POST':
+        error = "權限不符。"
+        return redirect('/DMS/main/', error=error)
+    if request.method == 'POST':
         try:
-            user = User.objects.get(username = request.POST['username'])
+            user = User.objects.get(username=request.POST['username'])
         except:
-            message = "查無該學號"
+            message = "查無該學號。"
             return render(request, 'DMS/Retreat.html', locals())
         student = {}
         student['name'] = user.username
@@ -231,52 +280,64 @@ def DormRetreat(request,username=''):
         try:
             dorm = DormInfo.objects.get(account=ac)
         except:
-            message = "該學生並非住宿生"
-            return render(request,'DMS/Retreat.html',locals())
+            message = "該學生並非住宿生。"
+            return render(request, 'DMS/Retreat.html', locals())
         student['building'] = dorm.building
         student['bed'] = dorm.bed
         student['room'] = dorm.room
         Check = True
         return render(request, 'DMS/Retreat.html', locals())
-    if username=='':    ##導向住宿學生名單
-        return render(request,"DMS/Retreat.html",locals())
+    if username == '':  # 導向住宿學生名單
+        return render(request, "DMS/Retreat.html", locals())
     user = User.objects.get(username=username)
     ac = Account.objects.get(user=user)
     try:
         ac.permission = 3
         ac.save()
-        Dorm = DormInfo.objects.get(account = ac)
+        Dorm = DormInfo.objects.get(account=ac)
         Dorm.account = None
         Dorm.status = 'None'
         Dorm.save()
-        #Dorm.delete()
-        message = "退宿成功"
-        return render(request,'DMS/Retreat.html',locals())
+        # Dorm.delete()
+        message = "退宿成功。"
+        return render(request, 'DMS/Retreat.html', locals())
     except:
-        message = "查無該學生宿舍資料"
-        return redirect('/DMS/main/',message=message)
+        message = "查無該學生宿舍資料。"
+        return redirect('/DMS/main/', message=message)
+
+
 @login_required(login_url='/AS/login/')
 def DormDelete(request):
-    ac = Account.objects.get(user = request.user)
+    ac = Account.objects.get(user=request.user)
     try:
-        dm = DormRecord.objects.get(account = ac)
+        dm = DormRecord.objects.get(account=ac)
         dm.delete()
-        message = "刪除成功!!!"
+        message = "刪除成功。"
         return redirect('/DMS/main/')
     except:
-        error = "查無此資料!!!"
+        error = "查無此資料。"
         return redirect('/DMS/main/')
+
+
 @login_required(login_url='/AS/login')
 def Retreat(request):
     ac = Account.objects.get(user=request.user)
+    lived = False
+    try:
+        dorminfo = DormInfo.objects.get(account=ac)
+        lived = True
+    except:
+        lived = False
+
     ac.permission = 3
     ac.save()
     dorm = DormInfo.objects.get(account=ac)
     dorm.account = None
     dorm.status = 'None'
     dorm.save()
-    message = "退宿成功"
-    return render(request,'DMS/DormCheck.html',locals())
+    message = "退宿成功。"
+    return render(request, 'DMS/DormCheck.html', locals())
+
 
 """"
 def StudentPermission(request):
@@ -293,25 +354,33 @@ def StudentPermission(request):
 @login_required(login_url='/AS/login/')
 def DormDistribution(request):
     account = Account.objects.get(user=request.user)
-    if account.permission!=0:
-        error = "權限不符"
+    lived = False
+    try:
+        dorminfo = DormInfo.objects.get(account=account)
+        lived = True
+    except:
+        lived = False
+
+    if account.permission != 0:
+        error = "你沒有使用本頁面的權限。"
         return redirect('/DMS/main/')
-    if request.method!="POST":
+    if request.method != "POST":
         TIME = System.objects.get(pk=1)
         start = TIME.StartTime
         end = TIME.EndTime
-        return render(request,'DMS/DormDistribution.html',locals())
+        return render(request, 'DMS/DormDistribution.html', locals())
     DormRecords = DormRecord.objects.all().order_by('?')
-    #先分發志願序一
+    # 先分發志願序一
     count = 0
     for Record in DormRecords:
         Student = StudentInfo.objects.get(account=Record.account)
         try:
-            if DormInfo.objects.get(account=Record.account)!=None:
+            if DormInfo.objects.get(account=Record.account) != None:
                 continue
         except:
             try:
-                D1 = DormInfo.objects.filter(account__isnull=True,building=Record.Dorms[Record.order1][1],gender=Student.gender)[0]
+                D1 = DormInfo.objects.filter(
+                    account__isnull=True, building=Record.Dorms[Record.order1][1], gender=Student.gender)[0]
                 D1.account = Student.account
                 D1.status = 'Lived'
                 D1.save()
@@ -332,8 +401,9 @@ def DormDistribution(request):
                     except:
                         print("QQ")
             print(count)
-            count+=1
+            count += 1
     return redirect('/DMS/main/')
+
 
 """
 @login_required(login_url='/AS/login/')

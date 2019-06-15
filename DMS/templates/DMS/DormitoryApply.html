@@ -1,54 +1,77 @@
 {% extends 'AS/base.html' %}
 
 {% block title %}
-    宿舍管理系統 - 宿舍申請
+    宿舍管理系統 - 入宿申請
 {% endblock %}
 
 {% block article %}
+    <h1>入宿申請</h1>
+    <hr class="heading">
 
     <form action="/DMS/DormCheck/" method="post">
         {% csrf_token %}
-    志願序一：
-    <select class = 'check-input' name = "Dorm1">
-        {% if gd %}
-            <option value=0>綜合宿舍</option>
-            <option value=1>學一(OA1)</option>
-            <option value=3>學二(OE)</option>
-        {% else %}
-            <option value=1>學一(OA2)</option>
-            <option value=2>學一(OB)</option>
-            <option value=4>學二(OF)</option>
-        {% endif %}
-    </select><br><br>
-    志願序二：
-    <select class = 'check-input' name = "Dorm2">
-        {% if gd %}
-            <option value=0>綜合宿舍</option>
-            <option value=1>學一(OA1)</option>
-            <option value=3>學二(OE)</option>
-        {% else %}
-            <option value=1>學一(OA2)</option>
-            <option value=2>學一(OB)</option>
-            <option value=4>學二(OF)</option>
-        {% endif %}
-    </select><br><br>
-    志願序三：
-    <select class = 'check-input' name = "Dorm3">
-        {% if gd %}
-            <option value=0>綜合宿舍</option>
-            <option value=1>學一(OA1)</option>
-            <option value=3>學二(OE)</option>
-        {% else %}
-            <option value=1>學一(OA2)</option>
-            <option value=2>學一(OB)</option>
-            <option value=4>學二(OF)</option>
-        {% endif %}
-    </select><br><br>
-    <input class = 'button-accept' type="submit" value="確定申請"><br>
+        <table class="normal">
+            <tr>
+                <th>志願序一：</th>
+                <td>
+                    <select class = 'check-input' name = "Dorm1">
+                        {% if gd %}
+                            <option value=0>綜合宿舍</option>
+                            <option value=1>學一(OA1)</option>
+                            <option value=3>學二(OE)</option>
+                        {% else %}
+                            <option value=1>學一(OA2)</option>
+                            <option value=2>學一(OB)</option>
+                            <option value=4>學二(OF)</option>
+                        {% endif %}
+                    </select>
+                </td>
+            </tr>
+            
+            <tr>
+                <th>志願序二：</th>
+                <td>
+                    <select class = 'check-input' name = "Dorm2">
+                        {% if gd %}
+                            <option value=0>綜合宿舍</option>
+                            <option value=1>學一(OA1)</option>
+                            <option value=3>學二(OE)</option>
+                        {% else %}
+                            <option value=1>學一(OA2)</option>
+                            <option value=2>學一(OB)</option>
+                            <option value=4>學二(OF)</option>
+                        {% endif %}
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <th>志願序三：</th>
+                <td>
+                    <select class = 'check-input' name = "Dorm3">
+                        {% if gd %}
+                            <option value=0>綜合宿舍</option>
+                            <option value=1>學一(OA1)</option>
+                            <option value=3>學二(OE)</option>
+                        {% else %}
+                            <option value=1>學一(OA2)</option>
+                            <option value=2>學一(OB)</option>
+                            <option value=4>學二(OF)</option>
+                        {% endif %}
+                    </select>
+                </td>
+            </tr>
+        </table>
+        
+        <div class="button-section">
+            <input class = 'button-accept' type="submit" value="確定申請">
+        </div>
     </form>
-    <a href = 'http://140.127.232.71/02life/life061.asp'>宿舍說明</a><br>
-    開放申請時間：{{start}} ~ {{end}}
-    <font color="fb0606">{{ error }}</font>
+    <div class="button-section">
+        <div><a href = 'http://140.127.232.71/02life/life061.asp'>宿舍說明</a></div>
+        <div>開放申請時間：{{start}} ~ {{end}}</div>
+        <div class="attention-font">{{ error }}</div>
+    </div>
 {% endblock %}
 
 {% block topbar %}{% endblock %}
@@ -59,7 +82,15 @@
 
 {% block sidebar %}
     <ul>
-        <li><a href="/DMS/DormitoryApply" class="sidebar-item-selected">宿舍申請</a></li>
-        <li><a href="/DMS/DormCheck" class="sidebar-item">申請結果查詢</a></li>
+        <li><a href="/DMS/DormitoryApply" class="sidebar-item-selected">入宿申請</a></li>
+        <li><a href="/DMS/DormCheck" class="sidebar-item">宿舍分發查詢</a></li>
+        {% if lived %}
+            <li><a href="/DMS/DormRetreatApply" class="sidebar-item">退宿申請</a></li>
+        {% endif %}
+        {% if ac.permission <= 1 %}
+            <li><a href="/DMS/DormDistribution" class="sidebar-item-limited">宿舍分發</a></li>
+            <li><a href="/DMS/DormRetreat" class="sidebar-item-limited">移除住宿資格</a></li>
+            <li><a href="/DMS/DormSetting" class="sidebar-item-limited">設定開放日期</a></li>
+        {% endif %}
     </ul>
 {% endblock %}
