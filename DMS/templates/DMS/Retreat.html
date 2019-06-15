@@ -1,7 +1,7 @@
 {% extends 'AS/base.html' %}
 
 {% block title %}
-    宿舍管理系統 - 退宿
+    宿舍管理系統 - 移除住宿資格
 {% endblock %}
 
 {% block article %}
@@ -15,8 +15,9 @@
         }
     }
 </script>
-    <h1>退宿</h1>
+    <h1>移除住宿資格</h1>
     <hr class="heading">
+
     <form action="/DMS/DormRetreat/" method="post">
         {% csrf_token %}
         <table>
@@ -25,11 +26,10 @@
                 <td><input required type='text' name='username' class='check-input'/></td>
                 <td><input class='button-accept' type='submit' value='查詢'></td>
             </tr>
-
         </table>
     </form>
-    <font color="fb0606">{{ error }}{{ message }}</font>
-    <table>
+    <span class="attention-font">{{ error }}{{ message }}</span>
+    <table class="vertical">
         <tr>
             <th>學生</th>
             <th>宿舍</th>
@@ -55,15 +55,15 @@
 {% endblock %}
 
 {% block sidebar %}
-    <ul>
-        <li><a href="/DMS/DormitoryApply" class="sidebar-item">宿舍申請</a></li>
-        <li><a href="/DMS/DormCheck" class="sidebar-item">住宿申請結果查詢</a></li>
-        {% if lived %}
+<ul>
+    <li><a href="/DMS/DormitoryApply" class="sidebar-item">入宿申請</a></li>
+    <li><a href="/DMS/DormCheck" class="sidebar-item">宿舍分發查詢</a></li>
+    {% if lived %}
         <li><a href="/DMS/DormRetreatApply" class="sidebar-item">退宿申請</a></li>
-        {% endif %}
-        {% if Permission %}
-        <li><a href="/DMS/DormRetreat" class="sidebar-item-selected">退宿</a></li>
-        <li><a href="/DMS/DormSetting" class="sidebar-item">系統設定</a></li>
-        {% endif %}
-    </ul>
+    {% endif %}
+
+    <li><a href="/DMS/DormDistribution" class="sidebar-item-limited">宿舍分發</a></li>
+    <li><a href="/DMS/DormRetreat" class="sidebar-item-limited-selected">移除住宿資格</a></li>
+    <li><a href="/DMS/DormSetting" class="sidebar-item-limited">設定開放日期</a></li>
+</ul>
 {% endblock %}

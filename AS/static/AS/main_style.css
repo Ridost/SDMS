@@ -243,6 +243,17 @@
     color: #e2e2e2;
 }
 
+.button-decline-active{
+    font-family: "NS-Medium";
+    background-color: #2b2b2b;
+    color: #e2e2e2;
+    border: 3px solid #2b2b2b;
+    border-radius: 2px;
+    text-decoration: none;
+    padding: 5px 15px;
+    margin: 5px;
+}
+
 .button-warning{
     background-color: transparent;
     font-family: "NS-Medium";
