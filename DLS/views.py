@@ -29,8 +29,6 @@ def AddBillboard(request):
     content = request.POST.get('content', '').strip('\n')
     now = datetime.datetime.now()
 
-    print(content)
-
     # get publisher info
     publisher = auth.get_user(request)
     publisher = Account.objects.get(user = publisher)
@@ -50,17 +48,14 @@ def ModifyBillboard(request):
     new_content = request.POST.get('content', '')
     new_publisher = auth.get_user(request)
 
-    print("content = " , new_content)
-
     new_publisher = Account.objects.get(user = new_publisher)
 
     billboard = Billboard.objects.get(id = modify_id)
 
-    print(billboard)
-
     billboard.title = new_title
     billboard.content = new_content
     billboard.publisher = new_publisher
+    billboard.date = datetime.datetime.now()
     
     billboard.save()
     
@@ -81,7 +76,7 @@ def ShowPackage(request):
 
 def ManagePackage(request):
     is_manager = IsManager(request)
-    package = Package.objects.all()
+    package = Package.objects.filter(verify=False)
 
     return render(request, 'package/manage.html', locals())
 
@@ -165,6 +160,36 @@ def WithdrawRecord(request):
 # for student
 
 def BorrowSpace(request):
+
+    if request.method == 'POST':
+        ret = CheckSpace(request)
+        
+        data = json.loads(ret.content)
+
+        print(data)
+
+        if ret.content[0] == 'False':
+            return HttpResponseRedirect("../status/")
+
+        equip = request.POST['space']
+        space = Equipment.objects.get(tag=equip)
+
+        date = request.POST['date']
+        start_hour = request.POST['start_hour']
+        borrow_length = request.POST['borrow_length']
+        memo= request.POST['memo']
+        applicant = Account.objects.get(user=auth.get_user(request))
+
+        start_time = datetime.datetime.strptime(date, '%Y-%m-%d')
+        start_time = start_time.replace(hour = int(start_hour))
+
+        end_time = start_time.replace(hour=start_time.hour + int(borrow_length))
+
+        BorrowRecord.objects.create(tag=space, account=applicant, start_time=start_time, end_time=end_time, memo=memo, confirm=0)
+        return HttpResponseRedirect("../status")
+
+        
+
     is_manager = IsManager(request)
     equip = Equipment.objects.all()
 
@@ -176,15 +201,17 @@ def CheckSpace(request):
     date = request.POST.get('date')
     start_hour = request.POST.get('start_hour')
     borrow_length = request.POST.get('borrow_length')
-
-    start = datetime.datetime.strptime(date, '%Y-%m-%d')
-    start = start.replace(hour = int(start_hour))
+    try: 
+        start = datetime.datetime.strptime(date, '%Y-%m-%d')
+        start = start.replace(hour = int(start_hour))
+    except ValueError:
+        return HttpResponse()
 
     end = start
     end = end.replace(hour = end.hour + int(borrow_length))
 
     Yes = True
-    message = ""
+    message = "這個時段沒有人借用!!!"
     record = BorrowRecord.objects.filter(tag = tag)
 
     for rec in record:
@@ -201,12 +228,11 @@ def CheckSpace(request):
             start = rec.start_time
             end = rec.end_time
 
-    if Yes:
-        message = "這個時段沒有人借用!!!"
-    elif start < end:
+    if not Yes and start < end:
         message = '{0} 與 {1} 之間已經有人借用'.format(start, end)
 
     ret = {'flag' : Yes, 'message' : message}
+    print(message)
 
     return JsonResponse(ret)
 
