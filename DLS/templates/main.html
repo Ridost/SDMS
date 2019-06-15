@@ -22,7 +22,7 @@
                         var content = CKEDITOR.instances.new_content.getData();
                         
                         if(content.length !== 0){
-                            $.post("/DLS/addbillboard/", {
+                            $.post("/DLS/billboard/add", {
                                 title : title, 
                                 content : content,
                                 csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -60,7 +60,7 @@
                     var Modify_content = CKEDITOR.instances.modify_content.getData();
                     
                     if(content.length !== 0){
-                        $.post("/DLS/modifybillboard/", {
+                        $.post("/DLS/billboard/modify/", {
                             id : id,
                             title : Modify_title, 
                             content : Modify_content,
@@ -84,7 +84,7 @@
         });
     }
     function Delete_Billboard(id){
-        $.post('/DLS/deletebillboard/', { 
+        $.post('/DLS/billboard/delete/', { 
             'id' : id,
             function(result){
                 document.location.reload();
