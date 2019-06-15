@@ -7,6 +7,7 @@ model_list = ['Account,StudentInfo', 'Account,StudentInfo,Package', \
     'Account,StudentInfo,Repairment,Report,Equipment' ]
 
 # generate views class
+# pyreverse -ASmy AS\views.py -p AS_views
 for i in range(5):
     src = subsystems[i]+'//views.py'
     des = subsystems[i]+'_views'
@@ -17,6 +18,7 @@ subprocess.run(['move', '*.dot', 'src//', '/y'])
 subprocess.run(['cd', '..//..//'])
 
 # generate db_schema
+# python manage.py graph_models -a -I Account,Billboard,Repairment,Report,Conduct,StudentInfo,DormRecord,DormInfo,BillInfo,Equipment,BorrowRecord,Package,System > docs\diagrams\src\db_schema.dot
 for i in range(5):
     des = 'docs//diagrams//src//'+subsystems+'_db_schema.dot'
     subprocess.run(['python', 'manage.py', 'graph_models', '-a', '-I',\
