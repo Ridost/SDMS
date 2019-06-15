@@ -34,6 +34,9 @@
 
 {% block sidebar %}
     <ul>
+		{% if request.user.is_superuser %}
+		<li><a href="/admin/" target="_blank" class="sidebar-item">系統管理員</a></li>
+		{% endif %}
         <li><a href="/AS/main/" class="sidebar-item">會員基本資料</a></li>
         <li><a href="/AS/modify/" class="sidebar-item-selected">修改基本資料</a></li>
         <li><a href="/AS/logout/" class="sidebar-item">登出系統</a></li>
