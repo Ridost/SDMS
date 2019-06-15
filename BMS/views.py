@@ -24,7 +24,7 @@ def stuinfo_import(request):
             with open('stuinfo excel/'+name,'wb') as fp:
                 for chunk in myfile.chunks():
                     fp.write(chunk)
-            messege="上傳成功!"+stuinfo_insert(name)
+            messege="上傳成功! "+stuinfo_insert(name)
         else :
             messege="請選擇excel檔案上傳"
     return render(request, 'stuinfo_import.html', locals())
@@ -43,7 +43,7 @@ def mail_import(request):
             with open('mail excel/'+name,'wb') as fp:
                 for chunk in myfile.chunks():
                     fp.write(chunk)
-            messege="上傳成功!"+mail_insert(name)
+            messege="上傳成功! "+mail_insert(name)
         else :
             messege="請選擇excel檔案上傳"
     return render(request, 'mail_import.html', locals())
