@@ -48,10 +48,10 @@
 
 {% block article %}
 
-    <form method="POST" action="../apply">
-
+    <form method="POST" action="../apply/">
+        {% csrf_token %}
         <span>請選擇欲借用的空間 : </span>
-        <select id = "space" onchange="is_ok()">
+        <select name = "space" id = "space" onchange="is_ok()">
             {% for e in equip %}
             <option value="{{ e.tag }}"> {{ e.name }}</option>
             {% endfor %}

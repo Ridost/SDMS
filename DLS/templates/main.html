@@ -20,17 +20,19 @@
                     "新增公告" : function(){
                         var title = $("#new_title").val()
                         var content = CKEDITOR.instances.new_content.getData();
-                        alert(content);
                         
                         if(content.length !== 0){
-                            $.post("/DLS/addbillboard", {
+                            $.post("/DLS/addbillboard/", {
                                 title : title, 
                                 content : content,
                                 csrfmiddlewaretoken: '{{ csrf_token }}'
+                            }, function(result){
+                                alert("新增成功!!!")
+                                window.location.reload();
                             });
-                            window.location.reload();
+                            
                         }else{
-                            $("#new_dialog p").text('公告不得為空')
+                            $("#new_dialog p").text('公告不得為空');
                         }
                     },
                     "取消" : function(){
@@ -58,12 +60,14 @@
                     var Modify_content = CKEDITOR.instances.modify_content.getData();
                     
                     if(content.length !== 0){
-                        $.post("/DLS/modifybillboard", {
+                        $.post("/DLS/modifybillboard/", {
                             id : id,
                             title : Modify_title, 
                             content : Modify_content,
+                        }, function(result){
+                            alert('更新成功!!!');
+                            window.location.reload();
                         });
-                        window.location.reload();
                     }else{
                         $("#modify_dialog p").text('公告不得為空')
                     }
@@ -101,7 +105,7 @@
 
     <div id='new_dialog'>
         <form>
-            <span>標題 : </span><input id = "new_title" type = "text"> <br/>
+            <span>標題 : </span><input id = "new_title" type = "text"> <br/><br/>
             <textarea id='new_content'></textarea>
             <p id='error_msg'></p>
         </form>
@@ -109,7 +113,7 @@
 
     <div id='modify_dialog'>
         <form>
-            <span>標題 : </span><input id = "modify_title" type = "text"> <br/>
+            <span>標題 : </span><input id = "modify_title" type = "text"> <br/><br/>
             <textarea id='modify_content'></textarea>
             <p id='error_msg'></p>
         </form>

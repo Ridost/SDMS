@@ -174,7 +174,6 @@ class Package(models.Model):
     receiver = models.ForeignKey('Account', on_delete = models.CASCADE)
     sender = models.CharField(max_length = 32)
     verify = models.BooleanField(default = False)
-
 class System(models.Model):
     StartTime = models.DateField()
     EndTime = models.DateField()

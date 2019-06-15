@@ -9,7 +9,7 @@
     })
     function Confirm(id){
         console.log(id);
-        $.post('./manage/confirm',{
+        $.post('./confirm/',{
             'id' : id
         }, function(result){
             alert('核可成功');
@@ -17,7 +17,7 @@
         });
     }
     function withdraw(id){
-        $.post('./manage/withdraw', {
+        $.post('./withdraw/', {
             'id' : id
         }, function(result){
             alert('該申請已退回');
