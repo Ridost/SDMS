@@ -22,7 +22,7 @@
                         var content = CKEDITOR.instances.new_content.getData();
                         
                         if(content.length !== 0){
-                            $.post("/DLS/billboard/add", {
+                            $.post("/DLS/billboard/add/", {
                                 title : title, 
                                 content : content,
                                 csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -87,6 +87,7 @@
         $.post('/DLS/billboard/delete/', { 
             'id' : id,
             function(result){
+                alert('刪除成功!!!');
                 document.location.reload();
             } 
         });
@@ -105,7 +106,7 @@
 
     <div id='new_dialog'>
         <form>
-            <span>標題 : </span><input id = "new_title" type = "text"> <br/><br/>
+            <span>標題 : </span><input id = "new_title" type = "text" required> <br/><br/>
             <textarea id='new_content'></textarea>
             <p id='error_msg'></p>
         </form>
@@ -113,7 +114,7 @@
 
     <div id='modify_dialog'>
         <form>
-            <span>標題 : </span><input id = "modify_title" type = "text"> <br/><br/>
+            <span>標題 : </span><input id = "modify_title" type = "text" required> <br/><br/>
             <textarea id='modify_content'></textarea>
             <p id='error_msg'></p>
         </form>

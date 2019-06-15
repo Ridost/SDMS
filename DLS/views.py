@@ -139,16 +139,16 @@ def WithdrawRecord(request):
 def BorrowSpace(request):
 
     if request.method == 'POST':
+
         ret = CheckSpace(request)
-        
         data = json.loads(ret.content)
 
         print(data)
 
-        if ret.content[0] == 'False':
+        if data['flag'] == False:
             return HttpResponseRedirect("../status/")
 
-        equip = request.POST['space']
+        equip = request.POST['tag']
         space = Equipment.objects.get(tag=equip)
 
         date = request.POST['date']
@@ -192,16 +192,17 @@ def CheckSpace(request):
     message = "這個時段沒有人借用!!!"
     record = BorrowRecord.objects.filter(tag = tag)
 
+
     for rec in record:
-        if rec.start_time <= start and rec.end_time <= end:
+        if start >= rec.start_time and start < rec.end_time:
             Yes = False
             end = rec.end_time
-        elif rec.start_time >= start and rec.end_time >= end:
+        elif end >= rec.start_time and end < rec.end_time:
             Yes = False
             start = rec.start_time
-        elif rec.start_time <= start and rec.end_time >= end:
+        elif end < rec.end_time and start > rec.start_time:
             Yes = False
-        elif rec.start_time >= start and rec.end_time <= end:
+        elif end >= rec.end_time and start <= rec.end_time:
             Yes = False
             start = rec.start_time
             end = rec.end_time
@@ -209,8 +210,9 @@ def CheckSpace(request):
     if not Yes and start < end:
         message = '{0} 與 {1} 之間已經有人借用'.format(start, end)
 
+    print(start, end)
+
     ret = {'flag' : Yes, 'message' : message}
-    print(message)
 
     return JsonResponse(ret)
 

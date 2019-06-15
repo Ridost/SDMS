@@ -51,22 +51,22 @@
     <form method="POST" action="../apply/">
         {% csrf_token %}
         <span>請選擇欲借用的空間 : </span>
-        <select name = "space" id = "space" onchange="is_ok()">
+        <select name = "tag" id = "space" onchange="is_ok()" required>
             {% for e in equip %}
             <option value="{{ e.tag }}"> {{ e.name }}</option>
             {% endfor %}
         </select> <br/> <br/>
 
         <span>借用時間 : </span>
-        <input type="date" id = "date" name = "date" onchange = "is_ok()"> 
-        <select id = "start_hour" name = "start_hour" onchange = "is_ok()">
+        <input type="date" id = "date" name = "date" onchange = "is_ok()" required> 
+        <select id = "start_hour" name = "start_hour" onchange = "is_ok()" required>
             {% for i in i|rjust:11 %}
                 <option value = "{{ forloop.counter | add:'7' }}"> {{ forloop.counter | add:'7' }}</option>
             {% endfor %}
         </select> <span>點</span> <br/> <br/>
 
         <span>欲借用時間長度 : </span>
-        <select id = "borrow_length" name = "borrow_length" onchange="is_ok()">
+        <select id = "borrow_length" name = "borrow_length" onchange="is_ok()" required>
             {% for i in i|rjust:12 %}
                 <option value = "{{ forloop.counter }}"> {{ forloop.counter }}</option>
             {% endfor %}
