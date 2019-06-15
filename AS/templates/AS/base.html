@@ -25,7 +25,11 @@
             <div id="login">
                 {% if request.user.is_authenticated %}
                 <span>
-                    {{ request.user.first_name }}，你好。
+                    {% if request.user.is_superuser %}
+                        admin，你好。
+                    {% else %}
+                        {{ request.user.first_name }}，你好。
+                    {% endif %}
                 </span>
                 <span>
                     <a href="/AS/logout/" class="login-button">登出</a>
