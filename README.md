@@ -3,6 +3,7 @@
 - all db model in AS
 - user: admin pwd: ggininder30cm
 - [宿舍管理系統需求分析規格書](https://docs.google.com/document/d/1e4HUTmRYDU0zfzpa5FRnCo6pT7ENsX0ncKWby8rSg88/edit)
+- [系統設計報告](https://docs.google.com/document/d/19FATRTutHnMtz7H8xt8t3aB0g5tSCgG0Q-nIaRZheLU/edit)
 
 ## git management
 - use your own branch
@@ -66,7 +67,28 @@
   - [MDN doc](https://developer.mozilla.org/zh-TW/docs/Learn/Server-side/Django)
   - [Django 基本教學 - 從無到有 Django-Beginners-Guide](https://github.com/twtrubiks/django-tutorial)
 
+- diagram generator
+  - [Using django-extensions to visualize the database diagram in django application](https://medium.com/@yathomasi1/1-using-django-extensions-to-visualize-the-database-diagram-in-django-application-c5fa7e710e16)
+  - [GraphvizOnline](https://dreampuf.github.io/GraphvizOnline/)
+  - [The sitemap framework](https://docs.djangoproject.com/en/2.0/ref/contrib/sitemaps/)
+  - [使用Graphviz和Pyreverse绘制Python项目结构图](http://www.py3study.com/Article/details/id/4250.html)
+  - PlantUML (vscode extension)
+  - Graphviz Preview (vscode extension)
+
+### generate diagrams
+  - required:
+    - [graphviz windows version](https://graphviz.gitlab.io/_pages/Download/Download_windows.html)
+  - generate db schema
+    - [Using django-extensions to visualize the database diagram in django application](https://medium.com/@yathomasi1/1-using-django-extensions-to-visualize-the-database-diagram-in-django-application-c5fa7e710e16)
+  - generate UML of views
+    1. install pylint for python
+    2. rewrite views.py as a class
+    3. **cd docs\diagrams\src**
+    4. **pyreverse -ASmy ..\..\..\AS\views.py -p AS_view** (generate *AS_view.dot* from *AS\views.py*)
+    5. generate diagram from *AS_view.dot* by "GraphvizOnline" or "Graphviz Preview (vscode extension)"
+        
 ## web design
 - bootstrap
   - [django-bootstrap4 0.0.8 official](https://pypi.org/project/django-bootstrap4/)
   - [Django搭建个人博客：使用 Bootstrap 4 改写模板文件](https://segmentfault.com/a/1190000016459726)
+  - [Bootstrap official](https://getbootstrap.com/)

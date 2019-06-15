@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'DLS.apps.DlsConfig',
     'DMS.apps.DmsConfig',
     'RS.apps.RsConfig',
+    'django_extensions',
+    'django.contrib.sitemaps',
 ]
 
 MIDDLEWARE = [

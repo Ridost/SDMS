@@ -10,11 +10,9 @@
     });
 
     function verify(id){
-        $.post('package/verify', { id : id });
-        window.location.reload();
-    }
-    function modify(id){
-        window.location.href = "modify/" + id + "/";
+        $.post('../verify/', { id : id }, function(result){
+            window.location.reload();
+        });
     }
     
 </script>
@@ -56,7 +54,7 @@
         
             <tr>
                 <td> {{ p.date }} </td>
-                <td> {{ p.category }} </td>
+                <td> {{ p.get_category_display }} </td>
                 <td> {{ p.sender }} </td>
                 <td> {% if p.verify %} 已確認 {% else %} 尚未確認 {% endif %}</td>
                 <td> <button class = "button-accept" onclick = "verify('{{ p.id }}')"> 確認 </button></td>

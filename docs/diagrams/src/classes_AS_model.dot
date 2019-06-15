@@ -1,0 +1,29 @@
+digraph "classes_AS_model" {
+charset="utf-8"
+rankdir=BT
+"0" [label="{C:\Users\Kellen\SDMS\AS\models.py.Account|PERMISSIONS : tuple\lpermission : IntegerField\lphone : CharField\luser : OneToOneField\l|}", shape="record"];
+"1" [label="{C:\Users\Kellen\SDMS\AS\models.py.BillInfo|STATES : tuple\laccount : ForeignKey\lcontent : CharField\lstate : CharField\lyear : CharField\l|}", shape="record"];
+"2" [label="{C:\Users\Kellen\SDMS\AS\models.py.Billboard|content : CharField\ldate : DateField\lpublisher : ForeignKey\ltitle : CharField\l|}", shape="record"];
+"3" [label="{C:\Users\Kellen\SDMS\AS\models.py.BorrowRecord|STATES : tuple\laccount : ForeignKey\lconfirm : IntegerField\lend_time : DateTimeField\lmemo : CharField\lstart_time : DateTimeField\ltag : ForeignKey\l|}", shape="record"];
+"4" [label="{C:\Users\Kellen\SDMS\AS\models.py.DormInfo|GENDERS : tuple\lSTATUS : set\laccount : OneToOneField\lbed : IntegerField\lbuilding : CharField\lgender : CharField\lroom : CharField\lstatus : CharField\l|}", shape="record"];
+"5" [label="{C:\Users\Kellen\SDMS\AS\models.py.DormRecord|Dorms : tuple\laccount : ForeignKey\lorder1 : IntegerField\lorder2 : IntegerField\lorder3 : IntegerField\l|}", shape="record"];
+"6" [label="{C:\Users\Kellen\SDMS\AS\models.py.Equipment|STATES : tuple\lcurrent_state : CharField\lname : CharField\ltag : CharField\l|}", shape="record"];
+"7" [label="{C:\Users\Kellen\SDMS\AS\models.py.Package|CATEGORIES : tuple\lcategory : CharField\ldate : DateField\lreceiver : ForeignKey\lsender : CharField\lverify : BooleanField\l|}", shape="record"];
+"8" [label="{C:\Users\Kellen\SDMS\AS\models.py.Repairment|CATEGORIES : tuple\lSTATES : tuple\lcategory : CharField\lcontent : CharField\ldate : DateField\lpublisher : ForeignKey\lstate : CharField\l|}", shape="record"];
+"9" [label="{C:\Users\Kellen\SDMS\AS\models.py.Report|CATEGORIES : tuple\lSTATES : tuple\lcategory : CharField\lcontent : CharField\ldate : DateField\lpublisher : ForeignKey\lstate : CharField\l|}", shape="record"];
+"10" [label="{C:\Users\Kellen\SDMS\AS\models.py.StudentInfo|GENDERS : tuple\lGRADES : tuple\laccount : ForeignKey\lbed : IntegerField\ldepartment : CharField\lgender : CharField\lgrade : CharField\lroom : CharField\l|}", shape="record"];
+"11" [label="{C:\Users\Kellen\SDMS\AS\models.py.System|EndTime : DateField\lStartTime : DateField\l|}", shape="record"];
+"12" [label="{django.db.models.base.Model|pk : property\l|check()\lclean()\lclean_fields()\ldate_error_message()\ldelete()\lfrom_db()\lfull_clean()\lget_deferred_fields()\lprepare_database_save()\lrefresh_from_db()\lsave()\lsave_base()\lserializable_value()\lunique_error_message()\lvalidate_unique()\l}", shape="record"];
+"0" -> "12" [arrowhead="empty", arrowtail="none"];
+"1" -> "12" [arrowhead="empty", arrowtail="none"];
+"2" -> "12" [arrowhead="empty", arrowtail="none"];
+"3" -> "12" [arrowhead="empty", arrowtail="none"];
+"4" -> "12" [arrowhead="empty", arrowtail="none"];
+"5" -> "12" [arrowhead="empty", arrowtail="none"];
+"6" -> "12" [arrowhead="empty", arrowtail="none"];
+"7" -> "12" [arrowhead="empty", arrowtail="none"];
+"8" -> "12" [arrowhead="empty", arrowtail="none"];
+"9" -> "12" [arrowhead="empty", arrowtail="none"];
+"10" -> "12" [arrowhead="empty", arrowtail="none"];
+"11" -> "12" [arrowhead="empty", arrowtail="none"];
+}

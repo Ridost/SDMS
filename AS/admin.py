@@ -44,8 +44,13 @@ class BillAdmin(admin.ModelAdmin):
 class SystemAdmin(admin.ModelAdmin):
     list_display = ['StartTime','EndTime']
 
+class AccountAdmin(admin.ModelAdmin):
+    list_display = ['user','permission','phone']
+    search_fields = ['user','permission','phone']
+    ordering = ['user']
+
 # Register your models here.
-admin.site.register(Account)
+admin.site.register(Account,AccountAdmin)
 
 # DMS
 admin.site.register(StudentInfo,StudentInfoAdmin)
