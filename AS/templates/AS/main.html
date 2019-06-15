@@ -21,8 +21,13 @@
         <input class='button-decline' type='button' value='修改基本資料' onclick='location="/AS/modify/"'>
         <input class='button-decline' type='button' value='修改密碼' onclick='location="/AS/modify_password/"'>
         
-        <input class='button-warning' type='button' value='匯入學生資料' onclick='location="/BMS/stuinfo_import/"'>
-        <input class='button-warning' type='button' value='管理員後台' onclick='location="/BMS/mail_import/"'>
+        {% if account.permission <= 1 %}
+            <input class='button-warning' type='button' value='匯入學生資料' onclick='location="/BMS/stuinfo_import/"'>
+        {% endif %}
+
+        {% if request.user.is_superuser %}
+            <input class='button-warning' type='button' value='管理員後台' onclick='location="/admin/"'>
+        {% endif %}
     </div>
 
     <!--
@@ -46,7 +51,11 @@
         <li><a href="/AS/modify_password/" class="sidebar-item">修改密碼</a></li>
         <li><a href="/AS/logout/" class="sidebar-item">登出系統</a></li>
 
-        <li><a href="/BMS/stuinfo_import/" class="sidebar-item-limited">匯入學生資料</a></li>
-        <li><a href="/admin/" class="sidebar-item-limited">管理員後台</a></li>
+        {% if account.permission <= 1 %}
+            <li><a href="/BMS/stuinfo_import/" class="sidebar-item-limited">匯入學生資料</a></li>
+        {% endif %}
+        {% if request.user.is_superuser %}
+            <li><a href="/admin/" class="sidebar-item-limited">管理員後台</a></li>
+        {% endif %}
     </ul>
 {% endblock %}

@@ -34,7 +34,7 @@ def main(request):
 	permission = convert_permission(account.permission)
 	phone = account.phone
 	mail = user.email
-	message='Login successed!'
+	message='登入成功。'
 	return render(request, 'AS/main.html', locals())
 
 def login(request):
@@ -60,7 +60,7 @@ def login(request):
 def logout(request):
 	auth.logout(request)
 	return redirect('/AS/login/')
-	message = 'Logout successed!'
+	message = '登出成功。'
 
 @login_required(login_url='/AS/login/')
 def modify(request):
@@ -96,6 +96,7 @@ def modify(request):
 def modify_password(request):
 	user = request.user
 	username = user.username
+	account = Account.objects.get(user=user)
 	message = ''
 	if request.method == 'POST':
 		curpass = request.POST['current_pass']
@@ -103,14 +104,14 @@ def modify_password(request):
 		chpass = request.POST['check_pass']
 		
 		if not user.check_password(curpass):				
-			message = "Current password failed!"
+			message = "目前密碼錯誤。"
 			return render(request,"AS/modify_password.html",locals())
 
 		if npass != chpass:
-			message = "Please confirm correct password!"
+			message = "新密碼確認失敗。請檢查兩次輸入是否有誤。"
 			return render(request,"AS/modify_password.html",locals())
 		else:
-			message = "Success!"
+			message = "密碼修改成功。"
 			return render(request,"AS/modify_password.html",locals())
 		user.set_password(npass)
 		user.save()
