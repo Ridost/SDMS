@@ -22,17 +22,15 @@ class Billboard(models.Model):
     date = models.DateField()
     title = models.CharField(max_length=128)
     publisher = models.ForeignKey('Account', on_delete=models.CASCADE)
-
     content = models.CharField(max_length=512)
 
 
 class Repairment(models.Model):
     CATEGORIES = (
         ('AC', '冷氣'),
-        ('Bathroom', '衛浴'),
         ('Furnitures', '家具'),
-        ('Internet', '網路'),
-        ('Others', '其他'),
+        ('Bathroom', '浴室'),
+        ('Others', '其他')
     )
 
     STATES = (
@@ -43,11 +41,12 @@ class Repairment(models.Model):
     )
 
     date = models.DateField()
-    location=models.CharField(max_length=15)
-    publisher = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
+    publisher = models.ForeignKey('Account', on_delete=models.CASCADE)
+    location = models.CharField(max_length=20)
     category = models.CharField(max_length=16, choices=CATEGORIES)
     content = models.CharField(max_length=512)
     state = models.CharField(max_length=16, choices=STATES)
+
 
 class Report(models.Model):
     CATEGORIES = (
@@ -65,10 +64,18 @@ class Report(models.Model):
     )
 
     date = models.DateField()
-    publisher = models.ForeignKey('StudentInfo', on_delete=models.CASCADE)
+    publisher = models.ForeignKey('Account', on_delete=models.CASCADE)
+    accused = models.CharField(max_length=20)
     category = models.CharField(max_length=16, choices=CATEGORIES)
     content = models.CharField(max_length=512)
     state = models.CharField(max_length=16, choices=STATES)
+
+
+class Conduct(models.Model):
+    student = models.ForeignKey('Account', on_delete=models.CASCADE)
+    reason = models.CharField(max_length=50)
+    point = models.PositiveSmallIntegerField()
+    date = models.DateField()
 
 
 class StudentInfo(models.Model):
@@ -90,6 +97,8 @@ class StudentInfo(models.Model):
     grade = models.CharField(max_length=1, choices=GRADES)
     room = models.CharField(max_length=8, null=True)
     bed = models.IntegerField(null=True)
+    conduct = models.PositiveSmallIntegerField()
+
 
 class DormRecord(models.Model):
     account = models.ForeignKey('Account', on_delete=models.CASCADE)
@@ -121,7 +130,6 @@ class DormInfo(models.Model):
     gender = models.CharField(max_length=1, choices=GENDERS)
     account = models.OneToOneField(
         'Account', on_delete=models.SET_NULL, null=True)
-
 
 
 class BillInfo(models.Model):
@@ -184,6 +192,4 @@ class Package(models.Model):
 class System(models.Model):
     StartTime = models.DateField()
     EndTime = models.DateField()
-
-
 

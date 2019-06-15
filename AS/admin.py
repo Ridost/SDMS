@@ -58,3 +58,9 @@ admin.site.register(Billboard)
 admin.site.register(Equipment)
 admin.site.register(Package, PackageAdmin)
 admin.site.register(BorrowRecord)
+
+# RS
+admin.site.register(Repairment)
+admin.site.register(Report)
+admin.site.register(Conduct)
+
