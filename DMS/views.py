@@ -32,7 +32,7 @@ def Delete(request):
     #DormRecord.objects.all().delete()
     return redirect('/DMS/main/')
 @login_required(login_url='/AS/login/')
-def main(request):
+def main(request,message='',error=''):
     name = request.user.username
     ac = Account.objects.get(user = request.user)
     if ac.permission==0:    #管理員
@@ -56,7 +56,13 @@ def main(request):
     except:
         dorm['status'] = '無住宿'
         lived = False
-    return render(request,"DMS/main.html",locals())
+    #try:
+    message = message
+    #except:
+     #   return render(request,"DMS/main.html",locals())
+    return render(request, "DMS/main.html", locals())
+    #except:
+     #   return render(request, "DMS/main.html", locals())
 @login_required(login_url='/AS/login/')
 def DormRetreatApply(request):
     return render(request,'DMS/DormRetreatApply.html',locals())
@@ -80,8 +86,7 @@ def DormitoryApply(request):
         #宿舍房間狀況 eg. OF 5層樓 20個房間 4個人
         return render(request, "DMS/DormitoryApply.html", locals())
     else:   #不開放
-        message = "目前不是開放申請時間"
-        return redirect('/DMS/main/')
+        return redirect('/DMS/main/目前不是開放申請時間')
 @login_required(login_url='/AS/login/')
 def DormCheck(request):
     name = request.user.username
