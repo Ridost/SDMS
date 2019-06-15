@@ -3,6 +3,8 @@ from DMS import views
 
 urlpatterns = [
     path('main/',views.main, name = 'main'),
+    path('main/<str:message>',views.main, name = 'main'),
+    path('main/<str:error>',views.main, name = 'main'),
     path('DormitoryApply/', views.DormitoryApply),
     path('DormCheck/', views.DormCheck),
     path('DormDelete/', views.DormDelete),
