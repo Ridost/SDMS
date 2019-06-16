@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 from AS.models import StudentInfo, Billboard, Account, Package, Equipment, BorrowRecord
 import datetime
@@ -18,15 +19,33 @@ def IsManager(request):
 
 @login_required(login_url='/AS/login/')
 def ShowBillboard(request):
-    """
-    取出公佈欄的資料，並判斷當前登入者是不是管理員
-    """
+    
+    # 取出公佈欄的資料，並判斷當前登入者是不是管理員
+    
+    is_manager = IsManager(request)
     billboard = Billboard.objects.all().order_by("-date")
 
-    # 是不是管理員
-    is_manager = IsManager(request)
+    page_num = int(request.GET.get('page', 1))
 
-    return render(request, 'main.html', locals())
+    if not billboard.exists():
+        return render(request, 'main.html', locals())
+
+    pages, previous_page, next_page = Paginator(billboard, 5), None, None
+
+    if page_num > pages.num_pages:
+        page_num = 1
+    
+    now_page = pages.page(page_num)
+
+    if now_page.has_previous():
+        previous_page = now_page.previous_page_number()
+    if now_page.has_next():
+        next_page = now_page.next_page_number()
+
+    return render(request, 'main.html', {'now_page' : now_page,
+                                         'previous_page' : previous_page,
+                                         'next_page' : next_page,
+                                         'is_manager' : is_manager })
 
 
 def ShowSpecificBillboard(request, id = None):
@@ -73,9 +92,11 @@ def AddBillboard(request):
     Billboard.objects.create(title = title, content = content, date = now, publisher = publisher)
     return HttpResponse()
 
+
 def DeleteBillboard(request):
     Billboard.objects.get(id = int(request.POST.get('id'))).delete()
     return HttpResponse()
+
 
 def ModifyBillboard(request):
 
@@ -97,13 +118,10 @@ def ModifyBillboard(request):
     
     return HttpResponse()
 
-
-
 # Package 
 
 @login_required(login_url='/AS/login/')
 def ShowPackage(request):
-
 
     is_manager = IsManager(request)
     package = None
@@ -113,14 +131,13 @@ def ShowPackage(request):
         
     return render(request, 'package.html', locals())
 
+
 def ManagePackage(request):
     is_manager = IsManager(request)
     package = Package.objects.filter(verify=False)
 
     return render(request, 'package/manage.html', locals())
 
-def AddPackage(request):
-    pass
 
 def VerifyPackage(request):
     id = request.POST.get('id')
@@ -140,7 +157,28 @@ def ShowRecord(request):
     is_manager = IsManager(request)
     record = BorrowRecord.objects.all().order_by('-confirm')
 
-    return render(request, 'borrow/showall.html', locals())
+    page_num = int(request.GET.get('page', 1))
+
+    if not record.exists():
+        return render(request, 'main.html', locals())
+
+    pages, previous_page, next_page = Paginator(record, 1), None, None
+
+    if page_num > pages.num_pages:
+        page_num = 1
+    
+    now_page = pages.page(page_num)
+
+    if now_page.has_previous():
+        previous_page = now_page.previous_page_number()
+    if now_page.has_next():
+        next_page = now_page.next_page_number()
+
+    return render(request, 'borrow/showall.html', {'now_page' : now_page,
+                                                   'previous_page' : previous_page,
+                                                   'next_page' : next_page,
+                                                   'is_manager' : is_manager })
+
 
 
 @login_required(login_url='/AS/login/')
@@ -228,7 +266,6 @@ def CheckSpace(request):
     # 本來應該是寫"沒人借用"，但沒東西其實也一樣，看起來反而工整。
     record = BorrowRecord.objects.filter(tag = tag)
 
-
     for rec in record:
         if start >= rec.start_time and start < rec.end_time:
             Yes = False
@@ -245,8 +282,6 @@ def CheckSpace(request):
 
     if not Yes and start < end:
         message = '本時段（{0} ~ {1}）已經有人借用。'.format(start, end)
-
-    print(start, end)
 
     ret = {'flag' : Yes, 'message' : message}
 

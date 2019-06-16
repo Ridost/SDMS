@@ -43,7 +43,7 @@
                 <th>狀態</th>
             </tr>
         </thead>
-        {% for r in record %}
+        {% for r in now_page.object_list %}
             <tbody class="table-block">
                 <tr>
                     <td rowspan="2">{{ r.id }}</td>
@@ -59,6 +59,14 @@
             </tbody>
         {% endfor %}
     </table>
+
+    {% if previous_page %}
+    <a class="button-accept" href="?page={{ previous_page }}"> << </a>
+    {% endif %}
+        <span class="button-decline-active">{{ now_page.number }}</span>
+    {% if next_page %}
+        <a class="button-accept" href="?page={{ next_page }}"> >> </a>
+    {% endif %}
 </div>
 
 {% endblock %}
