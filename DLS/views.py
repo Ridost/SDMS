@@ -15,6 +15,7 @@ def IsManager(request):
     user = Account.objects.get(user = auth.get_user(request))
     return user.permission <= 1
 
+
 @login_required(login_url='/AS/login/')
 def ShowBillboard(request):
     """
@@ -31,7 +32,7 @@ def ShowBillboard(request):
 def ShowSpecificBillboard(request, id = None):
     if id == None:
         return HttpResponseRedirect("../")
-    
+
     is_manager = IsManager(request)
     billboard = Billboard.objects.get(id = int(id))
 
@@ -39,6 +40,25 @@ def ShowSpecificBillboard(request, id = None):
         return HttpResponseRedirect("../")
 
     return render(request, 'billboard/showbillboard.html', locals())
+
+
+def GetSpecificBillboard(request):
+    
+    id = request.POST.get('id')
+
+    if id == None:
+        return HttpResponseRedirect('/DLS/billboard/')
+
+    is_manager = IsManager(request)
+    billboard = Billboard.objects.get(id = int(id))
+
+    if not billboard:
+        return HttpResponseRedirect("../")
+
+    ret = {'title' : billboard.title, 'content' : billboard.content}
+    
+    return JsonResponse(ret)
+    
 
 def AddBillboard(request):
     title = request.POST.get('title', '')

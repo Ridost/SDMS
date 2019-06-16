@@ -46,10 +46,6 @@
     }
 
     function Modify_Billboard(id){
-
-        var billboard = document.getElementById('content'+id).getElementsByTagName('td');
-        var origin_title = billboard[1].innerHTML;
-        var origin_content = billboard[3].innerHTML;
         
         $("#modify_dialog").dialog({
             width: 800,
@@ -76,9 +72,19 @@
                 }
             },
             open : function(){
-                $("#modify_content").ckeditor();
-                $("#modify_title").val(origin_title);
-                CKEDITOR.instances.modify_content.setData(origin_content);
+                $.ajax({
+                    method:"POST",
+                    data : {
+                        id : id
+                    },
+                    url: "/DLS/billboard/search/",
+                    dataType : "json"
+                }).done(function(result){
+                    $("#modify_content").ckeditor()
+                    $("#modify_title").val(result['title'])
+                    CKEDITOR.instances.modify_content.setData(result['content'])
+                });
+        
             }
         });
     }

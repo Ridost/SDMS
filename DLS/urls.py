@@ -5,6 +5,7 @@ from .views import *
 urlpatterns = [
     path('billboard/', ShowBillboard),
     re_path('billboard/([0-9]+)/$', ShowSpecificBillboard),
+    path('billboard/search/', GetSpecificBillboard),
     path('billboard/add/', AddBillboard),
     path('billboard/delete/', DeleteBillboard),
     path('billboard/modify/', ModifyBillboard),
