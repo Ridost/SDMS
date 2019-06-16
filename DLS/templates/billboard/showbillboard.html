@@ -1,6 +1,6 @@
 {% extends "AS/base.html" %}
 
-{% block title %} 宿舍生活系統 {% endblock %}
+{% block title %} 宿舍管理系統 - 公佈欄 {% endblock %}
 
 {% block script %}
 
@@ -9,19 +9,22 @@
 {% endblock %}
 
 {% block article %}
+<h1>公佈欄</h1>
+<hr class="heading">
+    <div class="button-section">
+        <button class="button-decline" onclick='location.href="/DLS/billboard/"'>回公佈欄</button>
+    </div>
 
-    <table class = "vertical">
+    <table class = "normal" style="width: 100%">
         <thead>
             <tr>
-                <th> 日期 </th> <th> 發布者 </th> <th> 標題 </th> <th> 內容 </th>
+                <th style="text-align: center; font-size: 20px;">{{ billboard.title }}</th>
             </tr>
         </thead>
         <tbody>
+            <tr><td style="font-size: 11px;">{{ billboard.date }}，{{ billboard.publisher }}</td></tr>
             <tr>
-                <td> {{ billboard.date }}</td>
-                <td> {{ billboard.publisher }}</td>
-                <td> {{ billboard.title }}</td>
-                <td> {{ billboard.content | safe }}</td>
+                <td>{{ billboard.content | safe }}</td>
             </tr>
         </tbody>
     </table>
