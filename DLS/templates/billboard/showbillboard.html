@@ -1,0 +1,47 @@
+{% extends "AS/base.html" %}
+
+{% block title %} 宿舍生活系統 {% endblock %}
+
+{% block script %}
+
+{% include 'jquery.html'%}
+
+{% endblock %}
+
+{% block article %}
+
+    <table class = "vertical">
+        <thead>
+            <tr>
+                <th> 日期 </th> <th> 發布者 </th> <th> 標題 </th> <th> 內容 </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td> {{ billboard.date }}</td>
+                <td> {{ billboard.publisher }}</td>
+                <td> {{ billboard.title }}</td>
+                <td> {{ billboard.content | safe }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block navbar %}
+    {% include "navbar.html" %}
+{% endblock %}
+
+{% block sidebar %}
+<ul>
+    <li><a href="/DLS/billboard/" class="sidebar-item-selected">公佈欄</a></li>
+    {% if is_manager %}
+        <li><a href="/DLS/package/" class="sidebar-item">包裹管理</a></li>
+        <li><a href="/DLS/borrow/manage/" class="sidebar-item">借用空間管理</a></li>
+    {% else %}
+        <li><a href="/DLS/package/" class="sidebar-item">查看包裹</a></li>
+        <li><a href="/DLS/borrow/apply/" class="sidebar-item">申請借用空間</a></li>
+        <li><a href="/DLS/borrow/status/" class = "sidebar-item">空間申請狀態</a></li>
+    {% endif %}
+</ul>
+{% endblock %}

@@ -1,4 +1,3 @@
-
 {% extends "AS/base.html" %}
 
 {% block title %} 宿舍生活系統 {% endblock %}
@@ -130,7 +129,7 @@
     <div>
         <table class="vertical">
             <tr>
-                <th>日期</th> <th>發布者</th> <th>標題</th> <th>內容</th>
+                <th>日期</th> <th>發布者</th> <th>標題</th>
                 {% if is_manager %}
                     <th>
                         操作
@@ -140,7 +139,7 @@
 
             {% for b in billboard %}
                 <tr>
-                    <td style="white-space: nowrap">{{ b.date }}</td> <td>{{ b.publisher.user.username }}</td> <td>{{ b.title }}</td> <td>{{ b.content | safe }}</td>
+                    <td style="white-space: nowrap">{{ b.date }}</td> <td>{{ b.publisher.user.username }}</td> <td><a href = "/DLS/billboard/{{ b.id }}/">{{ b.title }}</a></td></td>
                     {% if is_manager %}
                         <td>
                             <button class = "button-accept" onclick = "Modify_Billboard( '{{ b.id }}' )">修改</button>

@@ -27,6 +27,19 @@ def ShowBillboard(request):
 
     return render(request, 'main.html', locals())
 
+
+def ShowSpecificBillboard(request, id = None):
+    if id == None:
+        return HttpResponseRedirect("../")
+    
+    is_manager = IsManager(request)
+    billboard = Billboard.objects.get(id = int(id))
+
+    if not billboard:
+        return HttpResponseRedirect("../")
+
+    return render(request, 'billboard/showbillboard.html', locals())
+
 def AddBillboard(request):
     title = request.POST.get('title', '')
     content = request.POST.get('content', '').strip('\n')
@@ -63,6 +76,8 @@ def ModifyBillboard(request):
     billboard.save()
     
     return HttpResponse()
+
+
 
 # Package 
 
