@@ -67,7 +67,7 @@
             {% for repair in rec %}
             <tr>
                 <td>{{repair.id}}</td><td>{{repair.location}}</td><td>{{repair.category}}</td>
-                <td>{{repair.content}}</td><td>{{repair.date}}</td>
+                <td style="word-break: break-all">{{repair.content}}</td><td style="white-space: nowrap">{{repair.date}}</td>
                 
                 {% if permission == 2 or permission == 3 and stage == 1 %}
                     <td><input class="button-warning" type="button" value="刪除" onclick="RepairDelete({{repair.id}})"></td>

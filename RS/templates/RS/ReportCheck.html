@@ -68,7 +68,7 @@
                 {% for repair in rec %}
                 <tr>
                     <td>{{repair.id}}</td><td>{{repair.accused}}</td><td>{{repair.category}}</td>
-                    <td>{{repair.content}}</td><td>{{repair.date}}</td>
+                    <td style="word-break: break-all">{{repair.content}}</td><td style="white-space: nowrap">{{repair.date}}</td>
 
                     {% if permission == 2 or permission == 3 %}
                     {% if stage == 1 %}

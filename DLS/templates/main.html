@@ -98,76 +98,60 @@
 {% endblock %}
 
 {% block article %}
+    <!-- 是管理員顯示的內容 -->
+    {% if is_manager %}
+        <button class="button-accept" id="new_billboard">新增公佈欄</button>
+        <div id='new_dialog'>
+            <form>
+                <span>標題 : </span><input id = "new_title" type = "text" required> <br/><br/>
+                <textarea id='new_content'></textarea>
+                <p id='error_msg'></p>
+            </form>
+        </div>
+        <div id='modify_dialog'>
+            <form>
+                <span>標題 : </span><input id = "modify_title" type = "text" required> <br/><br/>
+                <textarea id='modify_content'></textarea>
+                <p id='error_msg'></p>
+            </form>
+        </div>
+        <style>
+            #new_dialog{
+                display: none
+            }
+            #modify_dialog{
+                display: none
+            }
+        </style>
+    {% endif %}
 
-<!-- 是管理員顯示的內容 -->
-{% if is_manager %}
-
-    <button class = "button-accept" id = "new_billboard">新增公佈欄</button>
-
-    <div id='new_dialog'>
-        <form>
-            <span>標題 : </span><input id = "new_title" type = "text" required> <br/><br/>
-            <textarea id='new_content'></textarea>
-            <p id='error_msg'></p>
-        </form>
-    </div>
-
-    <div id='modify_dialog'>
-        <form>
-            <span>標題 : </span><input id = "modify_title" type = "text" required> <br/><br/>
-            <textarea id='modify_content'></textarea>
-            <p id='error_msg'></p>
-        </form>
-    </div>
-
-    <style>
-        #new_dialog{
-            display: none
-        }
-        #modify_dialog{
-            display: none
-        }
-    </style>
+    <!-- 公佈欄顯示 -->
     
-    
-
-{% endif %}
-
-<!-- 公佈欄顯示 -->
-{% for b in billboard %}
     <div>
-        <table>
-            <tbody id = "content{{b.id}}">
-                <tr>
-                    <td>標題 : </td>
-                    <td> {{ b.title }}</td>
-                </tr>
-                <tr>
-                    <td>內容 : </td>
-                    <td> {{ b.content | safe }} </td>
-                </tr>
-                <tr>
-                    <td>發布日期 : </td>
-                    <td>{{ b.date }}   </td>
-                </tr>
-                <tr>
-                    <td>發布者 : </td>
-                    <td> {{ b.publisher.user.username }}</td>
-                </tr>
+        <table class="vertical">
+            <tr>
+                <th>日期</th> <th>發布者</th> <th>標題</th> <th>內容</th>
                 {% if is_manager %}
-                <tr>
-                    <td>
-                        <button class = "button-accept" onclick = "Modify_Billboard( '{{ b.id }}' )">修改</button>
-                        <button class = "button-warning" onclick = "Delete_Billboard( '{{ b.id }}' )">刪除</button>
-                    </td>
-                </tr>
+                    <th>
+                        操作
+                    </th>
                 {% endif %}
-                <br/><br/>
-            </tbody>
+            </tr>
+
+            {% for b in billboard %}
+                <tr>
+                    <td style="white-space: nowrap">{{ b.date }}</td> <td>{{ b.publisher.user.username }}</td> <td>{{ b.title }}</td> <td>{{ b.content | safe }}</td>
+                    {% if is_manager %}
+                        <td>
+                            <button class = "button-accept" onclick = "Modify_Billboard( '{{ b.id }}' )">修改</button>
+                            <button class = "button-warning" onclick = "Delete_Billboard( '{{ b.id }}' )">刪除</button>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
         </table>
     </div>
-{% endfor %}
-
+    
 {% endblock %}
 
 {% block navbar %}
