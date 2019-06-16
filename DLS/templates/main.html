@@ -164,16 +164,15 @@
         {% endfor %}
     </table>
 
-    
-    {% if previous_page %}
-        <a class="button-accept" href="?page={{ previous_page }}"> << </a>
-    {% endif %}
-        <span class="button-decline-active">{{ now_page.number }}</span>
-    {% if next_page %}
-        <a class="button-accept" href="?page={{ next_page }}"> >> </a>
-    {% endif %}
-    
-
+    <div class="button-section" style="text-align: center">
+        {% if previous_page %}
+            <a class="button-accept" href="?page={{ previous_page }}"><<</a>
+        {% endif %}
+            <span class="button-decline-active">{{ now_page.number }}</span>
+        {% if next_page %}
+            <a class="button-accept" href="?page={{ next_page }}">>></a>
+        {% endif %}
+    </div>
 </div>
 
 {% endblock %}
