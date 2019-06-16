@@ -21,7 +21,7 @@ def ShowBillboard(request):
     """
     取出公佈欄的資料，並判斷當前登入者是不是管理員
     """
-    billboard = Billboard.objects.all()
+    billboard = Billboard.objects.all().order_by("-date")
 
     # 是不是管理員
     is_manager = IsManager(request)
