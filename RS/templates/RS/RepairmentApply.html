@@ -1,36 +1,47 @@
 {% extends 'AS/base.html' %}
 
 {% block title %}
-宿舍管理系統-回報系統
+宿舍管理系統 - 維修申請
 {% endblock %}
 
 {% block article %}
-    <h1>問題回報</h1>
+    <h1>維修申請</h1>
     <hr class="heading">
 
     <form action="/RS/RepairmentApply" method="POST">
-    {% csrf_token %}
-    <br>
-    <div>
-        <div>申請維修區域:<input type="text" value="" name="Locate"></div><br>
-        <div>
-            申請維修類別:
-            <select name="Category">
-                    <option value="AC">冷氣</option>
-                    <option value="Bathroom">衛浴</option>
-                    <option value="Furnitures">家具</option>
-                    <option value="Internet">網路</option>
-                    <option value="Others">其他</option>
-            </select>
+        {% csrf_token %}
+
+        <table class="normal">
+            <tr>
+                <th>申請維修區域：</th>
+                <td><input required class="check-input" type="text" value="" name="Locate"></td>
+            </tr>
+
+            <tr>
+                <th>申請維修類別：</th>
+                <td>
+                    <select class="check-input" name="Category">
+                        <option value="AC">冷氣</option>
+                        <option value="Bathroom">衛浴</option>
+                        <option value="Furnitures">家具</option>
+                        <option value="Internet">網路</option>
+                        <option value="Others">其他</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <th style="vertical-align: top">損壞狀況描述：</th>
+                <td><textarea required class="check-input" rows="3" name="discribe"></textarea></td>
+            </tr>
+        </table>
+        
+        <div class="button-section">
+            <input class="button-accept" type="submit" value="送出">
         </div>
-        <br>
-        <div>損壞狀況描述:<input type="text" value="" name="discribe"></div>
-
-        <input type="submit" value="送出">
-    </div>
     </form>
-    {{messege}}
-
+    
+    <span class="attention-font">{{messege}}</span>
 {% endblock %}
 
 {% block topbar %}
@@ -44,12 +55,12 @@
 {% block sidebar %}
     <ul>
         <li><a href="/RS/RepairmentApply" class="sidebar-item-selected">維修申請</a></li>
-        <li><a href="/RS/RepairmentCheck" class="sidebar-item">維修查詢</a></li>
-        <li><a href="/RS/ReportApply" class="sidebar-item">檢舉系統</a></li>
-        <li><a href="/RS/ReportCheck" class="sidebar-item">檢舉查詢</a></li>
+        <li><a href="/RS/RepairmentCheck" class="sidebar-item">維修進度查詢</a></li>
+        <li><a href="/RS/ReportApply" class="sidebar-item">檢舉</a></li>
+        <li><a href="/RS/ReportCheck" class="sidebar-item">檢舉紀錄查詢</a></li>
         <li><a href="/RS/Conductjudge" class="sidebar-item">違規記點</a></li>
-		{% if permission == 0 or permission == 1 %}
-            <li><a href="/RS/ConductCheck" class="sidebar-item">違規停權名單</a></li>
+        {% if permission == 0 or permission == 1 %}
+            <li><a href="/RS/ConductCheck" class="sidebar-item-limited">違規停權名單</a></li>
         {% endif %}
     </ul>
 {% endblock %}

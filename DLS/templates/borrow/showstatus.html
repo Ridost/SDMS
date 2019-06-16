@@ -1,5 +1,7 @@
 {% extends "AS/base.html" %}
 
+{% block title %}宿舍管理系統 - 空間申請狀態{% endblock %}
+
 {% block navbar %}
     {% include "navbar.html" %}
 {% endblock %}
@@ -19,29 +21,37 @@
 {% endblock %}
 
 {% block article %}
+<h1>空間申請狀態</h1>
+<hr class="heading">
 
-    <table>
+    <table class="vertical">
         <thead>
             <tr>
-                <th>借用編號</th>
+                <th>No.</th>
                 <th>借用地點</th>
                 <th>開始時間</th>
                 <th>結束時間</th>
-                <th>備註</th>
                 <th>狀態</th>
             </tr>
         </thead>
-        <tbody>
-            {% for r in record %}
+        {% if record|length == 0 %}
+        <tr>
+            <td colspan="5" style="text-align: center">沒有申請空間記錄。</td>
+        </tr>
+        {% endif %}
+        {% for r in record %}
+            <tbody class="table-block">
                 <tr>
-                    <td>{{ r.id }}</td>
+                    <td rowspan="2">{{ r.id }}</td>
                     <td>{{ r.tag.name }}</td>
                     <td>{{ r.start_time }}</td>
                     <td>{{ r.end_time }}</td>
-                    <td>{{ r.memo }}</td>
-                    <td>{{ r.get_confirm_display }}</td>
+                    <td rowspan="2" style="white-space: nowrap">{{ r.get_confirm_display }}</td>
                 </tr>
-            {% endfor %}
-        </tbody>
+                <tr>
+                    <td colspan="3">備註：{{ r.memo }}</td>
+                </tr>
+            </tbody>
+        {% endfor %}
     </table>
 {% endblock %}

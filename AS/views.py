@@ -8,6 +8,27 @@ import datetime
 from .models import *
 
 # Create your views here.
+def index(request):
+	billboard = Billboard.objects.all().order_by("-date")[:5]
+	try:
+		account = Account.objects.get(user=request.user)
+	except:
+		return render(request, 'AS/index.html', locals())
+
+	lived = False
+	try:
+		dorminfo = DormInfo.objects.get(account=account)
+		lived = True
+	except:
+		lived = False
+		return render(request, 'AS/index.html', locals())
+
+	pk_num = len(Package.objects.filter(receiver=Account.objects.get(user=auth.get_user(request))))
+	now_conduct = StudentInfo.objects.get(account=account).conduct
+
+	return render(request, 'AS/index.html', locals())
+
+
 def current_datetime(request):
 	now = datetime.datetime.now()
 	html = '<html><body>It is now %s.</body></html>' % now
@@ -34,11 +55,11 @@ def main(request):
 	permission = convert_permission(account.permission)
 	phone = account.phone
 	mail = user.email
-	message='Login successed!'
+	message='登入成功。'
 	return render(request, 'AS/main.html', locals())
 
 def login(request):
-	message = 'Welcome please login!'
+	message = ''
 	if request.user.is_authenticated:
 		return redirect('/AS/main/')
 	if request.method == 'POST':
@@ -50,17 +71,17 @@ def login(request):
 				auth.login(request,user)
 				return redirect('/AS/main/')		
 			else:
-				message = 'Account is not active, please login again!'
+				message = '此帳戶目前不可用。如有任何問題，請聯絡管理員。'
 				return render(request, 'AS/login.html', locals())
 		else:
-			message = 'Login failed!'
+			message = '登入失敗。請檢查你的帳號或密碼是否有誤。'
 	return render(request, 'AS/login.html', locals())
 
 @login_required(login_url='/AS/login/')
 def logout(request):
 	auth.logout(request)
 	return redirect('/AS/login/')
-	message = 'Logout successed!'
+	message = '登出成功。'
 
 @login_required(login_url='/AS/login/')
 def modify(request):
@@ -96,6 +117,7 @@ def modify(request):
 def modify_password(request):
 	user = request.user
 	username = user.username
+	account = Account.objects.get(user=user)
 	message = ''
 	if request.method == 'POST':
 		curpass = request.POST['current_pass']
@@ -103,14 +125,14 @@ def modify_password(request):
 		chpass = request.POST['check_pass']
 		
 		if not user.check_password(curpass):				
-			message = "Current password failed!"
+			message = "目前密碼錯誤。"
 			return render(request,"AS/modify_password.html",locals())
 
 		if npass != chpass:
-			message = "Please confirm correct password!"
+			message = "新密碼確認失敗。請檢查兩次輸入是否有誤。"
 			return render(request,"AS/modify_password.html",locals())
 		else:
-			message = "Success!"
+			message = "密碼修改成功。"
 			return render(request,"AS/modify_password.html",locals())
 		user.set_password(npass)
 		user.save()

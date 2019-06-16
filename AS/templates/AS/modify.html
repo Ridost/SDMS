@@ -5,24 +5,24 @@
 {% endblock %}
 
 {% block article %}
+	<h1>修改基本資料</h1>
+    <hr class='heading'>
 	<form action='.' method='POST' name='form1'>
 		{% csrf_token %}
-		<p>User Id:{{stu_id}}</p>
-		<p>Firstname:
-		<input type='text' value='{{fname}}' name='firstname' id='firstname' />
-		</p>
-		<p>Lastname:
-		<input type='text' value='{{lname}}' name='lastname' id='lastname' />
-		</p>
-		<p>Phone:
-		<input type='text' value='{{phone}}' name='phone' id='phone' />
-		</p>
-		<p>Email:
-		<input type='email' value='{{mail}}' name='email' id='email' />
-		</p>
-		<input class='button-accept' type='submit' name='button' value='Submit' />
-		<input class='button-decline' type='button' value='Return' onclick='location="/AS/main/"'>
-		<input class='button-warning' type='button' name='button' value='Modify Password' onclick='location="/AS/modify_password/"' />
+		<table class="normal">
+			<tr><th>學號：</th> <td>{{stu_id}}</td></tr>
+			<tr><th>姓氏：</th> <td><input required type='text' value='{{lname}}' name='lastname' class="check-input"></td></tr>
+			<tr><th>名字：</th> <td><input required type='text' value='{{fname}}' name='firstname' class="check-input"></td></tr>
+			<tr><th>連絡電話：</th> <td><input type='text' value='{{phone}}' name='phone' class="normal-input"></td></tr>
+			<tr><th>E-mail：</th> <td><input type='email' value='{{mail}}' name='email' class="normal-input"></td></tr>
+		</table>
+		
+		<div class="button-section">
+			<input class='button-accept' type='submit' name='button' value='送出'>
+			<input class='button-decline' type='reset' value='重設'>
+			<input class='button-warning' type='button' name='button' value='修改密碼' onclick='location="/AS/modify_password/"'>
+		</div>
+		
 	</form>
 {% endblock %}
 
@@ -33,12 +33,17 @@
 {% endblock %}
 
 {% block sidebar %}
-    <ul>
-		{% if request.user.is_superuser %}
-		<li><a href="/admin/" target="_blank" class="sidebar-item">系統管理員</a></li>
-		{% endif %}
-        <li><a href="/AS/main/" class="sidebar-item">會員基本資料</a></li>
-        <li><a href="/AS/modify/" class="sidebar-item-selected">修改基本資料</a></li>
-        <li><a href="/AS/logout/" class="sidebar-item">登出系統</a></li>
-    </ul>
+	<ul>
+		<li><a href="/AS/main/" class="sidebar-item">會員基本資料</a></li>
+		<li><a href="/AS/modify/" class="sidebar-item-selected">修改基本資料</a></li>
+		<li><a href="/AS/modify_password/" class="sidebar-item">修改密碼</a></li>
+		<li><a href="/AS/logout/" class="sidebar-item">登出系統</a></li>
+
+		{% if account.permission <= 1 %}
+            <li><a href="/BMS/stuinfo_import/" class="sidebar-item-limited">匯入學生資料</a></li>
+        {% endif %}
+        {% if request.user.is_superuser %}
+            <li><a href="/admin/" class="sidebar-item-limited">管理員後台</a></li>
+        {% endif %}
+	</ul>
 {% endblock %}

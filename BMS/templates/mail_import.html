@@ -1,6 +1,34 @@
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{messege}}
-    <input type="file" name="myfile">
-    <input type="submit" value="提交">
-</form>
+{% extends 'AS/base.html' %}
+
+{% block title %}
+    宿舍管理系統 - 匯入學生資料
+{% endblock %}
+
+{% block article %}
+    <h1>匯入包裹資訊</h1>
+    <hr class='heading'>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <input class="button-decline" type="file" name="myfile">
+        <input class="button-accept" type="submit" value="提交">
+        <span class="attention-font">{{messege}}</span>
+    </form>
+{% endblock %}
+
+{% block topbar %}{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    <ul>
+        <li><a href="/DLS/billboard/" class="sidebar-item">公佈欄</a></li>
+        <li><a href="/DLS/package/" class="sidebar-item-limited-selected">包裹管理</a></li>
+        <li><a href="/DLS/borrow/manage/" class="sidebar-item-limited">借用空間管理</a></li>
+    </ul>
+{% endblock %}
+
+
+

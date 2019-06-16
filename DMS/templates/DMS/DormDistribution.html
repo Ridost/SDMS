@@ -1,27 +1,30 @@
 {% extends 'AS/base.html' %}
 
 {% block title %}
-    宿舍管理系統 - 宿舍管理
+    宿舍管理系統 - 宿舍分發
 {% endblock %}
 
 {% block article %}
-<script type="text/javascript">
-    function Distribution()
-    {
-        var r = confirm("確定要開始分發嗎?")
-        if(r==true)
+    <script type="text/javascript">
+        function Distribution()
         {
-            window.location.href = "/DMS/DormDistribution/"
+            var r = confirm("確定要開始分發嗎?")
+            if(r==true)
+            {
+                window.location.href = "/DMS/DormDistribution/"
+            }
         }
-    }
-</script>
+    </script>
+
     <h1>宿舍分發</h1>
     <hr class="heading">
-    申請時間：{{start}} ~ {{end}}<br><br>
+    申請時間：{{start}} ~ {{end}}
     <form action="/DMS/DormDistribution" method="post">
-        <input type="button" class="button-warning"  value="開始分發" onclick="Distribution()">
+        <div class="button-section">
+            <input type="button" class="button-warning"  value="開始分發" onclick="Distribution()">
+        </div>
     </form>
-    <font color="fb0606">{{ error }}{{ message }}</font>
+    <span class="attention-font">{{ error }}{{ message }}</span>
 {% endblock %}
 
 {% block topbar %}{% endblock %}
@@ -32,14 +35,14 @@
 
 {% block sidebar %}
     <ul>
-        <li><a href="/DMS/DormitoryApply" class="sidebar-item">宿舍申請</a></li>
-        <li><a href="/DMS/DormCheck" class="sidebar-item">住宿申請結果查詢</a></li>
+        <li><a href="/DMS/DormitoryApply" class="sidebar-item">入宿申請</a></li>
+        <li><a href="/DMS/DormCheck" class="sidebar-item">宿舍分發查詢</a></li>
         {% if lived %}
-        <li><a href="/DMS/DormRetreatApply" class="sidebar-item">退宿申請</a></li>
+            <li><a href="/DMS/DormRetreatApply" class="sidebar-item">退宿申請</a></li>
         {% endif %}
-        {% if Permission %}
-        <li><a href="/DMS/DormRetreat" class="sidebar-item">退宿</a></li>
-        <li><a href="/DMS/DormSetting" class="sidebar-item">系統設定</a></li>
-        {% endif %}
+        
+        <li><a href="/DMS/DormDistribution" class="sidebar-item-limited-selected">宿舍分發</a></li>
+        <li><a href="/DMS/DormRetreat" class="sidebar-item-limited">移除住宿資格</a></li>
+        <li><a href="/DMS/DormSetting" class="sidebar-item-limited">設定開放日期</a></li>
     </ul>
 {% endblock %}

@@ -1,6 +1,35 @@
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{messege}}
-    <input type="file" name="myfile">
-    <input type="submit" value="提交">
-</form>
+{% extends 'AS/base.html' %}
+
+{% block title %}
+    宿舍管理系統 - 匯入學生資料
+{% endblock %}
+
+{% block article %}
+    <h1>匯入學生資料</h1>
+    <hr class='heading'>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input class="button-decline" type="file" name="myfile">
+        <input class="button-accept" type="submit" value="上傳">
+        <span class="attention-font">{{messege}}</span>
+    </form>
+{% endblock %}
+
+{% block topbar %}{% endblock %}
+
+{% block navbar %}
+    {% include 'AS/navbar.html' %}
+{% endblock %}
+
+{% block sidebar %}
+    <ul>
+        <li><a href="/AS/main/" class="sidebar-item">會員基本資料</a></li>
+        <li><a href="/AS/modify/" class="sidebar-item">修改基本資料</a></li>
+        <li><a href="/AS/modify_password/" class="sidebar-item">修改密碼</a></li>
+        <li><a href="/AS/logout/" class="sidebar-item">登出系統</a></li>
+
+        <li><a href="/BMS/stuinfo_import/" class="sidebar-item-limited-selected">匯入學生資料</a></li>
+        <li><a href="/admin/" class="sidebar-item-limited">管理員後台</a></li>
+    </ul>
+{% endblock %}
+

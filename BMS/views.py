@@ -13,6 +13,7 @@ from AS.models import Account,StudentInfo,Package
 #is superuser?
 @user_passes_test(lambda u: u.is_superuser,login_url='/AS/login/')
 def stuinfo_import(request):
+    messege = ''
     if request.method == 'POST':
         myfile = request.FILES.get('myfile')
         validate=myfile.name.split('.')

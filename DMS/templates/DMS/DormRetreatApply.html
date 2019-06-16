@@ -8,7 +8,7 @@
     <h1>退宿申請</h1>
     <hr class="heading">
     ※放棄宿舍說明：<br>
-於宿舍申請結果公布後7日之內，可於 <font color="fb0606">宿舍管理系統->住宿申請結果查詢</font> 申請放棄住宿，申請成功之後將取消住宿資格，並且於一年之內不得再次申請。<br>
+於宿舍申請結果公布後7日之內，可於 <span class="attention-font">宿舍管理系統 > 住宿申請結果查詢</span> 申請放棄住宿，申請成功之後將取消住宿資格，並且於一年之內不得再次申請。<br>
 <br>※離宿退費手續流程說明：<br>
     找舍監拿退宿、退費申請單，並與舍監約定日期做離宿財產清點、宿舍清潔檢查與
     IC卡宿舍通行功能註銷。<br><br>
@@ -23,14 +23,15 @@
 {% endblock %}
 
 {% block sidebar %}
-    <ul>
-        <li><a href="/DMS/DormitoryApply" class="sidebar-item">宿舍申請</a></li>
-        <li><a href="/DMS/DormCheck" class="sidebar-item">住宿申請結果查詢</a></li>
-        {% if lived %}
-        <li><a href="/DMS/DormRetreatApply" class="sidebar-item-selected">退宿申請</a></li>
-        {% endif %}
-        {% if Permission %}
-        <li><a href="/DMS/RetreatCheck" class="sidebar-item">退宿申請查詢</a></li>
-        {% endif %}
-    </ul>
+<ul>
+    <li><a href="/DMS/DormitoryApply" class="sidebar-item">入宿申請</a></li>
+    <li><a href="/DMS/DormCheck" class="sidebar-item">宿舍分發查詢</a></li>
+    <li><a href="/DMS/DormRetreatApply" class="sidebar-item-selected">退宿申請</a></li>
+
+    {% if account.permission <= 1 %}
+        <li><a href="/DMS/DormDistribution" class="sidebar-item-limited">宿舍分發</a></li>
+        <li><a href="/DMS/DormRetreat" class="sidebar-item-limited">移除住宿資格</a></li>
+        <li><a href="/DMS/DormSetting" class="sidebar-item-limited">設定開放日期</a></li>
+    {% endif %}
+</ul>
 {% endblock %}
