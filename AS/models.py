@@ -96,7 +96,7 @@ class StudentInfo(models.Model):
     grade = models.CharField(max_length=1, choices=GRADES)
     room = models.CharField(max_length=8, null=True)
     bed = models.IntegerField(null=True)
-    conduct = models.PositiveSmallIntegerField()
+    conduct = models.PositiveSmallIntegerField(default=0)
 
 
 class DormRecord(models.Model):
