@@ -1,21 +1,139 @@
-{% extends 'AS/base.html' %}
+<!DOCTYPE html>
+<html>
 
-{% block title %}
-    宿舍管理系統
-{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>宿舍管理系統</title>
 
-{% block article %}
+    {% load staticfiles %}
 
-{% endblock %}
+    <link rel="shortcut icon" href={% static "AS/favicon.ico" %} type="image/x-icon">
+    <link rel=stylesheet type="text/css" href={% static "AS/main_style.css" %}>
 
-{% block topbar %}
-    {% include 'AS/topbat.html' %}
-{% endblock %}
+</head>
 
-{% block navbar %}
-    {% include 'AS/navbar.html' %}
-{% endblock %}
+<body id="body">
+    <div id="main-container">
+        <header id="header">
+            <div id="system-logo">
+                <span><a href='/'><img src={% static "AS/logoword_.png" %} width=300 height=60></a></span>
+            </div>
+            <div id="system-title">
+                <span>宿舍管理系統</span>
+            </div>
+            <div id="login">
+                {% if request.user.is_authenticated %}
+                <span>
+                    {% if request.user.first_name and request.user.first_name.strip %}
+                        {{ request.user.first_name }}，你好。
+                    {% else %}
+                        使用者，你好。
+                    {% endif %}
+                </span>
+                <span>
+                    <a href="/AS/logout/" class="login-button">登出</a>
+                </span>
+                {% else %}
+                <span>
+                    尚未登入。
+                </span>
+                <span>
+                    <a href="/AS/login/" class="login-button">登入</a>
+                </span>
+                {% endif %}
+            </div>
+        </header>
 
-{% block sidebar %}
-    最新消息
-{% endblock %}
+        <div id="content-container">
+            {% include 'AS/topbar.html' %}
+
+            <nav id="navbar">
+                <a href="/DMS/main/" class="navbar-item">宿舍管理</a>
+                <a href="/DLS/billboard/" class="navbar-item">宿舍生活</a>
+                <a href="/RS/main/" class="navbar-item">問題回報</a>
+                <a href="/AS/main/" class="navbar-item">會員專區</a>
+            </nav>
+
+            <div id="content" style="align-items: stretch">
+                <div id="index-billboard">
+                    <h1>最新消息</h1>
+                    {% for b in billboard %}
+                        <span style="font-size: 13px; padding:0 15px 0 0">{{ b.date|date:"Y-m-d" }}</span>
+                        <a class="billboard-item" href="/DLS/billboard/{{ b.id }}/">{{ b.title }}</a>
+                        <hr class="content">
+                    {% endfor %}
+
+                    <div style="text-align: right">
+                        <button class="button-decline" onclick='location.href="/DLS/billboard/"'>更多消息...</button>
+                    </div>
+                </div>
+                <div id="index-login">
+                    {% if request.user.is_authenticated %}
+                        <h1>
+                            {% if request.user.first_name and request.user.first_name.strip %}
+                                歡迎，{{ request.user.first_name }}！
+                            {% else %}
+                                歡迎，使用者！
+                            {% endif %}
+                        </h1>
+                        <hr class="heading">
+                        <div>
+                            <div>今天是 {% now "DATE_FORMAT" %}：</div>
+                            {% if not lived %}
+                                <div style="margin: 15px 0">
+                                    <span style="padding: 0 15px 0 0">你似乎不住在這裡。</span>
+                                    <button class="button-accept" onclick='location.href="/DMS/main/"'>申請宿舍</button>
+                                </div>
+                            {% else %}
+                                {% if pk_num > 0 %}
+                                    <div style="margin: 15px 0">
+                                        <span style="padding: 0 15px 0 0">你有 {{pk_num}} 件未收取的包裹。</span>
+                                        <button class="button-accept" onclick='location.href="/DLS/package/"'>包裹查詢</button>
+                                    </div>
+                                {% else %}
+                                    <div style="margin: 15px 0"><span>你沒有未收取的包裹。</span></div>
+                                {% endif %}
+                                
+                                {% if now_conduct > 0 %}
+                                    <div style="margin: 15px 0">
+                                        <span class="attention-font" style="padding: 0 15px 0 0">你目前的違規點數為 {{now_conduct}}。</span>
+                                        <button class="button-warning" onclick='location.href="/RS/Conductjudge/"'>違規紀錄</button>
+                                    </div>
+                                {% else %}
+                                    <div style="margin: 15px 0">
+                                        <span>祝你有個美好的一天！</span>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="button-section">
+                            <button class='button-decline' onclick='location.href="/AS/logout/"'>登出</button>
+                        </div>
+                    {% else %}
+                        <h1>登入</h1>
+                        <form action='/AS/login/' method='POST' name='form1'>
+                            {% csrf_token %}
+                            <table class="normal" style="width: 100%">
+                                <tr><th>帳號：</th></tr>
+                                <tr><td><input required type='text' name='username' class='check-input'/></td></tr>
+                                <tr><th>密碼：</th></tr>
+                                <tr><td><input required type='password' name='password' class='check-input'/></td></tr>
+                            </table>
+                            <div class="button-section"><input class='button-accept' type='submit' name='login' value='登入'></div>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <footer id="footer">
+            <p>81148 高雄市楠梓區高雄大學路700號</p>
+            <p>700, Kaohsiung University Rd., Nanzih District, Kaohsiung 811, Taiwan, R.O.C.</p>
+            <p>高大總機：886-7-5919000 傳真號碼：886-7-5919083</p>
+            <p>高大校園緊急聯絡電話：886-7-5917885 高大警衛室：886-7-5919009</p>
+            <p>Web Designer: soimportant, Yabadado, NerovaRiuzGX, weiber-hsu, Ridost, tratitude</p>
+        </footer>
+    </div>
+</body>
+
+</html>

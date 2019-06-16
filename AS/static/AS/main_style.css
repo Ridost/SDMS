@@ -199,6 +199,27 @@
     border-radius: 2px;
 }
 
+#index-billboard{
+    flex: 3;
+    padding: 25px 50px;
+    min-width: 360px;
+    border: 3px solid #2b2b2b;
+    border-radius: 2px;
+    margin: 0 5px 0 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#index-login{
+    flex: 2;
+    min-width: 240px;
+    padding: 25px 50px;
+    border: 3px solid #fabe00;
+    border-radius: 2px;
+    margin: 0 0 0 5px;
+}
+
 /*==============================================*/
 
 #footer{
@@ -283,6 +304,7 @@ hr.heading{
 
 hr.content{
     margin: 5px auto;
+    border-color: #2b2b2b;
 }
 
 h1 {

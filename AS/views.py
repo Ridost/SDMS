@@ -9,7 +9,22 @@ from .models import *
 
 # Create your views here.
 def index(request):
-	billboard = Billboard.objects.all().order_by("-date")
+	billboard = Billboard.objects.all().order_by("-date")[:5]
+	try:
+		account = Account.objects.get(user=request.user)
+	except:
+		return render(request, 'AS/index.html', locals())
+
+	lived = False
+	try:
+		dorminfo = DormInfo.objects.get(account=account)
+		lived = True
+	except:
+		lived = False
+		return render(request, 'AS/index.html', locals())
+
+	pk_num = len(Package.objects.filter(receiver=Account.objects.get(user=auth.get_user(request))))
+	now_conduct = StudentInfo.objects.get(account=account).conduct
 
 	return render(request, 'AS/index.html', locals())
 
