@@ -33,7 +33,7 @@
                 <option value="2">處理中的申請</option>
                 <option value="3">已完成的申請</option>
             </select>
-            <input class="button-accept" type="submit" value="確定">
+            <input class="button-accept" type="submit" value="開始查詢">
         </form>
     </div>
     <div>
@@ -49,7 +49,7 @@
                 <th colspan="6" style="text-align: center; background-color: #c4c4c4">已完成的申請</th>
                 {% endif %}
             <tr>
-                <td>No.</td><td>被檢舉人</td><td>類別</td><td>狀況描述</td><td>日期</td>
+                <td>No.</td><td>被檢舉對象</td><td>類別</td><td>日期</td><td>狀態</td>
                 {% if permission == 0 or permission == 1 %}
                     {% if stage != 3 %}
                     <td>
@@ -66,26 +66,31 @@
                 {% endif %}
                 </tr>
                 {% for repair in rec %}
-                <tr>
-                    <td>{{repair.id}}</td><td>{{repair.accused}}</td><td>{{repair.category}}</td>
-                    <td style="word-break: break-all">{{repair.content}}</td><td style="white-space: nowrap">{{repair.date}}</td>
+                <tbody class="table-block">
+                    <tr>
+                        <td rowspan="2">{{repair.id}}</td><td>{{repair.accused}}</td><td>{{repair.category}}</td>
+                        <td style="white-space: nowrap">{{repair.date}}</td><td><span class="attention-font">{{repair.state}}</span></td>
 
-                    {% if permission == 2 or permission == 3 %}
-                    {% if stage == 1 %}
-                     <td>
-                         <input class="button-warning" type="button" value="刪除" onclick="ReportDelete({{repair.id}})">
-                     </td>
-                    {% endif %}
-                    {% endif %}
+                        {% if permission == 2 or permission == 3 %}
+                        {% if stage == 1 %}
+                        <td rowspan="2">
+                            <input class="button-warning" type="button" value="刪除" onclick="ReportDelete({{repair.id}})">
+                        </td>
+                        {% endif %}
+                        {% endif %}
 
-                    {% if permission == 0 or permission == 1 %}
-                    {% if stage != 3 %}
-                    <td>
-                        <input class="button-accept" type="button" value="確認" onclick="ReportModify({{repair.id}})">
-                    </td>
-                    {% endif %}
-                    {% endif %}
-                </tr>
+                        {% if permission == 0 or permission == 1 %}
+                        {% if stage != 3 %}
+                        <td rowspan="2">
+                            <input class="button-accept" type="button" value="確認" onclick="ReportModify({{repair.id}})">
+                        </td>
+                        {% endif %}
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td colspan="4">狀況描述：{{repair.content}}</td>
+                    </tr>
+                </tbody>
                 {% endfor %}
             </table>
         {% endif %}

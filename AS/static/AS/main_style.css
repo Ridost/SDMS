@@ -3,8 +3,8 @@
         -moz-box-sizing: border-box;
             box-sizing: border-box;
 
-    transition: background-color .2s ease-out,
-                font-color .2s ease-out;
+    transition: background-color .15s ease-out,
+                font-color .15s ease-out;
 }
 
 #body{
@@ -300,7 +300,7 @@ h1 {
     margin: 15px 0;
 }
 
-.normal th, td{
+.normal th, .normal td{
     font-family: "NS-Regular";
     /*font-weight: normal;*/
     text-align: left;
@@ -326,12 +326,12 @@ h1 {
     margin: 15px 0;
 }
 
-.vertical th, td{
+.vertical th, .vertical td{
     font-family: "NS-Regular";
     text-align: left;
     vertical-align: middle;
     padding: 5px 10px;
-    border-bottom: 1px solid #c4c4c4;
+    border-bottom: 3px solid #c4c4c4;
 }
 
 .vertical td {
@@ -339,6 +339,12 @@ h1 {
 }
 
 .vertical tr:hover {
+    background-color: #c4c4c4;
+}
+
+/*==============================================*/
+
+.table-block:hover {
     background-color: #c4c4c4;
 }
 
@@ -389,6 +395,21 @@ h1 {
 
 .attention-font {
     color: #d40d0d;
+}
+
+/*==============================================*/
+
+.billboard-item:link{
+    color: #2b2b2b;
+    text-decoration: none;
+}
+
+.billboard-item:visited{
+    color: #575757;
+}
+
+.billboard-item:hover, .billboard-item:active{
+    text-decoration: underline;
 }
 
 /*==============================================*/
