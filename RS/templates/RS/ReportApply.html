@@ -5,7 +5,7 @@
 {% block article %}
     <h1>檢舉</h1>
     <hr class="heading">
-    <form action="/RS/ReportApply" method="POST">
+    <form action="/RS/ReportApply/" method="POST">
         {% csrf_token %}
         
         <table class="normal">
@@ -49,13 +49,13 @@
 
 {% block sidebar %}
     <ul>
-        <li><a href="/RS/RepairmentApply" class="sidebar-item">維修申請</a></li>
-        <li><a href="/RS/RepairmentCheck" class="sidebar-item">維修進度查詢</a></li>
-        <li><a href="/RS/ReportApply" class="sidebar-item-selected">檢舉</a></li>
-        <li><a href="/RS/ReportCheck" class="sidebar-item">檢舉紀錄查詢</a></li>
-        <li><a href="/RS/Conductjudge" class="sidebar-item">違規記點</a></li>
+        <li><a href="/RS/RepairmentApply/" class="sidebar-item">維修申請</a></li>
+        <li><a href="/RS/RepairmentCheck/" class="sidebar-item">維修進度查詢</a></li>
+        <li><a href="/RS/ReportApply/" class="sidebar-item-selected">檢舉</a></li>
+        <li><a href="/RS/ReportCheck/" class="sidebar-item">檢舉紀錄查詢</a></li>
+        <li><a href="/RS/Conductjudge/" class="sidebar-item">違規記點</a></li>
         {% if permission == 0 or permission == 1 %}
-            <li><a href="/RS/ConductCheck" class="sidebar-item-limited">違規停權名單</a></li>
+            <li><a href="/RS/ConductCheck/" class="sidebar-item-limited">違規停權名單</a></li>
         {% endif %}
     </ul>
 {% endblock %}
