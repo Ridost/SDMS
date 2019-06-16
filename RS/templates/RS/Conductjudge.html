@@ -1,6 +1,6 @@
 {% extends 'AS/base.html' %}
 
-{% block title %}宿舍管理系統-違規記點{% endblock %}
+{% block title %}宿舍管理系統 - 違規記點{% endblock %}
 
 {% block article %}
     <h1>違規記點</h1>
@@ -14,30 +14,45 @@
             }
         }
     </script>
+
     {% if permission == 0 or permission == 1 %}
         {% if reply == 1 %}
             <form action="/RS/Conductjudge" method="POST">
                 {% csrf_token %}
-                <div>違 規 者 ： <input type="text" value="" name="accused"></div><br>
-                <div>違規事由：<input type="text" value="" name="reason"></div><br>
-                <div>
-                     違規懲處點數：<select name="point">
-                         <option value="1">1</option>
-                         <option value="2">2</option>
-                         <option value="3">3</option>
-                         <option value="4">4</option>
-                         <option value="5">5</option>
-                         <option value="6">6</option>
-                     </select>
+                <table class="normal">
+                    <tr>
+                        <th>違規者：</th>
+                        <td><input required class="check-input" type="text" value="" name="accused"></td>
+                    </tr>
+                    <tr>
+                        <th>違規事由：</th>
+                        <td><input required class="check-input" type="text" value="" name="reason"></td>
+                    </tr>
+                    <tr>
+                        <th>違規懲處點數：</th>
+                        <td>
+                            <select class="check-input" name="point">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="button-section">
+                    <input type="submit" class="button-warning" value="送出" onclick="check()">
                 </div>
-                <input type="submit" class="button-warning" value="送出" onclick="check()">
             </form>
         {% endif %}
     {% endif %}
 
     {% if permission == 2 or permission == 3 %}
         <table class="vertical">
-            <th colspan="4" style="text-align:center;">違規紀錄</th>
+            <th colspan="4" style="text-align:center; background-color: #c4c4c4">違規紀錄</th>
             <tr>
                 <td>編號</td><td>原因</td><td>點數</td><td>時間</td>
             </tr>
@@ -47,10 +62,10 @@
             </tr>
             {% endfor %}
         </table>
-        <br><div style="text-align:right">總違規點數:{{total_point}}</div>
+        <div style="text-align:right">總違規點數：{{total_point}}</div>
     {% endif %}
 
-    {{messege}}
+    <span class="attention-font">{{messege}}</span>
 {% endblock %}
 
 {% block topbar %}
@@ -62,14 +77,14 @@
 {% endblock %}
 
 {% block sidebar %}
-    <ul>
+<ul>
         <li><a href="/RS/RepairmentApply" class="sidebar-item">維修申請</a></li>
-        <li><a href="/RS/RepairmentCheck" class="sidebar-item">維修查詢</a></li>
-        <li><a href="/RS/ReportApply" class="sidebar-item">檢舉系統</a></li>
-        <li><a href="/RS/ReportCheck" class="sidebar-item">檢舉查詢</a></li>
+        <li><a href="/RS/RepairmentCheck" class="sidebar-item">維修進度查詢</a></li>
+        <li><a href="/RS/ReportApply" class="sidebar-item">檢舉</a></li>
+        <li><a href="/RS/ReportCheck" class="sidebar-item">檢舉紀錄查詢</a></li>
         <li><a href="/RS/Conductjudge" class="sidebar-item-selected">違規記點</a></li>
         {% if permission == 0 or permission == 1 %}
-            <li><a href="/RS/ConductCheck" class="sidebar-item">違規停權名單</a></li>
+            <li><a href="/RS/ConductCheck" class="sidebar-item-limited">違規停權名單</a></li>
         {% endif %}
     </ul>
 {% endblock %}

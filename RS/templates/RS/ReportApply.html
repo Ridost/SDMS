@@ -1,30 +1,42 @@
 {% extends 'AS/base.html' %}
 
-{% block title %}宿舍管理系統-回報系統{% endblock %}
+{% block title %}宿舍管理系統 - 檢舉{% endblock %}
 
 {% block article %}
-    <h1>回報系統</h1>
+    <h1>檢舉</h1>
     <hr class="heading">
     <form action="/RS/ReportApply" method="POST">
         {% csrf_token %}
-        <br>
-        <div>
-            <div>檢舉對象:<input type="text" value="" name="accused"></div><br>
-            <div>
-                申請維修類別:
-                <select name="Category">
+        
+        <table class="normal">
+            <tr>
+                <th>檢舉對象：</th>
+                <td><input required class="check-input" type="text" value="" name="accused"></td>
+            </tr>
+
+            <tr>
+                <th>檢舉類型：</th>
+                <td>
+                    <select class="normal-input" name="Category">
                         <option value="Noise">噪音</option>
                         <option value="Dirty">髒亂</option>
                         <option value="Intrusion">闖入</option>
                         <option value="Others">其他</option>
-                </select>
-            </div>
-            <br>
-            <div>違規地點與狀況描述:<input type="text" value="" name="discribe"></div>
-            <br><input type="submit" class="button-warning" value="送出">
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <th style="vertical-align: top">違規地點與狀況描述：</th>
+                <td><textarea required class="check-input" rows="3" type="textarea" value="" name="discribe"></textarea></td>
+            </tr>
+        </table>
+
+        <div class="button-section">
+            <input type="submit" class="button-warning" value="送出">
         </div>
     </form>
-    {{messege}}
+    <span class="attention-font">{{messege}}</span>
 {% endblock %}
 
 {% block topbar %}
@@ -38,12 +50,12 @@
 {% block sidebar %}
     <ul>
         <li><a href="/RS/RepairmentApply" class="sidebar-item">維修申請</a></li>
-        <li><a href="/RS/RepairmentCheck" class="sidebar-item">維修查詢</a></li>
-        <li><a href="/RS/ReportApply" class="sidebar-item-selected">檢舉系統</a></li>
-        <li><a href="/RS/ReportCheck" class="sidebar-item">檢舉查詢</a></li>
+        <li><a href="/RS/RepairmentCheck" class="sidebar-item">維修進度查詢</a></li>
+        <li><a href="/RS/ReportApply" class="sidebar-item-selected">檢舉</a></li>
+        <li><a href="/RS/ReportCheck" class="sidebar-item">檢舉紀錄查詢</a></li>
         <li><a href="/RS/Conductjudge" class="sidebar-item">違規記點</a></li>
         {% if permission == 0 or permission == 1 %}
-            <li><a href="/RS/ConductCheck" class="sidebar-item">違規停權名單</a></li>
+            <li><a href="/RS/ConductCheck" class="sidebar-item-limited">違規停權名單</a></li>
         {% endif %}
     </ul>
 {% endblock %}
