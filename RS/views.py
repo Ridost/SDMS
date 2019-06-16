@@ -240,7 +240,7 @@ def ReportCheck(request):
                         'id': record.id}
                     rec.append(d)
             else:
-                messege = '沒有正在處理中的檢舉項目。'
+                messege = '沒有此類別的檢舉紀錄。'
         return render(request, "RS/ReportCheck.html", locals())
 
 

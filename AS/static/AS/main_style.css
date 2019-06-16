@@ -352,6 +352,7 @@ h1 {
 
 .normal-input {
     font-family: "NS-Regular";
+    font-size: 13px;
     min-width: 125px;
     background-color: transparent;
     border: 2px solid #575757;
@@ -365,6 +366,7 @@ h1 {
 
 .check-input {
     font-family: "NS-Regular";
+    font-size: 13px;
     min-width: 125px;
     background-color: transparent;
     border: 2px solid #575757;
