@@ -25,12 +25,6 @@
 {% block article %}
 <h1>查看包裹</h1>
 <hr class="heading">
-    {% if is_manager %}
-        <script>
-            window.location.href = "/DLS/package/manage/";
-        </script>
-    {% endif %}
-
     {% if package %}
         <script>
             alert('您有{{ package|length }}件新包裹尚未領取。');

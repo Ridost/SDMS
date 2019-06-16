@@ -126,10 +126,11 @@ def ShowPackage(request):
     is_manager = IsManager(request)
     package = None
 
-    if not is_manager:
+    if is_manager:
+        return redirect('/DLS/package/manage/')
+    else:
         package = Package.objects.filter(receiver = Account.objects.get(user = auth.get_user(request)))
-        
-    return render(request, 'package.html', locals())
+        return render(request, 'package.html', locals())
 
 
 def ManagePackage(request):
