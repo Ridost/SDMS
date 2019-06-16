@@ -143,7 +143,7 @@ def DormCheck(request):
                 now = datetime.date.today()
                 end = TIME.EndTime
                 if now > end:
-                    result = "銘謝惠顧"
+                    result = "未抽中床位"
                 else:
                     result = "尚未開始分發"
             dm = {
@@ -219,7 +219,7 @@ def DormCheck(request):
             if now < end:
                 result = "尚未分發"
             else:
-                result = "銘謝惠顧"
+                result = "未抽中床位"
         try:
             student = StudentInfo.objects.get(account=ac)
         except:
@@ -242,7 +242,7 @@ def DormCheck(request):
         if now > start and now < end:  # 宿舍申請期間
             checked = 0
         elif now < end+datetime.timedelta(days=7):  # 截止7天之內
-            if result != "銘謝惠顧":
+            if result != "未抽中床位":
                 checked = 1
         try:
             topics = paginator.page(page)

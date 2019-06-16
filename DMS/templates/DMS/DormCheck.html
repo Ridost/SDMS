@@ -35,10 +35,10 @@
         <tr>
             <td>{{dorm.D1}}</td><td>{{dorm.D2}}</td><td>{{dorm.D3}}</td><td>{{dorm.result}}</td>
             {% ifequal checked 0 %}
-                <td><input class = "button-accept" type="button" onclick="DormDelete()"value="刪除"></td>
+                <td><input class = "button-accept" type="button" onclick="DormDelete()" value="取消申請"></td>
             {% endifequal %}
             {% ifequal checked 1 %}
-                <td><input class = "button-accept" type="button" onclick="DormRetreat()"value="退宿"></td>
+                <td><input class = "button-accept" type="button" onclick="DormRetreat()" value="放棄入住"></td>
             {% endifequal %}
         </tr>
         {% endfor %}
