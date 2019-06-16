@@ -256,11 +256,11 @@ def ReportModify(request, id):
         Record = Report.objects.get(id=id)
         state = Record.state
         if state == 'Reported':
-            messege='送出成功。'
+            messege='狀態變更成功。'
             rec = Report.objects.filter(id=id).update(state='WIP')
             return render(request, "RS/ReportCheck.html", locals())
         elif state == 'WIP':
-            messege='送出成功。'
+            messege='狀態變更送出成功。'
             rec = Report.objects.filter(id=id).update(state='Done')
             return render(request, "RS/ReportCheck.html", locals())
         else:
@@ -333,6 +333,7 @@ def Conductjudge(request):
         except:
             messege='資料錯誤，請再試一次。如果重複出現此錯誤，請聯絡系統管理員。'
             return render(request, 'RS/Conductjudge.html', locals())
+    return render(request, 'RS/Conductjudge.html', locals())
 
 
 @login_required(login_url='/AS/login/')

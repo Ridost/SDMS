@@ -1,6 +1,6 @@
 {% extends "AS/base.html" %}
 
-{% block title %} 宿舍生活系統 {% endblock %}
+{% block title %} 宿舍管理系統 - 公佈欄 {% endblock %}
 
 {% block script %}
 
@@ -8,87 +8,87 @@
 
 <script>
     $.ajaxSetup({
-        data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+        data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
     });
 
-    window.onload = function(){
-        $("#new_billboard").click(function(){
+    window.onload = function () {
+        $("#new_billboard").click(function () {
             $("#new_dialog").dialog({
                 width: 800,
                 buttons: {
-                    "新增公告" : function(){
+                    "新增公告": function () {
                         var title = $("#new_title").val()
                         var content = CKEDITOR.instances.new_content.getData();
-                        
-                        if(content.length !== 0){
+
+                        if (content.length !== 0) {
                             $.post("/DLS/billboard/add/", {
-                                title : title, 
-                                content : content,
+                                title: title,
+                                content: content,
                                 csrfmiddlewaretoken: '{{ csrf_token }}'
-                            }, function(result){
+                            }, function (result) {
                                 alert("新增成功!!!")
                                 window.location.reload();
                             });
-                            
-                        }else{
+
+                        } else {
                             $("#new_dialog p").text('公告不得為空');
                         }
                     },
-                    "取消" : function(){
+                    "取消": function () {
                         $(this).dialog("close")
                     }
                 },
-                open : function(){
+                open: function () {
                     $("#new_dialog textarea").ckeditor();
                 }
             })
         })
     }
 
-    function Modify_Billboard(id){
+    function Modify_Billboard(id) {
 
-        var billboard = document.getElementById('content'+id).getElementsByTagName('td');
+        var billboard = document.getElementById('content' + id).getElementsByTagName('td');
         var origin_title = billboard[1].innerHTML;
         var origin_content = billboard[3].innerHTML;
-        
+
         $("#modify_dialog").dialog({
             width: 800,
             buttons: {
-                "更新公告" : function(){
+                "更新公告": function () {
                     var Modify_title = $("#modify_title").val();
                     var Modify_content = CKEDITOR.instances.modify_content.getData();
-                    
-                    if(content.length !== 0){
+
+                    if (content.length !== 0) {
                         $.post("/DLS/billboard/modify/", {
-                            id : id,
-                            title : Modify_title, 
-                            content : Modify_content,
-                        }, function(result){
-                            alert('更新成功!!!');
+                            id: id,
+                            title: Modify_title,
+                            content: Modify_content,
+                        }, function (result) {
+                            alert('公告更新成功。');
                             window.location.reload();
                         });
-                    }else{
+                    } else {
                         $("#modify_dialog p").text('公告不得為空')
                     }
                 },
-                "取消" : function(){
+                "取消": function () {
                     $(this).dialog("close");
                 }
             },
-            open : function(){
+            open: function () {
                 $("#modify_content").ckeditor();
                 $("#modify_title").val(origin_title);
                 CKEDITOR.instances.modify_content.setData(origin_content);
             }
         });
     }
-    function Delete_Billboard(id){
-        $.post('/DLS/billboard/delete/', { 
-            'id' : id,
-            function(result){
-                alert('刪除成功!!!');
+    function Delete_Billboard(id) {
+        $.post('/DLS/billboard/delete/', {
+            'id': id,
+            function(result) {
+                alert('公告刪除成功。');
                 document.location.reload();
-            } 
+            }
         });
     }
 
@@ -97,76 +97,84 @@
 {% endblock %}
 
 {% block article %}
-    <!-- 是管理員顯示的內容 -->
-    {% if is_manager %}
-        <button class="button-accept" id="new_billboard">新增公佈欄</button>
-        <div id='new_dialog'>
-            <form>
-                <span>標題 : </span><input id = "new_title" type = "text" required> <br/><br/>
-                <textarea id='new_content'></textarea>
-                <p id='error_msg'></p>
-            </form>
-        </div>
-        <div id='modify_dialog'>
-            <form>
-                <span>標題 : </span><input id = "modify_title" type = "text" required> <br/><br/>
-                <textarea id='modify_content'></textarea>
-                <p id='error_msg'></p>
-            </form>
-        </div>
-        <style>
-            #new_dialog{
-                display: none
-            }
-            #modify_dialog{
-                display: none
-            }
-        </style>
-    {% endif %}
+<h1>公佈欄</h1>
+<hr class="heading">
 
-    <!-- 公佈欄顯示 -->
-    
-    <div>
-        <table class="vertical">
-            <tr>
-                <th>日期</th> <th>發布者</th> <th>標題</th>
-                {% if is_manager %}
-                    <th>
-                        操作
-                    </th>
-                {% endif %}
-            </tr>
+<!-- 是管理員顯示的內容 -->
+{% if is_manager %}
+<button class="button-accept" id="new_billboard">新增公佈欄</button>
+<div id='new_dialog'>
+    <form>
+        <span>標題 : </span><input id="new_title" type="text" required> <br /><br />
+        <textarea id='new_content'></textarea>
+        <p id='error_msg'></p>
+    </form>
+</div>
+<div id='modify_dialog'>
+    <form>
+        <span>標題 : </span><input id="modify_title" type="text" required> <br /><br />
+        <textarea id='modify_content'></textarea>
+        <p id='error_msg'></p>
+    </form>
+</div>
+<style>
+    #new_dialog {
+        display: none
+    }
 
-            {% for b in billboard %}
-                <tr>
-                    <td style="white-space: nowrap">{{ b.date }}</td> <td>{{ b.publisher.user.username }}</td> <td><a href = "/DLS/billboard/{{ b.id }}/">{{ b.title }}</a></td></td>
-                    {% if is_manager %}
-                        <td>
-                            <button class = "button-accept" onclick = "Modify_Billboard( '{{ b.id }}' )">修改</button>
-                            <button class = "button-warning" onclick = "Delete_Billboard( '{{ b.id }}' )">刪除</button>
-                        </td>
-                    {% endif %}
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
-    
+    #modify_dialog {
+        display: none
+    }
+</style>
+{% endif %}
+
+<!-- 公佈欄顯示 -->
+
+<div>
+    <table class="vertical">
+        <tr>
+            <th>日期</th>
+            <th>發布者</th>
+            <th>標題</th>
+            {% if is_manager %}
+            <th>
+                操作
+            </th>
+            {% endif %}
+        </tr>
+
+        {% for b in billboard %}
+        <tr>
+            <td style="white-space: nowrap">{{ b.date }}</td>
+            <td>{{ b.publisher.user.username }}</td>
+            <td style="word-break: break-all"><a class="billboard-item" href="/DLS/billboard/{{ b.id }}/">{{ b.title }}</a></td>
+            {% if is_manager %}
+            <td>
+                <button class="button-accept" onclick="Modify_Billboard( '{{ b.id }}' )">修改</button>
+                <button class="button-warning" onclick="Delete_Billboard( '{{ b.id }}' )">刪除</button>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
 {% endblock %}
 
 {% block navbar %}
-    {% include "navbar.html" %}
+{% include "navbar.html" %}
 {% endblock %}
 
 {% block sidebar %}
 <ul>
     <li><a href="/DLS/billboard/" class="sidebar-item-selected">公佈欄</a></li>
     {% if is_manager %}
-        <li><a href="/DLS/package/" class="sidebar-item">包裹管理</a></li>
-        <li><a href="/DLS/borrow/manage/" class="sidebar-item">借用空間管理</a></li>
+    <li><a href="/DLS/package/" class="sidebar-item-limited">包裹管理</a></li>
+    <li><a href="/DLS/borrow/manage/" class="sidebar-item-limited">借用空間管理</a></li>
     {% else %}
-        <li><a href="/DLS/package/" class="sidebar-item">查看包裹</a></li>
-        <li><a href="/DLS/borrow/apply/" class="sidebar-item">申請借用空間</a></li>
-        <li><a href="/DLS/borrow/status/" class = "sidebar-item">空間申請狀態</a></li>
+    <li><a href="/DLS/package/" class="sidebar-item">查看包裹</a></li>
+    <li><a href="/DLS/borrow/apply/" class="sidebar-item">申請借用空間</a></li>
+    <li><a href="/DLS/borrow/status/" class="sidebar-item">空間申請狀態</a></li>
     {% endif %}
 </ul>
 {% endblock %}

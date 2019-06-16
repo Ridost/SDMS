@@ -204,7 +204,8 @@ def CheckSpace(request):
     end = end.replace(hour = end.hour + int(borrow_length))
 
     Yes = True
-    message = "這個時段沒有人借用!!!"
+    message = ""
+    # 本來應該是寫"沒人借用"，但沒東西其實也一樣，看起來反而工整。
     record = BorrowRecord.objects.filter(tag = tag)
 
 
@@ -223,7 +224,7 @@ def CheckSpace(request):
             end = rec.end_time
 
     if not Yes and start < end:
-        message = '{0} 與 {1} 之間已經有人借用'.format(start, end)
+        message = '本時段（{0} ~ {1}）已經有人借用。'.format(start, end)
 
     print(start, end)
 

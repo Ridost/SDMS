@@ -1,5 +1,9 @@
 {% extends "AS/base.html" %}
 
+{% block title %}
+    宿舍管理系統 - 申請借用空間
+{% endblock %}
+
 {% block navbar %}
     {% include "navbar.html" %}
 {% endblock %}
@@ -47,37 +51,57 @@
 {% endblock %}
 
 {% block article %}
+<h1>申請借用空間</h1>
+<hr class="heading">
 
     <form method="POST" action="../apply/">
         {% csrf_token %}
-        <span>請選擇欲借用的空間 : </span>
-        <select name = "tag" id = "space" onchange="is_ok()" required>
-            {% for e in equip %}
-            <option value="{{ e.tag }}"> {{ e.name }}</option>
-            {% endfor %}
-        </select> <br/> <br/>
+        <table class="normal">
+            <tr>
+                <th>欲借用空間：</th>
+                <td>
+                    <select class="check-input" id="space" name="tag" onchange="is_ok()" required>
+                        {% for e in equip %}
+                        <option value="{{ e.tag }}"> {{ e.name }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
 
-        <span>借用時間 : </span>
-        <input type="date" id = "date" name = "date" onchange = "is_ok()" required> 
-        <select id = "start_hour" name = "start_hour" onchange = "is_ok()" required>
-            {% for i in i|rjust:11 %}
-                <option value = "{{ forloop.counter | add:'7' }}"> {{ forloop.counter | add:'7' }}</option>
-            {% endfor %}
-        </select> <span>點</span> <br/> <br/>
+            <tr>
+                <th>開始借用時間：</th>
+                <td>
+                    <input class="check-input" id="date" type="date" name="date" onchange="is_ok()" required>，
+                    <select class="check-input" id="start_hour" name="start_hour" onchange="is_ok()" required>
+                        {% for i in i|rjust:11 %}
+                        <option value = "{{ forloop.counter | add:'7' }}"> {{ forloop.counter | add:'7' }}</option>
+                        {% endfor %}
+                    </select> 點
+                </td>
+            </tr>
 
-        <span>欲借用時間長度 : </span>
-        <select id = "borrow_length" name = "borrow_length" onchange="is_ok()" required>
-            {% for i in i|rjust:12 %}
-                <option value = "{{ forloop.counter }}"> {{ forloop.counter }}</option>
-            {% endfor %}
-        </select> <span>小時</span> <br/> <br/>
-        <span>附註 : </span> <input type="text" name = "memo"> <br/> <br/>
+            <tr>
+                <th>借用時長：</th>
+                <td>
+                    <select class="check-input" id="borrow_length" name="borrow_length" onchange="is_ok()" required>
+                        {% for i in i|rjust:12 %}
+                        <option value = "{{ forloop.counter }}"> {{ forloop.counter }}</option>
+                        {% endfor %}
+                    </select>小時
+                </td>
+            </tr>
 
-        <input class = "button-accept" type="submit" value = "提交">
+            <tr>
+                <th style="vertical-align: top">附註：</th>
+                <td><textarea class="normal-input" rows="3" name="memo"></textarea></td>
+            </tr>
+        </table>
+        
+        <div class="button-section">
+            <input class="button-accept" type="submit" value="提交">
+        </div>
+        
     </form>
 
-    <strong id = "checkmessage"></strong> <br/>
-
-    
-
+    <div class="attention-font"><span id="checkmessage"></span></div>
 {% endblock %}
