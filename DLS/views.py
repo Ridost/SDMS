@@ -132,7 +132,6 @@ def ShowPackage(request):
         package = Package.objects.filter(receiver = Account.objects.get(user = auth.get_user(request)))
         return render(request, 'package.html', locals())
 
-
 def ManagePackage(request):
     is_manager = IsManager(request)
     package = Package.objects.filter(verify=False)
