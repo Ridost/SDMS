@@ -1,19 +1,28 @@
 {% extends 'AS/base.html' %}
 
 {% block title %}
-宿舍管理系統-回報系統
+宿舍管理系統 - 問題回報
 {% endblock %}
 
 {% block article %}
     <h1>問題回報</h1>
     <hr class="heading">
 
-    <input type="button" class="button-accept" value="報修申請" onclick="location='/RS/RepairmentApply'">
-    <input type="button" class="button-accept" value="報修查詢" onclick="location='/RS/RepairmentCheck'">
-    <input type="button" class="button-accept" value="申訴回報" onclick="location='/RS/ReportApply'">
-    <input type="button" class="button-accept"  value="申訴查詢" onclick="location='/RS/ReportCheck'">
-
-
+    <div class="button-section">
+        <input type="button" class="button-accept" value="維修申請" onclick="location='/RS/RepairmentApply/'">
+        <input type="button" class="button-decline" value="維修進度查詢" onclick="location='/RS/RepairmentCheck/'">
+    </div>
+    <div class="button-section">
+        <input type="button" class="button-accept" value="檢舉" onclick="location='/RS/ReportApply/'">
+        <input type="button" class="button-decline" value="檢舉紀錄查詢" onclick="location='/RS/ReportCheck/'"> 
+    </div>
+    <div class="button-section">
+        <input type="button" class="button-accept" value="違規記點" onclick="location='/RS/Conductjudge/'">
+        {% if permission == 0 or permission == 1 %}
+            <input type="button" class="button-warning" value="違規停權名單" onclick="location='/RS/ConductCheck/'">
+        {% endif %}
+    </div>
+    
 {% endblock %}
 
 {% block topbar %}
@@ -26,13 +35,13 @@
 
 {% block sidebar %}
     <ul>
-        <li><a href="/RS/RepairmentApply" class="sidebar-item">維修申請</a></li>
-        <li><a href="/RS/RepairmentCheck" class="sidebar-item">維修查詢</a></li>
-        <li><a href="/RS/ReportApply" class="sidebar-item">檢舉系統</a></li>
-        <li><a href="/RS/ReportCheck" class="sidebar-item">檢舉查詢</a></li>
-        <li><a href="/RS/Conductjudge" class="sidebar-item">違規記點</a></li>
+        <li><a href="/RS/RepairmentApply/" class="sidebar-item">維修申請</a></li>
+        <li><a href="/RS/RepairmentCheck/" class="sidebar-item">維修進度查詢</a></li>
+        <li><a href="/RS/ReportApply/" class="sidebar-item">檢舉</a></li>
+        <li><a href="/RS/ReportCheck/" class="sidebar-item">檢舉紀錄查詢</a></li>
+        <li><a href="/RS/Conductjudge/" class="sidebar-item">違規記點</a></li>
         {% if permission == 0 or permission == 1 %}
-            <li><a href="/RS/ConductCheck" class="sidebar-item">違規停權名單</a></li>
+            <li><a href="/RS/ConductCheck/" class="sidebar-item-limited">違規停權名單</a></li>
         {% endif %}
     </ul>
 {% endblock %}

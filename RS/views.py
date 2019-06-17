@@ -29,7 +29,7 @@ def RepairmentApply(request):
         discribe = request.POST['discribe']
         state = 'Reported'
         if discribe == '':
-            messege = '請確認損壞物件描述及方便前往維修時間是否正確填寫'
+            messege = '請確認損壞物件描述是否正確填寫。'
             render(request, "RS/RepairmentApply.html", locals())
         else:
             with transaction.atomic():
@@ -37,7 +37,7 @@ def RepairmentApply(request):
                     publisher=user, location=locate, category=category, content=discribe,
                     state=state, date=datetime.datetime.now(),
                 )
-            messege = '已成功申請'
+            messege = '申請成功。'
     else:
         defcategory=''
 
@@ -82,7 +82,7 @@ def RepairmentCheck(request):
                     rec.append(d)
                 messege=''
             else:
-                messege='沒有正在處理中的報修申請'
+                messege='沒有此類別的報修申請紀錄。'
             return render(request, "RS/RepairmentCheck.html", locals())
     else:
         if request.method == 'POST':
@@ -110,7 +110,7 @@ def RepairmentCheck(request):
                         'id': record.id}
                     rec.append(d)
             else:
-                messege = '沒有正在處理中的報修申請'
+                messege = '沒有此類別的報修申請紀錄。'
     return render(request, "RS/RepairmentCheck.html", locals())
 
 
@@ -118,10 +118,10 @@ def RepairmentCheck(request):
 def RepairDelete(request, id):
     try:
         Repairment.objects.get(id=id).delete()
-        messege = '刪除成功'
+        messege = '刪除成功。'
         return render(request, "RS/RepairmentCheck.html", locals())
     except:
-        messege = '資料錯誤'
+        messege = '資料錯誤，請再試一次。如果重複出現此錯誤，請聯絡系統管理員。'
         return render(request, "RS/RepairmentCheck.html", locals())
 
 
@@ -143,7 +143,7 @@ def RepairModify(request, id):
             rec = Repairment.objects.filter(id=id).update(state='Done')
             return render(request, "RS/RepairmentCheck.html", locals())
         else:
-            messege = '資料錯誤，請再試一次'
+            messege = '資料錯誤，請再試一次。'
             return render(request, "RS/RepairmentCheck.html", locals())
 
 
@@ -158,7 +158,7 @@ def ReportApply(request):
         comment = request.POST['discribe']
         state = 'Reported'
         if comment == '':
-            messege = '請確認檢舉描述是否正確填寫'
+            messege = '請確認檢舉描述是否正確填寫。'
             render(request, "RS/ReportApply.html", locals())
         else:
             with transaction.atomic():
@@ -166,7 +166,7 @@ def ReportApply(request):
                     publisher=user, accused=accused, category=category, content=comment,
                     state=state, date=datetime.datetime.now(),
                 )
-            messege = '申請成功'
+            messege = '申請成功。'
     else:
         messege = ''
 
@@ -212,7 +212,7 @@ def ReportCheck(request):
                     }
                     rec.append(d)
             else:
-                messege = '沒有正在處理中的檢舉'
+                messege = '沒有此類別的檢舉紀錄。'
         return render(request, "RS/ReportCheck.html", locals())
     else:
         if request.method == 'POST':
@@ -240,7 +240,7 @@ def ReportCheck(request):
                         'id': record.id}
                     rec.append(d)
             else:
-                messege = '沒有正在處理中的檢舉'
+                messege = '沒有此類別的檢舉紀錄。'
         return render(request, "RS/ReportCheck.html", locals())
 
 
@@ -256,15 +256,15 @@ def ReportModify(request, id):
         Record = Report.objects.get(id=id)
         state = Record.state
         if state == 'Reported':
-            messege='送出成功'
+            messege='狀態變更成功。'
             rec = Report.objects.filter(id=id).update(state='WIP')
             return render(request, "RS/ReportCheck.html", locals())
         elif state == 'WIP':
-            messege='送出成功'
+            messege='狀態變更送出成功。'
             rec = Report.objects.filter(id=id).update(state='Done')
             return render(request, "RS/ReportCheck.html", locals())
         else:
-            messege = '資料錯誤，請再試一次'
+            messege = '資料錯誤，請再試一次。如果重複出現此錯誤，請聯絡系統管理員。'
             return render(request, "RS/ReportCheck.html", locals())
 
 
@@ -272,10 +272,10 @@ def ReportModify(request, id):
 def ReportDelete(request, id):
     try:
         Report.objects.get(id=id).delete()
-        messege = '刪除成功'
+        messege = '刪除成功。'
         return redirect('/RS/ReportCheck')
     except:
-        messege = '資料錯誤'
+        messege = '資料錯誤，請再試一次。如果重複出現此錯誤，請聯絡系統管理員。'
         return render(request, "RS/ReportApply.html", locals())
 
 
@@ -300,13 +300,16 @@ def Conductjudge(request):
                         now_conduct = int(now_conduct) + int(point)
                         StudentInfo.objects.filter(account=account).update(conduct=now_conduct)
                     reply = 0
-                    messege = '新增成功'
-                    return render(request, "RS/Conductjudge.html", locals())
+                    messege = '新增成功。'
+                    # return render(request, "RS/Conductjudge.html", locals())
+                    return redirect('/RS/ConductCheck')
                 else:
-                    messege = '此人並非住宿生'
+                    reply = 1
+                    messege = '此用戶並非住宿生。'
                     return render(request, "RS/Conductjudge.html", locals())
             except:
-                messege = '查無此資料或輸入錯誤'
+                reply = 1
+                messege = '查無此資料或輸入錯誤。'
                 return render(request, "RS/Conductjudge.html", locals())
         else:
             reply = 1
@@ -328,8 +331,9 @@ def Conductjudge(request):
                     rec.append(cd)
                 return render(request, 'RS/Conductjudge.html', locals())
         except:
-            messege='錯誤'
+            messege='資料錯誤，請再試一次。如果重複出現此錯誤，請聯絡系統管理員。'
             return render(request, 'RS/Conductjudge.html', locals())
+    return render(request, 'RS/Conductjudge.html', locals())
 
 
 @login_required(login_url='/AS/login/')

@@ -1,7 +1,7 @@
 {% extends "AS/base.html" %}
 
 {% block title %}
-    宿舍生活系統 -- 包裹
+    宿舍管理系統 - 查看包裹
 {% endblock %}
 
 {% block navbar %}
@@ -12,8 +12,8 @@
 <ul>
     <li><a href="/DLS/billboard/" class="sidebar-item">公佈欄</a></li>
     {% if is_manager %}
-        <li><a href="/DLS/package/" class="sidebar-item-selected">包裹管理</a></li>
-        <li><a href="/DLS/borrow/manage/" class="sidebar-item">借用空間管理</a></li>
+        <li><a href="/DLS/package/" class="sidebar-item-limited">包裹管理</a></li>
+        <li><a href="/DLS/borrow/manage/" class="sidebar-item-limited">借用空間管理</a></li>
     {% else %}
         <li><a href="/DLS/package/" class="sidebar-item-selected">查看包裹</a></li>
         <li><a href="/DLS/borrow/apply/" class="sidebar-item">申請借用空間</a></li>
@@ -23,47 +23,39 @@
 {% endblock %}
 
 {% block article %}
-
-{% if is_manager %}
-
-<script>
-    window.location.href = "/DLS/package/manage/";
-</script>
-
-{% endif %}
-
-{% if package %}
-    <script>
-        alert('您有新包裹尚未領取!!!');
-    </script>
-    <table>
-        <thead>
-            <tr>
-                <td>日期</td>
-                <td>種類</td>
-                <td>寄件者</td>
-            </tr>
-        </thead>    
-        <tbody>
-        {% for p in package %}
-        
-            <tr>
-                <td> {{ p.date }} </td>
-                <td> {{ p.get_category_display }}</td>
-                <td> {{ p.sender }}</td>
-            </tr>
-        
-        {% endfor %}
-        </tbody>
-    </table>
+<h1>查看包裹</h1>
+<hr class="heading">
+    {% if package %}
+        <script>
+            alert('您有{{ package|length }}件新包裹尚未領取。');
+        </script>
+        <table class="vertical">
+            <thead>
+                <tr>
+                    <td>日期</td>
+                    <td>種類</td>
+                    <td>寄件者</td>
+                </tr>
+            </thead>    
+            <tbody>
+            {% for p in package %}
+            
+                <tr>
+                    <td> {{ p.date }} </td>
+                    <td> {{ p.get_category_display }}</td>
+                    <td> {{ p.sender }}</td>
+                </tr>
+            
+            {% endfor %}
+            </tbody>
+        </table>
 
     {% else %}
-
-    <script>
-        alert('當前沒有新包裹');
-    </script>
+        <script>
+            alert('當前沒有新包裹。');
+        </script>
+        <span>你沒有需要處理的包裹。</span>
     
-{% endif %}
-
+    {% endif %}
 
 {% endblock %}

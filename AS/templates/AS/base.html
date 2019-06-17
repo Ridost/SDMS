@@ -17,7 +17,7 @@
     <div id="main-container">
         <header id="header">
             <div id="system-logo">
-                <span><img src={% static "AS/logoword_.png" %} width=300 height=60></span>
+                <span><a href="/"><img src={% static "AS/logoword_.png" %} width=300 height=60></a></span>
             </div>
             <div id="system-title">
                 <span>宿舍管理系統</span>
@@ -25,7 +25,11 @@
             <div id="login">
                 {% if request.user.is_authenticated %}
                 <span>
-                    {{ request.user.first_name }}，你好。
+                    {% if request.user.first_name and request.user.first_name.strip %}
+                        {{ request.user.first_name }}，你好。
+                    {% else %}
+                        使用者，你好。
+                    {% endif %}
                 </span>
                 <span>
                     <a href="/AS/logout/" class="login-button">登出</a>

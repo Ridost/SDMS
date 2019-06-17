@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 from AS.models import StudentInfo, Billboard, Account, Package, Equipment, BorrowRecord
 import datetime
@@ -9,20 +11,73 @@ import json
 
 # Billboard
 
+@login_required(login_url='/AS/login/')
 def IsManager(request):
     user = Account.objects.get(user = auth.get_user(request))
     return user.permission <= 1
 
+
+@login_required(login_url='/AS/login/')
 def ShowBillboard(request):
-    """
-    取出公佈欄的資料，並判斷當前登入者是不是管理員
-    """
-    billboard = Billboard.objects.all()
-
-    # 是不是管理員
+    
+    # 取出公佈欄的資料，並判斷當前登入者是不是管理員
+    
     is_manager = IsManager(request)
+    billboard = Billboard.objects.all().order_by("-date")
 
-    return render(request, 'main.html', locals())
+    page_num = int(request.GET.get('page', 1))
+
+    if not billboard.exists():
+        return render(request, 'main.html', locals())
+
+    pages, previous_page, next_page = Paginator(billboard, 5), None, None
+
+    if page_num > pages.num_pages:
+        page_num = 1
+    
+    now_page = pages.page(page_num)
+
+    if now_page.has_previous():
+        previous_page = now_page.previous_page_number()
+    if now_page.has_next():
+        next_page = now_page.next_page_number()
+
+    return render(request, 'main.html', {'now_page' : now_page,
+                                         'previous_page' : previous_page,
+                                         'next_page' : next_page,
+                                         'is_manager' : is_manager })
+
+
+def ShowSpecificBillboard(request, id = None):
+    if id == None:
+        return HttpResponseRedirect("../")
+
+    is_manager = IsManager(request)
+    billboard = Billboard.objects.get(id = int(id))
+
+    if not billboard:
+        return HttpResponseRedirect("../")
+
+    return render(request, 'billboard/showbillboard.html', locals())
+
+
+def GetSpecificBillboard(request):
+    
+    id = request.POST.get('id')
+
+    if id == None:
+        return HttpResponseRedirect('/DLS/billboard/')
+
+    is_manager = IsManager(request)
+    billboard = Billboard.objects.get(id = int(id))
+
+    if not billboard:
+        return HttpResponseRedirect("../")
+
+    ret = {'title' : billboard.title, 'content' : billboard.content}
+    
+    return JsonResponse(ret)
+    
 
 def AddBillboard(request):
     title = request.POST.get('title', '')
@@ -37,9 +92,11 @@ def AddBillboard(request):
     Billboard.objects.create(title = title, content = content, date = now, publisher = publisher)
     return HttpResponse()
 
+
 def DeleteBillboard(request):
     Billboard.objects.get(id = int(request.POST.get('id'))).delete()
     return HttpResponse()
+
 
 def ModifyBillboard(request):
 
@@ -63,16 +120,17 @@ def ModifyBillboard(request):
 
 # Package 
 
+@login_required(login_url='/AS/login/')
 def ShowPackage(request):
-
 
     is_manager = IsManager(request)
     package = None
 
-    if not is_manager:
+    if is_manager:
+        return redirect('/DLS/package/manage/')
+    else:
         package = Package.objects.filter(receiver = Account.objects.get(user = auth.get_user(request)))
-        
-    return render(request, 'package.html', locals())
+        return render(request, 'package.html', locals())
 
 def ManagePackage(request):
     is_manager = IsManager(request)
@@ -80,8 +138,6 @@ def ManagePackage(request):
 
     return render(request, 'package/manage.html', locals())
 
-def AddPackage(request):
-    pass
 
 def VerifyPackage(request):
     id = request.POST.get('id')
@@ -91,48 +147,41 @@ def VerifyPackage(request):
 
     return HttpResponse()
 
-def ModifyPackage(request, id = None):
-    
-    is_manager = IsManager(request)
-
-    if request.method == 'GET':
-        p = Package.objects.get(id = id)
-
-        date = str(p.date)
-        
-        return render(request, 'package/modify.html', { 'package' : p , 'date': date})
-    # 送出要更改的資料
-    elif request.method == 'POST':
-
-        p = Package.objects.get(id = id)
-
-        p.sender = request.POST.get('sender')
-        p.category = request.POST.get('category')
-
-        p.receiver = Account.objects.get(user = User.objects.get(username = request.POST.get('receiver')))
-        p.date = request.POST.get('date')
-
-        p.save()
-        
-        # Redirect到管理頁面
-        return HttpResponseRedirect('/DLS/package/manage.html')
-
-def DeletePackage(request):
-    id = request.POST.get('id')
-    package = Package.objects.filter(id = id).delete()
-
-    return HttpResponse()
-
 # Borrow Public Space
 
 # for manager
 
+
+@login_required(login_url='/AS/login/')
 def ShowRecord(request):
     is_manager = IsManager(request)
     record = BorrowRecord.objects.all().order_by('-confirm')
 
-    return render(request, 'borrow/showall.html', locals())
+    page_num = int(request.GET.get('page', 1))
 
+    if not record.exists():
+        return render(request, 'main.html', locals())
+
+    pages, previous_page, next_page = Paginator(record, 1), None, None
+
+    if page_num > pages.num_pages:
+        page_num = 1
+    
+    now_page = pages.page(page_num)
+
+    if now_page.has_previous():
+        previous_page = now_page.previous_page_number()
+    if now_page.has_next():
+        next_page = now_page.next_page_number()
+
+    return render(request, 'borrow/showall.html', {'now_page' : now_page,
+                                                   'previous_page' : previous_page,
+                                                   'next_page' : next_page,
+                                                   'is_manager' : is_manager })
+
+
+
+@login_required(login_url='/AS/login/')
 def ManageRecord(request):
     is_manager = IsManager(request)
     record = BorrowRecord.objects.filter(confirm = 0)
@@ -159,19 +208,20 @@ def WithdrawRecord(request):
     
 # for student
 
+@login_required(login_url='/AS/login/')
 def BorrowSpace(request):
 
     if request.method == 'POST':
+
         ret = CheckSpace(request)
-        
         data = json.loads(ret.content)
 
         print(data)
 
-        if ret.content[0] == 'False':
+        if data['flag'] == False:
             return HttpResponseRedirect("../status/")
 
-        equip = request.POST['space']
+        equip = request.POST['tag']
         space = Equipment.objects.get(tag=equip)
 
         date = request.POST['date']
@@ -195,6 +245,7 @@ def BorrowSpace(request):
 
     return render(request, 'borrow/apply.html', locals())
 
+@login_required(login_url='/AS/login/')
 def CheckSpace(request):
     
     tag = request.POST.get('tag')
@@ -211,31 +262,32 @@ def CheckSpace(request):
     end = end.replace(hour = end.hour + int(borrow_length))
 
     Yes = True
-    message = "這個時段沒有人借用!!!"
+    message = ""
+    # 本來應該是寫"沒人借用"，但沒東西其實也一樣，看起來反而工整。
     record = BorrowRecord.objects.filter(tag = tag)
 
     for rec in record:
-        if rec.start_time <= start and rec.end_time <= end:
+        if start >= rec.start_time and start < rec.end_time:
             Yes = False
             end = rec.end_time
-        elif rec.start_time >= start and rec.end_time >= end:
+        elif end >= rec.start_time and end < rec.end_time:
             Yes = False
             start = rec.start_time
-        elif rec.start_time <= start and rec.end_time >= end:
+        elif end < rec.end_time and start > rec.start_time:
             Yes = False
-        elif rec.start_time >= start and rec.end_time <= end:
+        elif end >= rec.end_time and start <= rec.end_time:
             Yes = False
             start = rec.start_time
             end = rec.end_time
 
     if not Yes and start < end:
-        message = '{0} 與 {1} 之間已經有人借用'.format(start, end)
+        message = '本時段（{0} ~ {1}）已經有人借用。'.format(start, end)
 
     ret = {'flag' : Yes, 'message' : message}
-    print(message)
 
     return JsonResponse(ret)
 
+@login_required(login_url='/AS/login/')
 def ShowStatus(request):
     is_manager = IsManager(request)
     record = BorrowRecord.objects.filter(account = Account.objects.get(user = auth.get_user(request)))

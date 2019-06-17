@@ -1,4 +1,5 @@
-.vscode
+.vscode\
 *.xlsx
-.idea
+.idea\
 *.pyc
+static\

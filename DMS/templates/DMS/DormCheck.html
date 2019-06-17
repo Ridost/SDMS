@@ -1,7 +1,7 @@
 {% extends 'AS/base.html' %}
 
 {% block title %}
-    宿舍管理系統 - 宿舍申請查詢
+    宿舍管理系統 - 宿舍分發查詢
 {% endblock %}
 
 {% block article %}
@@ -23,9 +23,11 @@
         }
     }
     </script>
-    <h1>宿舍申請查詢</h1>
+
+    <h1>宿舍分發查詢</h1>
     <hr class="heading">
-    <font color="fb0606">{{ error }}{{ message }}</font>
+
+    <span class="attention-font">{{ error }}{{ message }}</span>
     <table class ="vertical">
         <tr>
             <td ><b>志願序一</b></td><td><b>志願序二</b></td><td><b>志願序三</b></td><td><b>結果</b></td>
@@ -33,29 +35,38 @@
         <tr>
             <td>{{dorm.D1}}</td><td>{{dorm.D2}}</td><td>{{dorm.D3}}</td><td>{{dorm.result}}</td>
             {% ifequal checked 0 %}
-                <td><input class = "button-accept" type="button" onclick="DormDelete()"value="刪除"></td>
+                <td><input class = "button-accept" type="button" onclick="DormDelete()" value="取消申請"></td>
             {% endifequal %}
             {% ifequal checked 1 %}
-                <td><input class = "button-accept" type="button" onclick="DormRetreat()"value="退宿"></td>
+                <td><input class = "button-accept" type="button" onclick="DormRetreat()" value="放棄入住"></td>
             {% endifequal %}
         </tr>
         {% endfor %}
     </table>
-    {% if topics.has_previous %}
-    <a href="?page={{ topics.previous_page_number }}"><<</a>
-    {% endif %}
-    {% for page_num in topics.paginator.page_range %}
-        {% if page_num > topics.number|add:"5" %}
-        {% else %}
-            {% ifequal page_num topics.number %}
-                {% if topics.has_other_pages %}
-                   {{page_num}}
-                {% endif %}
-            {% else %}
-                <a href ="?page={{page_num}}">{{page_num}}</a>
-            {% endifequal %}
+
+    <div class="button-section" style="text-align: center">
+        {% if topics.has_previous %}
+            <a class="button-accept" href="?page={{ topics.previous_page_number }}"><<</a>
         {% endif %}
-    {% endfor %}
+
+        {% for page_num in topics.paginator.page_range %}
+            {% if page_num > topics.number|add:"3" or page_num < topics.number|add:"-3" %}
+            {% else %}
+                {% ifequal page_num topics.number %}
+                    {% if topics.has_other_pages %}
+                        <span class="button-decline-active">{{page_num}}</span>
+                    {% endif %}
+                {% else %}
+                    <a class="button-decline" href ="?page={{page_num}}">{{page_num}}</a>
+                {% endifequal %}
+            {% endif %}
+        {% endfor %}
+
+        {% if topics.has_next %}
+            <a class="button-accept" href="?page={{ topics.next_page_number }}">>></a>
+        {% endif %}
+    </div>
+    
 {% endblock %}
 
 
@@ -67,7 +78,15 @@
 
 {% block sidebar %}
     <ul>
-        <li><a href="/DMS/DormitoryApply" class="sidebar-item">宿舍申請</a></li>
-        <li><a href="/DMS/DormCheck" class="sidebar-item-selected">申請結果查詢</a></li>
+        <li><a href="/DMS/DormitoryApply" class="sidebar-item">入宿申請</a></li>
+        <li><a href="/DMS/DormCheck" class="sidebar-item-selected">宿舍分發查詢</a></li>
+        {% if lived %}
+            <li><a href="/DMS/DormRetreatApply" class="sidebar-item">退宿申請</a></li>
+        {% endif %}
+        {% if account.permission <= 1 %}
+            <li><a href="/DMS/DormDistribution" class="sidebar-item-limited">宿舍分發</a></li>
+            <li><a href="/DMS/DormRetreat" class="sidebar-item-limited">移除住宿資格</a></li>
+            <li><a href="/DMS/DormSetting" class="sidebar-item-limited">設定開放日期</a></li>
+        {% endif %}
     </ul>
 {% endblock %}
