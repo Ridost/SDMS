@@ -25,7 +25,7 @@ def stuinfo_import(request):
             with open('stuinfo excel/'+name,'wb') as fp:
                 for chunk in myfile.chunks():
                     fp.write(chunk)
-            messege="上傳成功! "+stuinfo_insert(name)
+            messege=stuinfo_insert(name)
         else :
             messege="請選擇excel檔案上傳"
     return render(request, 'stuinfo_import.html', locals())
@@ -44,7 +44,7 @@ def mail_import(request):
             with open('mail excel/'+name,'wb') as fp:
                 for chunk in myfile.chunks():
                     fp.write(chunk)
-            messege="上傳成功! "+mail_insert(name)
+            messege=mail_insert(name)
         else :
             messege="請選擇excel檔案上傳"
     return render(request, 'mail_import.html', locals())
@@ -67,20 +67,28 @@ def stuinfo_insert(filename):
     maxcol=sheet.max_column
     #確認表格順序
     for i in range(1,maxcol+1):
+        messege="匯入錯誤! "
         if sheet.cell(row=1, column=i).value != column[i] :
-            messege='請將資料表第一列依照 Account,First-name,Last-name,Gender,Department,Grade 順序排列'
+            messege+='請將資料表第一列依照 Account,First-name,Last-name,Gender,Department,Grade 順序排列'
             return messege
     #type check
     for c in range(2,maxrow+1):
+        messege="匯入錯誤! "
         if len(sheet.cell(row=c, column=1).value) != 8:
-            messege = '第'+str(c)+'橫排的學號格式錯誤(8位數含英文)'
+            messege += '第'+str(c)+'橫排的學號格式錯誤(8位數含英文)'
             return messege
         if sheet.cell(row=c, column=4).value != 'M' and sheet.cell(row=c, column=4).value != 'F':
-            messege = '第'+str(c)+'橫排的性別格式錯誤只能為(M或F)'
+            messege += '第'+str(c)+'橫排的性別格式錯誤只能為(M或F)'
             return messege
         if  sheet.cell(row=c, column=6).value <1 or  sheet.cell(row=c, column=6).value >4:
-            messege = '第'+str(c)+'橫排的年級格式錯誤只能為(1~4)'
+            messege += '第'+str(c)+'橫排的年級格式錯誤只能為(1~4)'
             return messege
+        try :
+            User.objects.get(username=sheet.cell(row=c, column=1).value)
+            messege += '資料庫已擁有第'+str(c)+'橫排的學號'
+            return messege
+        except:
+            continue
     #新增資料
     for c in range(2,maxrow+1):
         user = User.objects.create_user( username=sheet.cell(row=c, column=1).value , first_name=sheet.cell(row=c, column=2).value,\
